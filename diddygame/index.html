@@ -790,29 +790,6 @@
             musicPopup.style.display = "none";
         }
     });
-    const mobileControls = document.getElementById('mobileControls');
-    const mcUp = document.getElementById('mc-up');
-    const mcDown = document.getElementById('mc-down');
-    const mcLeft = document.getElementById('mc-left');
-    const mcRight = document.getElementById('mc-right');
-    function toggleMobileControls(show) {
-      mobileControls.style.display = show ? 'block' : 'none';
-    }
-    if ('ontouchstart' in window) {
-      toggleMobileControls(true);
-      canvas.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-      }, { passive: false });
-      mcUp.addEventListener('touchstart', () => { direction = {x: 0, y: -1}; });
-      mcDown.addEventListener('touchstart', () => { direction = {x: 0, y: 1}; });
-      mcLeft.addEventListener('touchstart', () => { direction = {x: -1, y: 0}; });
-      mcRight.addEventListener('touchstart', () => { direction = {x: 1, y: 0}; });
-      if (window.navigator.userAgent.indexOf("Safari") !== -1) {
-        setTimeout(() => {
-          window.scrollTo(0, 1);
-        }, 0);
-      }
-    }
   </script>
 <div class="mobile-controls">
   <button id="btn-left">⬅</button>
