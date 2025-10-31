@@ -28,7 +28,8 @@
     .game-card{ background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.00)); border:1px solid rgba(255,255,255,0.03); padding:12px; border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:8px; text-decoration:none; color:inherit; transition:transform .12s ease,box-shadow .12s ease; }
     .game-card:hover{ transform:translateY(-4px); box-shadow:0 8px 20px rgba(2,6,23,0.5); }
     .game-card[aria-disabled="true"]{ opacity:0.86; cursor:default; pointer-events:auto; }
-    .game-card .thumb{ width:100%; height:96px; background:#081826; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:700; font-size:14px; }
+    .game-card .thumb{ width:100%; height:96px; background:#081826; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:700; font-size:14px; overflow:hidden; padding:0; }
+    .game-card .thumb img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:6px; }
     .game-card .title{ font-weight:700; color:#fff; font-size:14px; margin-top:4px; text-align:center; }
     .game-card .meta{ color:var(--muted); font-size:13px; margin-top:4px; }
     .badge{ background:rgba(255,255,255,0.06); padding:4px 8px; border-radius:999px; font-size:12px; }
@@ -46,37 +47,46 @@
     <p class="lead">Click the button to open the games</p>
     <section class="games" aria-label="Other games">
       <a class="game-card" href="https://unblockedgames6767.vercel.app/diddygame" target="_blank" rel="noopener noreferrer">
-        <div class="thumb">Diddy</div>
+        <div class="thumb">
+          <img src="https://raw.githubusercontent.com/Ashton20271/diddygame/refs/heads/main/diddy%20game%20extension/icon-48.png" alt="Diddy Game thumbnail">
+        </div>
         <div class="title">Diddy Game</div>
         <div class="meta"><span class="badge">Live</span></div>
       </a>
 
-  <a class="game-card" href="https://unblockedgames6767.vercel.app/tag" target="_blank" rel="noopener noreferrer">
-        <div class="thumb">tag</div>
+      <a class="game-card" href="https://unblockedgames6767.vercel.app/tag" target="_blank" rel="noopener noreferrer">
+        <div class="thumb">
+          <img src="https://unblockedgames6767.vercel.app/assets/tag.png" alt="Tag Game thumbnail">
+        </div>
         <div class="title">Tag Game</div>
         <div class="meta"><span class="badge">Live</span></div>
       </a>
 
-  <a class="game-card" href="https://unblockedgames6767.vercel.app/mc1.7.10" target="_blank" rel="noopener noreferrer">
-        <div class="thumb">1.7.10</div>
+      <a class="game-card" href="https://unblockedgames6767.vercel.app/mc1.7.10" target="_blank" rel="noopener noreferrer">
+        <div class="thumb">
+          <img src="assets/minecraft.png" alt="Minecraft 1.7.10 thumbnail">
+        </div>
         <div class="title">minecraft 1.7.10</div>
         <div class="meta"><span class="badge">live</span></div>
       </a>
 
   <a class="game-card" href="https://unblockedgames6767.vercel.app/mc1.8.8" target="_blank" rel="noopener noreferrer">
         <div class="thumb">1.8.8</div>
+          <img src="assets/minecraft.png" alt="Minecraft 1.8.8 thumbnail">
         <div class="title">Minecraft 1.8.8</div>
         <div class="meta"><span class="badge">Live</span></div>
       </a>
 
      <a class="game-card" href="https://unblockedgames6767.vercel.app/mc1.12.2" target="_blank" rel="noopener noreferrer">
         <div class="thumb">1.12.2</div>
+          <img src="assets/minecraft.png" alt="Minecraft 1.12.2 thumbnail">
         <div class="title">Minecraft 1.12.2</div>
         <div class="meta"><span class="badge">Live</span></div>
       </a>
 
   <a class="game-card" href="https://unblockedgames6767.vercel.app/mc1.5.2" target="_blank" rel="noopener noreferrer">
         <div class="thumb">1.5.2</div>
+          <img src="assets/minecraft.png" alt="Minecraft 1.5.2 thumbnail">
         <div class="title">Minecraft 1.5.2</div>
         <div class="meta"><span class="badge">Live</span></div>
       </a>
