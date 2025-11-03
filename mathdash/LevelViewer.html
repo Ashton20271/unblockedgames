@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<style>
+@font-face { 
+    font-family: 'Pusab'; 
+    src: url('style/Pusab.ttf') format('truetype'); 
+    font-weight: normal; 
+    font-style: normal; 
+}
+#back {
+    position: fixed;
+    width: 100px;
+    height: auto;
+    top:15%;
+    left:5%;
+    transform: translate(-50%, -50%);
+    z-index: 999999999999999999999999999999999999999999;
+}#back:active{width: 110px;} #back:hover{cursor: pointer;} 
+#levelContainer img{
+    position: absolute;
+    width: 70px;
+    max-height: 300px;
+}
+.dataInput{
+    position: fixed;
+    background-color: #d5d2d5;
+    opacity: 50%;
+    border: 3px solid #d5d2d5;
+    height: 20px;
+    border-radius: 1px;
+    z-index: 99;
+    transition-duration: 200ms;
+}
+.dataInput:focus{
+    outline: 3px solid #858285;
+    box-shadow: 0px 0px 10px 1px rgb(54, 52, 54);
+    transition-duration: 300ms;
+}
+.dataBtn:hover {
+cursor: pointer;
+}
+#helpbtn {
+    position: fixed;
+    width: 4.5vw;
+    top: 19vh;
+    left:93.5vw;
+    padding: 4px 0 18px 0;
+    transform-origin: center center;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+}#helpbtn:hover {
+cursor: pointer;
+}#helpbtn:active{width: 5vw;}
+</style>
+<link rel="icon" href="style/GJ_hammerIcon_001.png">
+<link rel="stylesheet" href="dialog.css">
+<title>Level Data Viewer</title>
+<img id="back" onclick="document.location.href=('./');" src="style/GJ_arrow_01_001.png">
+<body style="overflow: scroll;width:9999999999999999999999999999999999999999999999999999999999999999999999999999999999999px;background-color: blue;">
+    <div>
+        <input  id="dataInput" class="dataInput" style="width: 87vw;" placeholder=" Insert data here...">
+        <input  id="levelName" class="dataInput" style="width: 7vw; top: 7vh; left: 80.45vw;" placeholder="Level name here...">
+        <input  id="BGcolor" class="dataInput" style="width: 9.5vw; top: 7vh; left: 69.45vw;" placeholder="Background color here...">
+
+        <button class="dataInput dataBtn" style=" width: 9vw; left:76vw;top: 13vh; padding: 4px 0 18px 0" onClick="applyChanges()">Apply Changes</button>
+        <button class="dataInput dataBtn" style=" width: 9vw; left:89vw; padding: 4px 0 18px 0" onClick="loadData()">Load Data</button>
+        <button class="dataInput dataBtn" style=" width: 9vw; top: 7vh;left:89vw; padding: 4px 0 18px 0" onClick="saveData()">Save File</button>
+        <img onclick="window.open('https:\/\/github.com/OLIVER427/GD-LevelLoaderJS?tab=readme-ov-file#how-to-make-a-level','_blank');" src="style/GJ_helpBtn_001.png" id="helpbtn">
+    </div>
+<div id="levelContainer">
+</div> 
+</body>
+<script src="javascript/dialog.js"></script>
+<script src="javascript/blockPresets.js" ></script>
+<script>
+console.log() // CALCULATOR
+    
+//EXAMPLE DATA: kS38,1_255_2_0_3_0_4_-1_6_1000_7_1|1_255_2_153_3_0_4_-1_6_1001_7_1|1_255_2_255_3_0_4_-1_6_1009_7_1|1_255_2_255_3_255_4_-1_6_1004_7_1|1_255_2_255_3_255_4_-1_6_1002_7_1|,kA13,0,kA15,0,kA16,0,kA14,,kA6,5,kA7,7,kA17,1,kA18,0,kS39,0,kA2,0,kA3,0,kA8,0,kA4,0,kA9,0,kA10,0,kA11,0;1,1,2,15,3,15;1,83,2,45,3,15;1,1332,2,75,3,28,6,180;1,1332,2,105,3,2;
+
+//REFERENCE:
+//scale = blockValue[0]
+//imgID = blockValue[1]
+//b = blockValue[2]
+//xPos = blockValue[3]
+//zPos = blockValue[4]
+//yPos = blockValue[5]
+//c = blockValue[6]
+//dir = blockValue[7] 
+//THIS HAS NOW BEEN PROVED TO BE PARTIALLY FALSE. USE THE UPDATED VERSION (COMING SOON)
+
+let levelData
+function loadData() {
+    document.getElementById("levelContainer").innerHTML = " "
+    //var lvlsong = new Audio('audio/' + Object.keys({levelData})[0] +'.mp3');
+    //console.log(lvlsong);
+    levelData = document.getElementById("dataInput").value;
+
+    if (levelData == "openthesecretprettyplease") {
+        if (document.cookie.includes('secret0=true')) {
+
+    } else {
+    document.cookie = "secret0=true; expires= Wed,01 Jan, 3000 12:00:00 UTC; path=/; SameSite=none; Secure";
+    newDialog("The Keymaster","?!", "dialog/dialogIcon_004-uhd.png", "removeDialog()")
+    }
+    }
+    //organizing data
+    let dcAyVal = [['0', '0'],['-','-'],['-','-'],['-','-'],['transform: scale(-',',1)'],['scale:1 -',''],['rotate:','deg']];
+    let blockData = levelData.split(';').map((elm) => elm.split(','));
+    //console.log(blockData.slice(1).map((elm)=> elm[1]))
+    let collData = blockData.slice(1).map((elm) => Object.keys(blockPresets).includes(elm[1]) ? [elm,'b'] : (Object.keys(spikePresets).includes(elm[1]) ? [elm,'s']: Object.keys(specialPresets).includes(elm[1]) ? [elm,'p']: '')).filter(String);
+    let bDims = Object.assign(blockPresets, spikePresets, specialPresets);
+    let sBVal = document.createElement("img"); //setBlockValue
+    
+    //canvas setup
+    //let c = document.getElementById('canvas')
+    //let ctx = document.getElementById('canvas').getContext('2d')
+    //let lstX = 0;
+    //let lstY = 0;
+    window.scrollTo(0,1000)
+    //load imgs
+    let a = 1;
+    while(a < blockData.length){ //This while loop repeats it for every block                    This over here is a fun random rotation value thing. try it sometime
+        let props = 'left:' + blockData[a][3] *2.3333 + 'px;bottom:' + (blockData[a][5]-300) *2.3333 + 'px;' //+ ' transform:rotate(' + blockValue[5] +'deg)'; edit: I think it will break the site
+        let i = 7; //starts at 7 to skip sections of data (id, xPos, yPos)
+        while(i < blockData[a].length){//tuning the props variable.
+            let key = blockData[a][i-1];
+            if (dcAyVal[key] != undefined){ //debug purpopses: basically set css values to nothing if it is undefined
+                props = props + dcAyVal[key][0] + blockData[a][i] + dcAyVal[key][1] + ';';
+            }
+        i = i+2; //next property!
+        };
+        sBVal.src = "Blocks/" + blockData[a][1] + ".png"; //set srcs img
+        //user coin coin coin coin fire in the hole
+        if (blockData[a][1] == 1329) {
+            sBVal.src = "Blocks/UserCoin.gif"; //set srcs img
+        } else {
+            //heheheeheifworgbefjsdnkvjbgrueoiwfnkjdsbgeoruiewjfp
+            //turn line of code below into/out of a comment to disable/enable the lobotomy
+            //sBVal.src = "Blocks/3854.png"; //turns everying (except coins) into normal faces
+        }
+        sBVal.style.cssText = props; //gives block the property
+        document.getElementById("levelContainer").appendChild(sBVal.cloneNode(true)); //*spawns elem*
+        a++; //next block!
+    };  
+    window.scrollTo(0,1000)
+    }
+    let customName = "Untitled Level"
+    let customColor = "Blue"
+    function applyChanges() {
+    customName = document.getElementById("levelName").value;
+    customColor = document.getElementById("BGcolor").value;
+    document.body.style.backgroundColor = document.getElementById("BGcolor").value;
+    }
+function saveData(){
+    //let customName = prompt("Write a name for your level")
+    //let customColor = prompt("Choose a background color (blue, green, any hexcode, etc.)")
+    applyChanges()
+    if (customName == "") {
+        customName = "Untitled Level"
+    }
+    if (customColor == "") {
+        customColor = "Blue"
+    }
+  //creating the html file
+  var content = `
+  <!DOCTYPE html>
+<html id="html" style="overflow: hidden">
+<!-- imgs to edit (Id):18,19,20,21,39,45-60,99,100,106,107,129,130-->
+<link rel="stylesheet" href="../levels.css">
+<title>`+ customName +`</title>
+<link rel="icon" href="../style/GJ_hammerIcon_001.png">
+<img id="back" onclick="document.location.href=('../LevelSelect.html');" src="../style/backArrowPlain_01_001.png">  
+<body style="background-color:`+ customColor +`">
+    <div class="bg" id="bg">
+    </div>
+    <div id ="levelContainer" style="overflow: hidden;height: 10000px;">
+        <!--The imgs go here-->
+    </div>
+<img id="player" src="../icons/robtop.png" style="position: absolute;width: 70px; height: auto;">
+<!--<canvas id="canvas" style="background-color: red; position: absolute; width: 100000px; height: 10000px;border:1px solid #d3d3d3; bottom: -650px; z-index: -100"></canvas>--->
+</body>
+</html>
+<!-- Grabbing our levels here-->
+<script src="../javascript/funlevels.js" ><\/script>
+<script src="../javascript/levels.js" ><\/script>
+<script src="../javascript/testlevels.js" ><\/script>
+<script src="../javascript/blockPresets.js" ><\/script>
+<script>
+    let levelData = "`+ levelData + `";
+<\/script>
+<script src="../javascript/ActualLoader.js"><\/script>
+  `
+
+  //create a file and put the content, name and type
+  var file = new File(["\ufeff"+content], ''+ customName +'.html');
+
+  //create a ObjectURL in order to download the created file
+  url = window.URL.createObjectURL(file);
+
+  //create a hidden link and set the href and click it
+  var a = document.createElement("a");
+  a.style = "display: none";
+  a.href = url;
+  a.download = file.name;
+  a.click();
+  window.URL.revokeObjectURL(url);
+  newDialog("The Mechanic","Clone this github repo (if you haven\'t already), and put the level file into the \"Levels\" folder. then open it!", "dialog/dialogIcon_051-uhd.png", "removeDialog()")
+  //alert('If you haven\'t already, clone this github repository to your local file system. Then you can put your newly downloaded HTML file into the "Levels" folder, and open it to play')
+  document.getElementById("dataInput").value = levelData
+  document.getElementById("levelName").value = customName
+  document.getElementById("BGcolor").value = customColor
+} 
+
+
+document.getElementById('levelContainer').style.zoom = "0.50"
+</script>

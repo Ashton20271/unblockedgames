@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<head>
+<style>
+@font-face { 
+    font-family: 'Pusab'; 
+    src: url('style/Pusab.ttf') format('truetype'); 
+    font-weight: normal; 
+    font-style: normal; 
+} 
+#paragraphlol {
+    font-family: 'Pusab';
+    color:white;
+    font-size:50pt;
+    -webkit-text-stroke-width: 2.9px;
+    text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3); 
+    -webkit-text-stroke-color: black;
+    align-self: center;
+    justify-self: center;
+    padding-left: 25%;
+}
+body {
+    background: rgb(139,139,139);
+    background: linear-gradient(180deg, rgba(139,139,139,1) 0%, rgba(100,100,100,1) 100%); 
+    height: 100vh;
+    overflow-y: hidden;
+}
+#back {
+    position: fixed;
+    width: 100px;
+    height: auto;
+    top:10%;
+    left:5%;
+    transform: translate(-50%, -50%);
+}#back:active{width: 110px;} #back:hover{cursor: pointer;} 
+#line {
+position: fixed;
+width: 90vw;
+height: 5px;
+background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%); 
+transform: translate(-50%, -50%);
+top: 300px;
+left: 50%
+}
+#btnCon {
+position: fixed;
+width: 90vw;
+height: 100px;
+transform: translate(-50%, 0%);
+top: 300px;
+left: 50%;
+/*border: solid 2px white;*/
+display: flex;
+align-items: center;
+justify-content: center;
+}
+#btnCon > img {
+    width: 75px;
+    height: auto;
+    margin: 10px;
+}
+#btnCon > img:hover {
+cursor: pointer;
+}
+
+#cubeSelectionCon {
+visibility: hidden;
+}
+#shipSelectionCon {
+visibility: hidden;
+}
+#dfxSelectionCon {
+visibility: hidden;
+}
+.selectionCon {
+position: fixed;
+width: 80vw;
+height: 18vw;
+transform: translate(-50%, 0%);
+top: 400px;
+left: 50%;
+background-color: rgba(0, 0, 0, 0.4);
+border-radius: 30px;
+display: flex;
+align-items: start;
+justify-content: start;
+flex-wrap: wrap;
+overflow-x:hidden;
+overflow-y: scroll;
+scrollbar-width: none;
+}
+.selectionCon > img {
+    height: 75px;
+    width: auto;
+    margin: 20px;
+    transition-duration: 100ms;
+
+}.selectionCon > img:hover {cursor: pointer;}
+
+.selectionCon > div > img {
+    height: 75px;
+    width: auto;
+    margin: 20px;
+    transition-duration: 100ms;
+}
+
+#secretDoor {
+position: fixed;
+transform: translate(-50%, -102%);
+top: 322px;
+left: 50%;
+width: auto;
+height: 211.6px;
+} #secretDoor:hover {cursor: pointer;}
+</style>
+<title>Customization Options</title>
+<link rel="icon" href="style/GJ_paintBtn_001.png">
+<link rel="stylesheet" href="dialog.css">
+<script src="javascript/dialog.js"></script>
+</head>
+<html>
+    <img id="back" onclick="document.location.href=('./');" src="style/GJ_arrow_03_001.png">
+<body>
+<img id="secretDoor" src="style/secretDoorBtn2_closed_001.png" onclick="gotosecret()">
+<div id="line"></div>
+
+<div id="btnCon">
+<img id="cubeBtn" src="style/gj_iconBtn_off_001.png" onclick="cubeSelection()">
+<img id="shipBtn" src="style/gj_shipBtn_off_001.png" onclick="shipSelection()">
+<img id="dfxBtn" src="style/gj_explosionBtn_off_001.png" onclick="dfxSelection()">
+</div>
+
+<div class="selectionCon" id="cubeSelectionCon">
+<p id="paragraphlol">Nothing here yet...</p>
+</div>
+
+<div class="selectionCon" id="shipSelectionCon">
+<p id="paragraphlol">Nothing here yet...</p>
+</div>
+
+<div class="selectionCon" id="dfxSelectionCon">
+</div>
+</body>
+</html>
+
+<script>
+if (document.cookie.includes('secret0=true')) {
+document.getElementById('secretDoor').src = "style/secretDoorBtn2_open_001.png"
+}
+function gotosecret() {
+    if (document.cookie.includes('secret0=true')) {
+    document.location.href=('MiscSheets/PlayerExplosion_7-hdUNUSABLE/secret.html')
+    }
+}
+
+if (document.cookie.includes("bg")) {
+
+} else {
+    document.cookie = "bg=true; expires= Wed,01 Jan, 3000 12:00:00 UTC; path=/; SameSite=none; Secure";
+    //newDialog("Potbor","What are you doing here?!", "dialog/dialogIcon_025-uhd.png", "customizeSecondaryDialog0()")
+}
+
+var lastDfx = "01"
+var CookieString = (document.cookie).split(";")
+var dfxCookie = CookieString[1]
+function getCookie(cname) {// I stole this function, thanks w3schools!
+                let name = cname + "=";
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(';');
+                for(let i = 0; i <ca.length; i++) {
+                  let c = ca[i];
+                  while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                  }
+                  if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                  }
+                }
+                return "";
+              }
+//alert(getCookie('dfx'))
+
+//alert(CookieString[1])
+var song = new Audio('audio/Customization.mp3')
+song.loop = true;
+song.play()
+
+for (let i = 1; i <= 21; i++) {
+if (i < 10) {
+if (i == 7) {
+document.getElementById('dfxSelectionCon').innerHTML += "" //"<img onclick='selectDfx(this.id)' id='07' src='style/explosionIcon_random_001.png'>"
+}else {
+document.getElementById('dfxSelectionCon').innerHTML += "<img draggable='false' onclick='selectDfx(this.id)' id='0"+ i +"' src='style/explosionIcon_0"+ i +"_001.png'>"
+}
+
+}
+if (i >= 10) {
+if (i == 21) {
+
+if (document.cookie.includes('newDfx=true')) {
+    document.getElementById('dfxSelectionCon').innerHTML += "<img draggable='false' onclick='selectDfx(this.id)' id='07' src='style/explosionIcon_random_001.png'>"
+} else {
+    document.getElementById('dfxSelectionCon').innerHTML += "<img draggable='false' onclick='lockedItem()' id='lock' src='style/GJ_lockGray_001.png'>"
+}
+
+}else {
+document.getElementById('dfxSelectionCon').innerHTML += "<img draggable='false' onclick='selectDfx(this.id)' id='"+ i +"' src='style/explosionIcon_"+ i +"_001.png'>"
+}
+}
+
+}
+
+
+if (document.cookie.includes('dfx')) {
+    selectDfx(getCookie('dfx'))
+}
+function selectDfx(effect) {
+    document.getElementById(lastDfx).style.filter = ""
+    document.cookie = "dfx=" + effect + "; expires= Wed,01 Jan, 3000 12:00:00 UTC; path=/; SameSite=None; Secure;";
+    //alert(effect + "   " + dfxCookie)
+    document.getElementById(effect).style.filter = "drop-shadow(0 0 0.75rem gold)"
+    lastDfx = effect
+}
+
+function revertBtns() {
+document.getElementById('cubeBtn').src ="style/gj_iconBtn_off_001.png"
+document.getElementById('shipBtn').src ="style/gj_shipBtn_off_001.png"
+document.getElementById('dfxBtn').src ="style/gj_explosionBtn_off_001.png"
+document.getElementById('cubeSelectionCon').style.opacity = 0
+document.getElementById('shipSelectionCon').style.opacity = 0
+document.getElementById('dfxSelectionCon').style.opacity = 0
+document.getElementById('cubeSelectionCon').style.visibility = "hidden"
+document.getElementById('shipSelectionCon').style.visibility = "hidden"
+document.getElementById('dfxSelectionCon').style.visibility = "hidden"
+
+}
+
+function cubeSelection() {
+    revertBtns()
+document.getElementById('cubeBtn').src ="style/gj_iconBtn_on_001.png"
+document.getElementById('cubeSelectionCon').style.visibility = "visible"
+document.getElementById('cubeSelectionCon').style.opacity = 100
+}
+function shipSelection() {
+    revertBtns()
+document.getElementById('shipBtn').src ="style/gj_shipBtn_on_001.png"
+document.getElementById('shipSelectionCon').style.visibility = "visible"
+document.getElementById('shipSelectionCon').style.opacity = 100
+}
+function dfxSelection() {
+    revertBtns()
+document.getElementById('dfxBtn').src ="style/gj_explosionBtn_on_001.png"
+document.getElementById('dfxSelectionCon').style.visibility = "visible"
+document.getElementById('dfxSelectionCon').style.opacity = 100
+}
+
+dfxSelection()
+
+
+
+
+
+
+
+function back() {
+    document.getElementById('back').style.width = "110px";
+    document.getElementById('back').style.height = "142px";
+    setTimeout(() => {
+        document.getElementById('back').style.width = "100px";
+        document.getElementById('back').style.height = "132px";
+        document.location.href=('index.html');
+    }, 100);
+}
+document.addEventListener('keydown', function(keys) {
+
+//Key Values:
+// - Spacebar: 32
+// - W: 87
+// - A: 65
+// - S: 83
+// - D: 68
+// - Up: 38
+// - Left: 37
+// - Right: 39
+// - Escape: 27
+if (keys.which == 27) {
+    back();
+}
+})
+if (document.cookie.includes('firstshop=false')) {
+
+} else {
+    document.cookie = "firstshop=false; expires= Wed,01 Jan, 3000 12:00:00 UTC; path=/; SameSite=none; Secure";
+    newDialog("Potbor","What are you doing here?!?!!!?1/1/?!?/?", "dialog/dialogIcon_025-uhd.png", "customizeSecondaryDialog0()")
+}
+</script>
