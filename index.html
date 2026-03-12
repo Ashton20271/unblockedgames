@@ -12,6 +12,25 @@ a:hover { text-decoration:underline; }
 </head>
 <body>
 <h1>Game Index</h1>
+
+<input type="text" id="searchInput" placeholder="Search games..." onkeyup="searchGames()" style="padding:8px;width:260px;margin-bottom:10px;">
+<button onclick="searchGames()" style="padding:8px;">Search</button>
+
+<script>
+function searchGames() {
+  const input = document.getElementById('searchInput').value.toLowerCase();
+  const links = document.querySelectorAll('a');
+  links.forEach(link => {
+    const text = link.textContent.toLowerCase();
+    if (text.includes(input)) {
+      link.style.display = "block";
+    } else {
+      link.style.display = "none";
+    }
+  });
+}
+</script>
+
 <a href="diddygame/">Diddy Game</a>
 <a href="gn-math.html">gn-math (700+ unblocked games)</a>
 <a href="cl1.html">1</a>
