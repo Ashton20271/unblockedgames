@@ -156,10 +156,11 @@ const firebaseConfig = {
     }
   }
 
-  function addMessage(text, sender, isMe) {
+  function addMessage(text, sender, timestamp, isMe) {
     const msg = document.createElement('div');
     msg.classList.add('message', isMe ? 'me' : 'other');
-    msg.innerText = sender + ': ' + text;
+    const timeStr = new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+    msg.innerText = `[${timeStr}] ${sender}: ${text}`;
     chatBox.appendChild(msg);
     chatBox.scrollTop = chatBox.scrollHeight;
   }
@@ -169,7 +170,8 @@ const firebaseConfig = {
 
     db.ref('messages').push({
       name: username,
-      text: text
+      text: text,
+      timestamp: Date.now()
     });
 
     input.value = '';
@@ -181,7 +183,7 @@ const firebaseConfig = {
 
   db.ref('messages').on('child_added', snapshot => {
     const msg = snapshot.val();
-    addMessage(msg.text, msg.name, msg.name === username);
+    addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username);
   });
 </script>
 
