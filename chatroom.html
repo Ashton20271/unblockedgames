@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <title>Chatroom</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    body { font-family: 'Courier New', monospace; margin: 0; padding: 20px; background: #000; color: #00ff00; }
 
     #chat-container {
-      width: 80vw;
+      width: 90vw;
       height: 80vh;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+      border: 2px solid #00ff00;
+      background: #000;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -20,35 +20,33 @@
       flex: 1;
       padding: 10px;
       overflow-y: auto;
-      background: #f9f9f9;
+      background: #000;
       display: flex;
       flex-direction: column;
     }
 
     .message {
       margin: 5px 0;
-      padding: 8px;
-      border-radius: 8px;
+      padding: 5px;
       max-width: 80%;
+      word-wrap: break-word;
     }
 
     .me {
-      background: #007bff;
-      color: white;
+      color: #ffff00;
       align-self: flex-end;
       text-align: right;
     }
 
     .other {
-      background: #e5e5ea;
-      color: black;
+      color: #00ff00;
       align-self: flex-start;
       text-align: left;
     }
 
     #input-area {
       display: flex;
-      border-top: 1px solid #ccc;
+      border-top: 1px solid #00ff00;
     }
 
     #input {
@@ -56,14 +54,18 @@
       padding: 10px;
       border: none;
       outline: none;
+      background: #000;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
     }
 
     #send {
       padding: 10px;
-      border: none;
-      background: #007bff;
-      color: white;
+      border: 1px solid #00ff00;
+      background: #000;
+      color: #00ff00;
       cursor: pointer;
+      font-family: 'Courier New', monospace;
     }
 
     .modal {
@@ -74,44 +76,39 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.4);
+      background-color: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
     }
 
     .modal-content {
-      background-color: #fefefe;
+      background-color: #000;
       padding: 20px;
-      border: 1px solid #888;
-      border-radius: 10px;
+      border: 2px solid #00ff00;
       width: 300px;
       text-align: center;
+      color: #00ff00;
     }
 
     .modal-content input {
       width: 100%;
       padding: 10px;
       margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      border: 1px solid #00ff00;
+      background: #000;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
       box-sizing: border-box;
     }
 
     .modal-content button {
       padding: 10px 20px;
       margin: 5px;
-      border: none;
-      border-radius: 5px;
+      border: 1px solid #00ff00;
+      background: #000;
+      color: #00ff00;
       cursor: pointer;
-    }
-
-    .modal-content .submit-btn {
-      background: #007bff;
-      color: white;
-    }
-
-    .modal-content .cancel-btn {
-      background: #ccc;
+      font-family: 'Courier New', monospace;
     }
   </style>
 </head>
