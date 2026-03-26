@@ -30,6 +30,7 @@
       padding: 5px;
       max-width: 80%;
       word-wrap: break-word;
+      font-size: 1em;
     }
 
     .me {
@@ -101,14 +102,9 @@
       box-sizing: border-box;
     }
 
-    .modal-content button {
-      padding: 10px 20px;
-      margin: 5px;
-      border: 1px solid #00ff00;
-      background: #000;
-      color: #00ff00;
-      cursor: pointer;
-      font-family: 'Courier New', monospace;
+    .timestamp {
+      font-size: 0.8em;
+      opacity: 0.8;
     }
   </style>
 </head>
@@ -160,7 +156,7 @@ const firebaseConfig = {
     const msg = document.createElement('div');
     msg.classList.add('message', isMe ? 'me' : 'other');
     const timeStr = new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-    msg.innerText = `[${timeStr}] ${sender}: ${text}`;
+    msg.innerHTML = `<span class="timestamp">[${timeStr}]</span> ${sender}: ${text}`;
     chatBox.appendChild(msg);
     chatBox.scrollTop = chatBox.scrollHeight;
   }
