@@ -187,7 +187,9 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
   let html = `<span class="timestamp">[${timeStr}]</span> ${sender}:`;
   if (text && text.trim()) {
     const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    html += ` ${safeText}`;
+    const urlRegex = /((https?:\/\/)[\w\-\._~:\/?#\[\]@!$&'()*+,;=%]+)/gi;
+    const linkifiedText = safeText.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+    html += ` ${linkifiedText}`;
   }
 
   if (fileDataURL) {
