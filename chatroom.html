@@ -112,6 +112,7 @@
 <body>
 
 <div id="chat-container">
+  <div id="typing-indicator" style="min-height: 1.2em; padding: 6px; color: #00ff00; font-size: 0.9em; opacity: 0.85;"></div>
   <div id="chat-box"></div>
   <div id="input-area">
     <input id="file-input" type="file" style="display: none;" />
@@ -142,10 +143,15 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 const chatBox = document.getElementById('chat-box');
+const typingIndicator = document.getElementById('typing-indicator');
 const input = document.getElementById('input');
 const fileInput = document.getElementById('file-input');
 const sendBtn = document.getElementById('send');
 const fileBtn = document.getElementById('file-btn');
+
+const typingRef = db.ref('typing');
+let typingTimeout = null;
+const TYPING_TIMEOUT = 2000; // ms (indicator clears after 2 seconds of inactivity)
 
 fileBtn.addEventListener('click', () => {
   fileInput.click();
@@ -195,7 +201,10 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
 
 sendBtn.onclick = async () => {
   const text = input.value.trim();
-  if (!text) return;
+  if (!text) {
+    setTypingState(false);
+    return;
+  }
 
   await db.ref('messages').push({
     name: username,
@@ -204,7 +213,12 @@ sendBtn.onclick = async () => {
   });
 
   input.value = '';
+  setTypingState(false);
 };
+
+window.addEventListener('beforeunload', () => {
+  setTypingState(false);
+});
 
 fileInput.addEventListener('change', (event) => {
   const file = event.target.files[0];
@@ -241,8 +255,43 @@ fileInput.addEventListener('change', (event) => {
   reader.readAsDataURL(file);
 });
 
+function setTypingState(active) {
+  if (!username) return;
+  const userTypingRef = typingRef.child(username);
+  if (active) {
+    userTypingRef.set(true);
+    if (typingTimeout) clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => userTypingRef.remove().catch(() => {}), TYPING_TIMEOUT);
+  } else {
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+      typingTimeout = null;
+    }
+    userTypingRef.remove().catch(() => {});
+  }
+}
+
+input.addEventListener('input', () => {
+  setTypingState(true);
+});
+
 input.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') sendBtn.click();
+});
+
+typingRef.on('value', snapshot => {
+  const typingUsers = [];
+  snapshot.forEach(child => {
+    if (child.key !== username) typingUsers.push(child.key);
+  });
+
+  if (typingUsers.length === 0) {
+    typingIndicator.textContent = '';
+  } else if (typingUsers.length === 1) {
+    typingIndicator.textContent = `${typingUsers[0]} is typing...`;
+  } else {
+    typingIndicator.textContent = `${typingUsers.join(', ')} are typing...`;
+  }
 });
 
 db.ref('messages').on('child_added', snapshot => {
