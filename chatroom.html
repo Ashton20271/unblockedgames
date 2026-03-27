@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | Compass</title>
   <link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png">
   <style>
@@ -106,6 +107,65 @@
     .timestamp {
       font-size: 0.8em;
       opacity: 0.8;
+    }
+  </style>
+
+  <style>
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      #chat-container {
+        width: 100vw;
+        height: 85vh;
+      }
+
+      #chat-box {
+        padding: 5px;
+      }
+
+      .message {
+        font-size: 0.9em;
+        max-width: 90%;
+      }
+
+      #input-area {
+        flex-wrap: wrap;
+      }
+
+      #input {
+        flex: 1;
+        min-width: 200px;
+        padding: 8px;
+      }
+
+      #send {
+        padding: 8px 12px;
+        margin-top: 5px;
+      }
+
+      #file-btn {
+        padding: 8px;
+        margin-right: 5px;
+        margin-top: 5px;
+      }
+
+      .modal-content {
+        width: 90%;
+        max-width: 300px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .message {
+        font-size: 0.85em;
+        max-width: 95%;
+      }
+
+      #input {
+        min-width: 150px;
+      }
     }
   </style>
 </head>
