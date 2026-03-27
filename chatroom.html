@@ -114,6 +114,7 @@
 <div id="chat-container">
   <div id="chat-box"></div>
   <div id="input-area">
+    <input id="file-input" type="file" style="margin-right:8px;" />
     <input id="input" type="text" placeholder="Type a message..." />
     <button id="send">Send</button>
   </div>
@@ -136,52 +137,112 @@ const firebaseConfig = {
   databaseURL: "https://chat-860a5-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-  const chatBox = document.getElementById('chat-box');
-  const input = document.getElementById('input');
-  const sendBtn = document.getElementById('send');
+const chatBox = document.getElementById('chat-box');
+const input = document.getElementById('input');
+const fileInput = document.getElementById('file-input');
+const sendBtn = document.getElementById('send');
 
-  let username = localStorage.getItem('chatUsername');
-  if (!username) {
-    username = prompt('Enter your username for the chat:');
-    if (username && username.trim()) {
-      localStorage.setItem('chatUsername', username.trim());
-    } else {
-      username = "User" + Math.floor(Math.random() * 1000);
+let username = localStorage.getItem('chatUsername');
+if (!username) {
+  username = prompt('Enter your username for the chat:');
+  if (username && username.trim()) {
+    localStorage.setItem('chatUsername', username.trim());
+  } else {
+    username = "User" + Math.floor(Math.random() * 1000);
+  }
+}
+
+function formatFileMessage(fileDataURL, fileName, fileType) {
+  if (!fileDataURL || !fileName) return '';
+
+  const safeName = fileName.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  if (fileType && fileType.startsWith('image/')) {
+    return `<div style="margin-top:4px;"><span>Image: ${safeName}</span><br/><img src="${fileDataURL}" alt="${safeName}" style="max-width:200px;max-height:200px;margin-top:4px;border:1px solid #00ff00;"/></div>`;
+  }
+
+  return `<a href="${fileDataURL}" download="${safeName}">Download ${safeName}</a>`;
+}
+
+function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileType) {
+  const msg = document.createElement('div');
+  msg.classList.add('message', isMe ? 'me' : 'other');
+  const timeStr = new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+
+  let html = `<span class="timestamp">[${timeStr}]</span> ${sender}:`;
+  if (text && text.trim()) {
+    const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    html += ` ${safeText}`;
+  }
+
+  if (fileDataURL) {
+    html += ` ${formatFileMessage(fileDataURL, fileName, fileType)}`;
+  }
+
+  msg.innerHTML = html;
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+sendBtn.onclick = async () => {
+  const text = input.value.trim();
+  if (!text) return;
+
+  await db.ref('messages').push({
+    name: username,
+    text: text,
+    timestamp: Date.now()
+  });
+
+  input.value = '';
+};
+
+fileInput.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (file.size > 150 * 1024) {
+    alert('File too large. Please choose a file under 150 KB for Realtime DB storage.');
+    fileInput.value = '';
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const fileDataURL = reader.result;
+    try {
+      await db.ref('messages').push({
+        name: username,
+        fileName: file.name,
+        fileType: file.type || 'application/octet-stream',
+        fileDataURL: fileDataURL,
+        timestamp: Date.now()
+      });
+      fileInput.value = '';
+    } catch (error) {
+      console.error('File save failed', error);
+      alert('File save failed, please try again.');
     }
-  }
-
-  function addMessage(text, sender, timestamp, isMe) {
-    const msg = document.createElement('div');
-    msg.classList.add('message', isMe ? 'me' : 'other');
-    const timeStr = new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-    msg.innerHTML = `<span class="timestamp">[${timeStr}]</span> ${sender}: ${text}`;
-    chatBox.appendChild(msg);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }
-  sendBtn.onclick = () => {
-    const text = input.value.trim();
-    if (!text) return;
-
-    db.ref('messages').push({
-      name: username,
-      text: text,
-      timestamp: Date.now()
-    });
-
-    input.value = '';
+  };
+  reader.onerror = () => {
+    console.error('File read failed', reader.error);
+    alert('Unable to read file.');
   };
 
-  input.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') sendBtn.click();
-  });
+  reader.readAsDataURL(file);
+});
 
-  db.ref('messages').on('child_added', snapshot => {
-    const msg = snapshot.val();
-    addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username);
-  });
+input.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') sendBtn.click();
+});
+
+db.ref('messages').on('child_added', snapshot => {
+  const msg = snapshot.val();
+  addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username, msg.fileDataURL, msg.fileName, msg.fileType);
+});
 </script>
 
 </body>
