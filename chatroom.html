@@ -108,6 +108,91 @@
       font-size: 0.8em;
       opacity: 0.8;
     }
+
+    .message-clickable {
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .message-clickable:hover {
+      background: rgba(0, 255, 0, 0.1);
+    }
+
+    .message.selected-reply {
+      background: rgba(255, 255, 0, 0.2);
+      border-left: 3px solid #ffff00;
+      padding-left: 7px;
+    }
+
+    .reply-to {
+      background: rgba(0, 255, 0, 0.1);
+      border-left: 2px solid #00ff00;
+      padding: 5px;
+      margin: 5px 0;
+      font-size: 0.9em;
+      color: #00ff00;
+      cursor: pointer;
+    }
+
+    .reply-to:hover {
+      background: rgba(0, 255, 0, 0.2);
+    }
+
+    .reply-indicator {
+      background: #000;
+      border: 1px solid #ffff00;
+      padding: 8px;
+      margin-bottom: 10px;
+      color: #ffff00;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .reply-indicator button {
+      background: #000;
+      color: #ffff00;
+      border: 1px solid #ffff00;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .message-reply-btn {
+      opacity: 0;
+      background: #000;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      cursor: pointer;
+      padding: 4px 8px;
+      margin-left: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .message-clickable:hover .message-reply-btn {
+      opacity: 1;
+    }
+
+    .message-delete-btn {
+      opacity: 0;
+      background: #000;
+      color: #ff4444;
+      border: 1px solid #ff4444;
+      cursor: pointer;
+      padding: 4px 8px;
+      margin-left: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .message-clickable:hover .message-delete-btn {
+      opacity: 1;
+    }
   </style>
 
   <style>
@@ -211,7 +296,11 @@ const fileBtn = document.getElementById('file-btn');
 
 const typingRef = db.ref('typing');
 let typingTimeout = null;
-const TYPING_TIMEOUT = 2000; // ms (indicator clears after 2 seconds of inactivity)
+const TYPING_TIMEOUT = 2000;
+
+let replyingToMessage = null;
+let messageMap = {};
+let messageIdMap = {};
 
 fileBtn.addEventListener('click', () => {
   fileInput.click();
@@ -239,12 +328,21 @@ function formatFileMessage(fileDataURL, fileName, fileType) {
   return `<a href="${fileDataURL}" download="${safeName}">Download ${safeName}</a>`;
 }
 
-function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileType) {
+function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileType, messageId, replyingToId) {
   const msg = document.createElement('div');
-  msg.classList.add('message', isMe ? 'me' : 'other');
+  msg.classList.add('message', isMe ? 'me' : 'other', 'message-clickable');
+  msg.dataset.messageId = messageId;
   const timeStr = new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
 
-  let html = `<span class="timestamp">[${timeStr}]</span> ${sender}:`;
+  let html = '';
+  
+  if (replyingToId && messageMap[replyingToId]) {
+    const repliedTo = messageMap[replyingToId];
+    const repliedText = repliedTo.text ? repliedTo.text.substring(0, 50) : '(file)';
+    html += `<div class="reply-to" data-message-id="${replyingToId}">↳ Replying to ${repliedTo.name}: ${repliedText}${repliedTo.text && repliedTo.text.length > 50 ? '...' : ''}</div>`;
+  }
+
+  html += `<span class="timestamp">[${timeStr}]</span> ${sender}:`;
   if (text && text.trim()) {
     const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const urlRegex = /((https?:\/\/)[\w\-\._~:\/?#\[\]@!$&'()*+,;=%]+)/gi;
@@ -256,7 +354,32 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
     html += ` ${formatFileMessage(fileDataURL, fileName, fileType)}`;
   }
 
+  html += `<button class="message-reply-btn" type="button">Reply</button>`;
+  
+  if (isMe) {
+    html += `<button class="message-delete-btn" type="button">Delete</button>`;
+  }
+
   msg.innerHTML = html;
+  
+  messageIdMap[messageId] = messageId;
+  
+  msg.addEventListener('click', (e) => {
+    if (e.target.classList.contains('reply-to')) {
+      const originalMessageId = e.target.dataset.messageId;
+      jumpToMessage(originalMessageId);
+      return;
+    }
+    if (e.target.classList.contains('message-reply-btn')) {
+      setReplyingTo(messageId, sender, text || '(file)');
+      return;
+    }
+    if (e.target.classList.contains('message-delete-btn')) {
+      deleteMessage(messageId, msg);
+      return;
+    }
+  });
+
   chatBox.appendChild(msg);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
@@ -268,19 +391,87 @@ sendBtn.onclick = async () => {
     return;
   }
 
-  await db.ref('messages').push({
+  const messageData = {
     name: username,
     text: text,
     timestamp: Date.now()
-  });
+  };
+
+  if (replyingToMessage) {
+    messageData.replyingToId = replyingToMessage.id;
+  }
+
+  await db.ref('messages').push(messageData);
 
   input.value = '';
+  replyingToMessage = null;
+  updateReplyIndicator();
   setTypingState(false);
 };
 
 window.addEventListener('beforeunload', () => {
   setTypingState(false);
 });
+
+function setReplyingTo(messageId, sender, text) {
+  replyingToMessage = { id: messageId, sender, text };
+  updateReplyIndicator();
+  input.focus();
+}
+
+function clearReply() {
+  replyingToMessage = null;
+  updateReplyIndicator();
+}
+
+function jumpToMessage(messageId) {
+  const targetMsg = chatBox.querySelector(`[data-message-id="${messageId}"]`);
+  if (targetMsg) {
+    targetMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    targetMsg.classList.add('selected-reply');
+    setTimeout(() => {
+      targetMsg.classList.remove('selected-reply');
+    }, 1500);
+  }
+}
+
+function deleteMessage(messageId, msgElement) {
+  db.ref('messages').child(messageId).remove().catch((error) => {
+    console.error('Delete failed', error);
+    alert('Failed to delete message');
+  });
+  
+  msgElement.style.opacity = '0';
+  msgElement.style.transition = 'opacity 0.3s';
+  setTimeout(() => {
+    msgElement.remove();
+  }, 300);
+}
+
+function updateReplyIndicator() {
+  let indicator = document.getElementById('reply-indicator');
+  
+  if (replyingToMessage) {
+    if (!indicator) {
+      indicator = document.createElement('div');
+      indicator.id = 'reply-indicator';
+      document.getElementById('input-area').insertBefore(indicator, document.getElementById('input-area').firstChild);
+    }
+    
+    const preview = replyingToMessage.text.substring(0, 50) + (replyingToMessage.text.length > 50 ? '...' : '');
+    indicator.innerHTML = `
+      <span>↳ Replying to ${replyingToMessage.sender}: ${preview}</span>
+      <button type="button">✕</button>
+    `;
+    indicator.style.display = 'flex';
+    indicator.querySelector('button').onclick = clearReply;
+  } else {
+    if (indicator) {
+      indicator.style.display = 'none';
+    }
+  }
+}
 
 fileInput.addEventListener('change', (event) => {
   const file = event.target.files[0];
@@ -296,14 +487,22 @@ fileInput.addEventListener('change', (event) => {
   reader.onload = async () => {
     const fileDataURL = reader.result;
     try {
-      await db.ref('messages').push({
+      const fileData = {
         name: username,
         fileName: file.name,
         fileType: file.type || 'application/octet-stream',
         fileDataURL: fileDataURL,
         timestamp: Date.now()
-      });
+      };
+
+      if (replyingToMessage) {
+        fileData.replyingToId = replyingToMessage.id;
+      }
+
+      await db.ref('messages').push(fileData);
       fileInput.value = '';
+      replyingToMessage = null;
+      updateReplyIndicator();
     } catch (error) {
       console.error('File save failed', error);
       alert('File save failed, please try again.');
@@ -358,7 +557,15 @@ typingRef.on('value', snapshot => {
 
 db.ref('messages').on('child_added', snapshot => {
   const msg = snapshot.val();
-  addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username, msg.fileDataURL, msg.fileName, msg.fileType);
+  const messageId = snapshot.key;
+  
+  messageMap[messageId] = {
+    name: msg.name,
+    text: msg.text,
+    timestamp: msg.timestamp
+  };
+  
+  addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username, msg.fileDataURL, msg.fileName, msg.fileType, messageId, msg.replyingToId);
 });
 </script>
 
