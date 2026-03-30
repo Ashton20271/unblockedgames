@@ -193,6 +193,44 @@
     .message-clickable:hover .message-delete-btn {
       opacity: 1;
     }
+
+    .poll {
+      border: 2px solid #000;
+      padding: 10px;
+      margin: 5px 0;
+      background: #00ff00;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .poll-question {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #000;
+    }
+
+    .poll-option {
+      display: block;
+      margin: 5px 0;
+      padding: 5px;
+      background: #ffffff;
+      border: 1px solid #000;
+      color: #000;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+    }
+
+    .poll-option:disabled {
+      background: #666666;
+      color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .poll-results {
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
   </style>
 
   <style>
@@ -276,6 +314,29 @@
   </div>
 </div>
 
+<div id="plus-modal" class="modal">
+  <div class="modal-content">
+    <h3>Choose an action</h3>
+    <button id="create-poll-btn" style="display:block; margin:10px auto; padding:10px; border:1px solid #00ff00; background:#000; color:#00ff00; cursor:pointer; font-family:'Courier New', monospace;">Create Poll</button>
+    <button id="upload-file-btn" style="display:block; margin:10px auto; padding:10px; border:1px solid #00ff00; background:#000; color:#00ff00; cursor:pointer; font-family:'Courier New', monospace;">Upload File</button>
+    <button id="cancel-plus" style="display:block; margin:10px auto; padding:10px; border:1px solid #00ff00; background:#000; color:#00ff00; cursor:pointer; font-family:'Courier New', monospace;">Cancel</button>
+  </div>
+</div>
+
+<div id="poll-modal" class="modal">
+  <div class="modal-content">
+    <h3>Create a Poll</h3>
+    <input type="text" id="poll-question" placeholder="Poll question" style="width:100%; padding:10px; margin:10px 0; border:1px solid #00ff00; background:#000; color:#00ff00; font-family:'Courier New', monospace; box-sizing:border-box;" />
+    <div id="poll-options">
+      <input type="text" class="poll-option-input" placeholder="Option 1" style="width:100%; padding:10px; margin:5px 0; border:1px solid #00ff00; background:#000; color:#00ff00; font-family:'Courier New', monospace; box-sizing:border-box;" />
+      <input type="text" class="poll-option-input" placeholder="Option 2" style="width:100%; padding:10px; margin:5px 0; border:1px solid #00ff00; background:#000; color:#00ff00; font-family:'Courier New', monospace; box-sizing:border-box;" />
+    </div>
+    <button id="add-option-btn" style="margin:10px 0; padding:5px 10px; border:1px solid #00ff00; background:#000; color:#00ff00; cursor:pointer; font-family:'Courier New', monospace;">Add Option</button>
+    <button id="submit-poll" style="margin:10px 0; padding:10px; border:1px solid #00ff00; background:#000; color:#00ff00; cursor:pointer; font-family:'Courier New', monospace;">Create Poll</button>
+    <button id="cancel-poll" style="margin:10px 0; padding:10px; border:1px solid #00ff00; background:#000; color:#00ff00; cursor:pointer; font-family:'Courier New', monospace;">Cancel</button>
+  </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
@@ -293,6 +354,16 @@ const input = document.getElementById('input');
 const fileInput = document.getElementById('file-input');
 const sendBtn = document.getElementById('send');
 const fileBtn = document.getElementById('file-btn');
+const plusModal = document.getElementById('plus-modal');
+const pollModal = document.getElementById('poll-modal');
+const createPollBtn = document.getElementById('create-poll-btn');
+const uploadFileBtn = document.getElementById('upload-file-btn');
+const cancelPlus = document.getElementById('cancel-plus');
+const pollQuestion = document.getElementById('poll-question');
+const pollOptions = document.getElementById('poll-options');
+const addOptionBtn = document.getElementById('add-option-btn');
+const submitPoll = document.getElementById('submit-poll');
+const cancelPoll = document.getElementById('cancel-poll');
 
 const typingRef = db.ref('typing');
 let typingTimeout = null;
@@ -303,7 +374,63 @@ let messageMap = {};
 let messageIdMap = {};
 
 fileBtn.addEventListener('click', () => {
+  plusModal.style.display = 'flex';
+});
+
+createPollBtn.addEventListener('click', () => {
+  plusModal.style.display = 'none';
+  pollModal.style.display = 'flex';
+});
+
+uploadFileBtn.addEventListener('click', () => {
+  plusModal.style.display = 'none';
   fileInput.click();
+});
+
+cancelPlus.addEventListener('click', () => {
+  plusModal.style.display = 'none';
+});
+
+addOptionBtn.addEventListener('click', () => {
+  const newOption = document.createElement('input');
+  newOption.type = 'text';
+  newOption.className = 'poll-option-input';
+  newOption.placeholder = `Option ${pollOptions.children.length + 1}`;
+  newOption.style = "width:100%; padding:10px; margin:5px 0; border:1px solid #00ff00; background:#000; color:#00ff00; font-family:'Courier New', monospace; box-sizing:border-box;";
+  pollOptions.appendChild(newOption);
+});
+
+submitPoll.addEventListener('click', async () => {
+  const question = pollQuestion.value.trim();
+  const options = Array.from(document.querySelectorAll('.poll-option-input')).map(input => input.value.trim()).filter(val => val);
+  if (!question || options.length < 2) {
+    alert('Please enter a question and at least 2 options.');
+    return;
+  }
+  const pollData = {
+    name: username,
+    q: question,
+    o: options.join('|'),
+    v: options.reduce((acc, opt) => { acc[opt] = 0; return acc; }, {}),
+    voted: {},
+    timestamp: Date.now()
+  };
+  if (replyingToMessage) {
+    pollData.replyingToId = replyingToMessage.id;
+  }
+  await db.ref('messages').push(pollData);
+  pollQuestion.value = '';
+  pollOptions.innerHTML = `
+    <input type="text" class="poll-option-input" placeholder="Option 1" style="width:100%; padding:10px; margin:5px 0; border:1px solid #00ff00; background:#000; color:#00ff00; font-family:'Courier New', monospace; box-sizing:border-box;" />
+    <input type="text" class="poll-option-input" placeholder="Option 2" style="width:100%; padding:10px; margin:5px 0; border:1px solid #00ff00; background:#000; color:#00ff00; font-family:'Courier New', monospace; box-sizing:border-box;" />
+  `;
+  pollModal.style.display = 'none';
+  replyingToMessage = null;
+  updateReplyIndicator();
+});
+
+cancelPoll.addEventListener('click', () => {
+  pollModal.style.display = 'none';
 });
 
 let username = localStorage.getItem('chatUsername');
@@ -328,7 +455,7 @@ function formatFileMessage(fileDataURL, fileName, fileType) {
   return `<a href="${fileDataURL}" download="${safeName}">Download ${safeName}</a>`;
 }
 
-function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileType, messageId, replyingToId) {
+function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileType, messageId, replyingToId, pollData) {
   const msg = document.createElement('div');
   msg.classList.add('message', isMe ? 'me' : 'other', 'message-clickable');
   msg.dataset.messageId = messageId;
@@ -343,15 +470,30 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
   }
 
   html += `<span class="timestamp">[${timeStr}]</span> ${sender}:`;
-  if (text && text.trim()) {
-    const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const urlRegex = /((https?:\/\/)[\w\-\._~:\/?#\[\]@!$&'()*+,;=%]+)/gi;
-    const linkifiedText = safeText.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
-    html += ` ${linkifiedText}`;
-  }
 
-  if (fileDataURL) {
-    html += ` ${formatFileMessage(fileDataURL, fileName, fileType)}`;
+  if (pollData) {
+    const escapedQuestion = pollData.question.replace(/`/g, '&#96;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    html += `<div class="poll">
+      <div class="poll-question">${escapedQuestion}</div>`;
+    const hasVoted = pollData.voted[username];
+    pollData.options.forEach(option => {
+      const voteCount = pollData.votes[option] || 0;
+      const escapedOption = option.replace(/`/g, '&#96;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const disabled = hasVoted ? 'disabled' : '';
+      html += `<button class="poll-option" data-option="${option.replace(/"/g, '&quot;').replace(/`/g, '&#96;')}" ${disabled}>${escapedOption} (${voteCount} votes)</button>`;
+    });
+    html += `</div>`;
+  } else {
+    if (text && text.trim()) {
+      const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const urlRegex = /((https?:\/\/)[\w\-\._~:\/?#\[\]@!$&'()*+,;=%]+)/gi;
+      const linkifiedText = safeText.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+      html += ` ${linkifiedText}`;
+    }
+
+    if (fileDataURL) {
+      html += ` ${formatFileMessage(fileDataURL, fileName, fileType)}`;
+    }
   }
 
   html += `<button class="message-reply-btn" type="button">Reply</button>`;
@@ -364,6 +506,18 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
   
   messageIdMap[messageId] = messageId;
   
+  if (pollData) {
+    if (!pollData.voted[username]) {
+      msg.querySelectorAll('.poll-option').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const option = e.target.dataset.option;
+          votePoll(messageId, option);
+        });
+      });
+    }
+  }
+  
   msg.addEventListener('click', (e) => {
     if (e.target.classList.contains('reply-to')) {
       const originalMessageId = e.target.dataset.messageId;
@@ -371,7 +525,8 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
       return;
     }
     if (e.target.classList.contains('message-reply-btn')) {
-      setReplyingTo(messageId, sender, text || '(file)');
+      const replyText = pollData ? '(poll)' : (text || '(file)');
+      setReplyingTo(messageId, sender, replyText);
       return;
     }
     if (e.target.classList.contains('message-delete-btn')) {
@@ -424,16 +579,17 @@ function clearReply() {
   updateReplyIndicator();
 }
 
-function jumpToMessage(messageId) {
-  const targetMsg = chatBox.querySelector(`[data-message-id="${messageId}"]`);
-  if (targetMsg) {
-    targetMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    
-    targetMsg.classList.add('selected-reply');
-    setTimeout(() => {
-      targetMsg.classList.remove('selected-reply');
-    }, 1500);
-  }
+function votePoll(messageId, option) {
+  const messageRef = db.ref('messages').child(messageId);
+  messageRef.once('value', snapshot => {
+    const msg = snapshot.val();
+    if (msg && msg.q && !(msg.voted || {})[username]) {
+      msg.voted = msg.voted || {};
+      msg.voted[username] = true;
+      msg.v[option] = (msg.v[option] || 0) + 1;
+      messageRef.update({ v: msg.v, voted: msg.voted });
+    }
+  });
 }
 
 function deleteMessage(messageId, msgElement) {
@@ -565,7 +721,38 @@ db.ref('messages').on('child_added', snapshot => {
     timestamp: msg.timestamp
   };
   
-  addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username, msg.fileDataURL, msg.fileName, msg.fileType, messageId, msg.replyingToId);
+  const pollData = msg.q ? { question: msg.q, options: msg.o ? msg.o.split('|') : [], votes: msg.v || {}, voted: msg.voted || {} } : null;
+  addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username, msg.fileDataURL, msg.fileName, msg.fileType, messageId, msg.replyingToId, pollData);
+});
+
+db.ref('messages').on('child_changed', snapshot => {
+  const msg = snapshot.val();
+  const messageId = snapshot.key;
+  
+  if (msg.q) {
+    const pollElement = chatBox.querySelector(`[data-message-id="${messageId}"] .poll`);
+    if (pollElement) {
+      let html = `<div class="poll-question">${msg.q.replace(/`/g, '&#96;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
+      const options = msg.o ? msg.o.split('|') : [];
+      const hasVoted = (msg.voted || {})[username];
+      options.forEach(option => {
+        const voteCount = msg.v[option] || 0;
+        const escapedOption = option.replace(/`/g, '&#96;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const disabled = hasVoted ? 'disabled' : '';
+        html += `<button class="poll-option" data-option="${option.replace(/"/g, '&quot;').replace(/`/g, '&#96;')}" ${disabled}>${escapedOption} (${voteCount} votes)</button>`;
+      });
+      pollElement.innerHTML = html;
+      if (!hasVoted) {
+        pollElement.querySelectorAll('.poll-option').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const option = e.target.dataset.option;
+            votePoll(messageId, option);
+          });
+        });
+      }
+    }
+  }
 });
 </script>
 
