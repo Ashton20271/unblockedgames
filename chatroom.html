@@ -231,6 +231,113 @@
       margin-top: 10px;
       font-size: 0.9em;
     }
+
+    .reactions-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+
+    .reaction-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      background: rgba(0, 255, 0, 0.15);
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      padding: 2px 6px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .reaction-btn:hover {
+      background: rgba(0, 255, 0, 0.3);
+      transform: scale(1.05);
+    }
+
+    .reaction-btn.active {
+      background: rgba(255, 255, 0, 0.25);
+      border-color: #ffff00;
+      color: #ffff00;
+    }
+
+    .reaction-emoji {
+      font-size: 1.2em;
+    }
+
+    .reaction-count {
+      font-size: 0.75em;
+      color: inherit;
+    }
+
+    .message-reaction-btn {
+      opacity: 0;
+      background: #000;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      cursor: pointer;
+      padding: 4px 8px;
+      margin-left: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .message-clickable:hover .message-reaction-btn {
+      opacity: 1;
+    }
+
+    .emoji-picker-modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .emoji-picker-content {
+      background-color: #000;
+      padding: 15px;
+      border: 2px solid #00ff00;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      color: #00ff00;
+    }
+
+    .emoji-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .emoji-btn {
+      background: #000;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      padding: 8px;
+      cursor: pointer;
+      font-size: 1.5em;
+      transition: all 0.2s;
+      border-radius: 4px;
+    }
+
+    .emoji-btn:hover {
+      background: rgba(0, 255, 0, 0.2);
+      transform: scale(1.1);
+    }
   </style>
 
   <style>
@@ -337,6 +444,30 @@
   </div>
 </div>
 
+<div id="emoji-picker-modal" class="emoji-picker-modal">
+  <div class="emoji-picker-content">
+    <h3>React with Emoji</h3>
+    <div class="emoji-picker-grid" id="emoji-grid">
+      <button class="emoji-btn" data-emoji="👍">👍</button>
+      <button class="emoji-btn" data-emoji="❤️">❤️</button>
+      <button class="emoji-btn" data-emoji="😂">😂</button>
+      <button class="emoji-btn" data-emoji="🔥">🔥</button>
+      <button class="emoji-btn" data-emoji="😍">😍</button>
+      <button class="emoji-btn" data-emoji="😱">😱</button>
+      <button class="emoji-btn" data-emoji="🎉">🎉</button>
+      <button class="emoji-btn" data-emoji="😢">😢</button>
+      <button class="emoji-btn" data-emoji="🤔">🤔</button>
+      <button class="emoji-btn" data-emoji="👏">👏</button>
+      <button class="emoji-btn" data-emoji="💯">💯</button>
+      <button class="emoji-btn" data-emoji="🤦">🤦</button>
+      <button class="emoji-btn" data-emoji="😎">😎</button>
+      <button class="emoji-btn" data-emoji="🚀">🚀</button>
+      <button class="emoji-btn" data-emoji="💔">💔</button>
+      <button class="emoji-btn" data-emoji="👎">👎</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
@@ -364,6 +495,8 @@ const pollOptions = document.getElementById('poll-options');
 const addOptionBtn = document.getElementById('add-option-btn');
 const submitPoll = document.getElementById('submit-poll');
 const cancelPoll = document.getElementById('cancel-poll');
+const emojiPickerModal = document.getElementById('emoji-picker-modal');
+const emojiGrid = document.getElementById('emoji-grid');
 
 const typingRef = db.ref('typing');
 let typingTimeout = null;
@@ -372,6 +505,7 @@ const TYPING_TIMEOUT = 2000;
 let replyingToMessage = null;
 let messageMap = {};
 let messageIdMap = {};
+let currentReactionMessageId = null;
 
 fileBtn.addEventListener('click', () => {
   plusModal.style.display = 'flex';
@@ -432,6 +566,103 @@ submitPoll.addEventListener('click', async () => {
 cancelPoll.addEventListener('click', () => {
   pollModal.style.display = 'none';
 });
+
+emojiGrid.addEventListener('click', (e) => {
+  if (e.target.classList.contains('emoji-btn')) {
+    const emoji = e.target.dataset.emoji;
+    if (currentReactionMessageId) {
+      addReaction(currentReactionMessageId, emoji, username);
+      emojiPickerModal.style.display = 'none';
+      currentReactionMessageId = null;
+    }
+  }
+});
+
+emojiPickerModal.addEventListener('click', (e) => {
+  if (e.target === emojiPickerModal) {
+    emojiPickerModal.style.display = 'none';
+    currentReactionMessageId = null;
+  }
+});
+
+function openEmojiPicker(messageId) {
+  currentReactionMessageId = messageId;
+  emojiPickerModal.style.display = 'flex';
+}
+
+function addReaction(messageId, emoji, user) {
+  const messageRef = db.ref('messages').child(messageId);
+  messageRef.once('value', snapshot => {
+    const msg = snapshot.val();
+    if (msg) {
+      const reactions = msg.reactions || {};
+      const emojiKey = emoji;
+      
+      if (!reactions[emojiKey]) {
+        reactions[emojiKey] = {};
+      }
+      
+      reactions[emojiKey][user] = true;
+      messageRef.update({ reactions: reactions });
+    }
+  });
+}
+
+function toggleReaction(messageId, emoji, user) {
+  const messageRef = db.ref('messages').child(messageId);
+  messageRef.once('value', snapshot => {
+    const msg = snapshot.val();
+    if (msg) {
+      const reactions = msg.reactions || {};
+      const emojiKey = emoji;
+      
+      if (!reactions[emojiKey]) {
+        reactions[emojiKey] = {};
+      }
+      
+      if (reactions[emojiKey][user]) {
+        delete reactions[emojiKey][user];
+        if (Object.keys(reactions[emojiKey]).length === 0) {
+          delete reactions[emojiKey];
+        }
+      } else {
+        reactions[emojiKey][user] = true;
+      }
+      
+      messageRef.update({ reactions: reactions });
+    }
+  });
+}
+
+function updateReactionsDisplay(messageId, reactions) {
+  const container = chatBox.querySelector(`.reactions-container[data-message-id="${messageId}"]`);
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  if (!reactions || Object.keys(reactions).length === 0) return;
+  
+  Object.entries(reactions).forEach(([emoji, users]) => {
+    const userList = Object.keys(users);
+    if (userList.length > 0) {
+      const btn = document.createElement('button');
+      btn.className = 'reaction-btn';
+      btn.dataset.emoji = emoji;
+      
+      if (userList.includes(username)) {
+        btn.classList.add('active');
+      }
+      
+      btn.innerHTML = `<span class="reaction-emoji">${emoji}</span><span class="reaction-count">${userList.length}</span>`;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleReaction(messageId, emoji, username);
+      });
+      
+      container.appendChild(btn);
+    }
+  });
+}
 
 let username = localStorage.getItem('chatUsername');
 if (!username) {
@@ -497,10 +728,13 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
   }
 
   html += `<button class="message-reply-btn" type="button">Reply</button>`;
+  html += `<button class="message-reaction-btn" type="button">😊</button>`;
   
   if (isMe) {
     html += `<button class="message-delete-btn" type="button">Delete</button>`;
   }
+
+  html += `<div class="reactions-container" data-message-id="${messageId}"></div>`;
 
   msg.innerHTML = html;
   
@@ -531,6 +765,14 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
     }
     if (e.target.classList.contains('message-delete-btn')) {
       deleteMessage(messageId, msg);
+      return;
+    }
+    if (e.target.classList.contains('message-reaction-btn')) {
+      openEmojiPicker(messageId);
+      return;
+    }
+    if (e.target.classList.contains('reaction-btn')) {
+      toggleReaction(messageId, e.target.dataset.emoji, username);
       return;
     }
   });
@@ -723,6 +965,10 @@ db.ref('messages').on('child_added', snapshot => {
   
   const pollData = msg.q ? { question: msg.q, options: msg.o ? msg.o.split('|') : [], votes: msg.v || {}, voted: msg.voted || {} } : null;
   addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username, msg.fileDataURL, msg.fileName, msg.fileType, messageId, msg.replyingToId, pollData);
+  
+  if (msg.reactions) {
+    updateReactionsDisplay(messageId, msg.reactions);
+  }
 });
 
 db.ref('messages').on('child_changed', snapshot => {
@@ -752,6 +998,10 @@ db.ref('messages').on('child_changed', snapshot => {
         });
       }
     }
+  }
+  
+  if (msg.reactions) {
+    updateReactionsDisplay(messageId, msg.reactions);
   }
 });
 </script>
