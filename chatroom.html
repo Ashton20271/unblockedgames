@@ -443,6 +443,8 @@ const db = firebase.database();
 const messagesRef = db.ref('messages');
 const MESSAGES_PAGE_SIZE = 50;
 const recentMessagesRef = messagesRef.orderByChild('timestamp').limitToLast(MESSAGES_PAGE_SIZE);
+const MAX_FILE_SIZE_MB = 5;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 let oldestLoadedTimestamp = null;
 let isLoadingOlderMessages = false;
@@ -1103,8 +1105,8 @@ fileInput.addEventListener('change', (event) => {
   const file = event.target.files[0];
   if (!file) return;
 
-  if (file.size > 150 * 1024) {
-    alert('File too large. Please choose a file under 150 KB for Realtime DB storage.');
+  if (file.size > MAX_FILE_SIZE_BYTES) {
+    alert(`File too large. Please choose a file under ${MAX_FILE_SIZE_MB} MB.`);
     fileInput.value = '';
     return;
   }
