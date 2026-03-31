@@ -158,38 +158,33 @@
       font-family: 'Courier New', monospace;
     }
 
-    .message-reply-btn {
-      opacity: 0;
-      background: #000;
-      color: #00ff00;
-      border: 1px solid #00ff00;
-      cursor: pointer;
-      padding: 4px 8px;
-      margin-left: 8px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9em;
-      transition: opacity 0.2s;
-      white-space: nowrap;
-    }
-
-    .message-clickable:hover .message-reply-btn {
-      opacity: 1;
-    }
-
+    .message-reply-btn,
+    .message-react-btn,
     .message-delete-btn {
       opacity: 0;
       background: #000;
-      color: #ff4444;
-      border: 1px solid #ff4444;
       cursor: pointer;
       padding: 4px 8px;
       margin-left: 4px;
       font-family: 'Courier New', monospace;
       font-size: 0.9em;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, background 0.2s;
       white-space: nowrap;
     }
 
+    .message-reply-btn,
+    .message-react-btn {
+      color: #00ff00;
+      border: 1px solid #00ff00;
+    }
+
+    .message-delete-btn {
+      color: #ff4444;
+      border: 1px solid #ff4444;
+    }
+
+    .message-clickable:hover .message-reply-btn,
+    .message-clickable:hover .message-react-btn,
     .message-clickable:hover .message-delete-btn {
       opacity: 1;
     }
@@ -239,6 +234,18 @@
       margin-top: 8px;
     }
 
+    .reaction-picker {
+      display: none;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .reaction-picker.open {
+      display: flex;
+    }
+
+    .reaction-option,
     .reaction-chip {
       display: inline-flex;
       align-items: center;
@@ -249,7 +256,15 @@
       background: rgba(0, 255, 0, 0.08);
       color: #00ff00;
       font-size: 0.85em;
-      cursor: help;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      appearance: none;
+    }
+
+    .reaction-option:hover,
+    .reaction-chip:hover,
+    .message-react-btn:hover {
+      background: rgba(0, 255, 0, 0.12);
     }
   </style>
 
@@ -392,6 +407,7 @@ const TYPING_TIMEOUT = 2000;
 let replyingToMessage = null;
 let messageMap = {};
 let messageIdMap = {};
+const QUICK_REACTIONS = ['👍', '❤️', '😂', '😮', '😢', '👎'];
 
 fileBtn.addEventListener('click', () => {
   plusModal.style.display = 'flex';
@@ -504,18 +520,86 @@ function renderReactionSummary(reactions) {
   const reactionHtml = Object.entries(reactions)
     .map(([emoji, reactionUsers]) => {
       const users = getReactionUsers(reactionUsers);
-      if (!users.length) return '';
+      const count = users.length || (typeof reactionUsers === 'number' ? reactionUsers : 0);
+      if (!count) return '';
 
-      const tooltip = users.length === 1
-        ? `${users[0]} reacted with ${emoji}`
-        : `${users.join(', ')} reacted with ${emoji}`;
+      const tooltip = users.length
+        ? (users.length === 1 ? `${users[0]} reacted with ${emoji}` : `${users.join(', ')} reacted with ${emoji}`)
+        : `${count} reaction${count === 1 ? '' : 's'} with ${emoji}`;
 
-      return `<span class="reaction-chip" title="${escapeHtml(tooltip)}" aria-label="${escapeHtml(tooltip)}">${escapeHtml(emoji)} ${users.length}</span>`;
+      return `<button class="reaction-chip" type="button" data-emoji="${escapeHtml(emoji)}" title="${escapeHtml(`${tooltip} • Click to toggle`)}" aria-label="${escapeHtml(`${tooltip}. Click to toggle your reaction.`)}">${escapeHtml(emoji)} ${count}</button>`;
     })
     .filter(Boolean)
     .join('');
 
   return reactionHtml ? `<div class="message-reactions">${reactionHtml}</div>` : '';
+}
+
+function buildReactionPicker() {
+  const options = QUICK_REACTIONS
+    .map(emoji => `<button class="reaction-option" type="button" data-emoji="${escapeHtml(emoji)}" aria-label="React with ${escapeHtml(emoji)}">${escapeHtml(emoji)}</button>`)
+    .join('');
+
+  return `<div class="reaction-picker">${options}<button class="reaction-option" type="button" data-custom-reaction="true" aria-label="Add custom reaction">+</button></div>`;
+}
+
+function closeAllReactionPickers(exceptPicker = null) {
+  document.querySelectorAll('.reaction-picker.open').forEach(picker => {
+    if (picker !== exceptPicker) {
+      picker.classList.remove('open');
+    }
+  });
+}
+
+function toggleReaction(messageId, emoji) {
+  const normalizedEmoji = String(emoji ?? '').trim();
+  if (!normalizedEmoji || !username) return;
+
+  const messageRef = db.ref('messages').child(messageId);
+  messageRef.transaction(currentMessage => {
+    if (!currentMessage || typeof currentMessage !== 'object') {
+      return currentMessage;
+    }
+
+    const nextMessage = { ...currentMessage };
+    const nextReactions = nextMessage.reactions && typeof nextMessage.reactions === 'object'
+      ? { ...nextMessage.reactions }
+      : (nextMessage.r && typeof nextMessage.r === 'object' ? { ...nextMessage.r } : {});
+
+    const currentUsers = new Set(getReactionUsers(nextReactions[normalizedEmoji]));
+
+    if (currentUsers.has(username)) {
+      currentUsers.delete(username);
+    } else {
+      currentUsers.add(username);
+    }
+
+    if (currentUsers.size === 0) {
+      delete nextReactions[normalizedEmoji];
+    } else {
+      nextReactions[normalizedEmoji] = {};
+      currentUsers.forEach(name => {
+        nextReactions[normalizedEmoji][name] = true;
+      });
+    }
+
+    if (Object.keys(nextReactions).length > 0) {
+      nextMessage.reactions = nextReactions;
+    } else {
+      delete nextMessage.reactions;
+    }
+
+    if ('r' in nextMessage) {
+      delete nextMessage.r;
+    }
+
+    return nextMessage;
+  }, error => {
+    if (error) {
+      console.error('Reaction update failed', error);
+      alert('Failed to update reaction.');
+    }
+  });
 }
 
 function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileType, messageId, replyingToId, pollData, reactions) {
@@ -560,11 +644,13 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
   }
 
   html += `<button class="message-reply-btn" type="button">Reply</button>`;
+  html += `<button class="message-react-btn" type="button">React</button>`;
   
   if (isMe) {
     html += `<button class="message-delete-btn" type="button">Delete</button>`;
   }
 
+  html += buildReactionPicker();
   html += renderReactionSummary(reactions);
 
   msg.innerHTML = html;
@@ -594,6 +680,29 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
       setReplyingTo(messageId, sender, replyText);
       return;
     }
+    if (e.target.classList.contains('message-react-btn')) {
+      e.stopPropagation();
+      const picker = msg.querySelector('.reaction-picker');
+      if (picker) {
+        const isOpening = !picker.classList.contains('open');
+        closeAllReactionPickers(isOpening ? picker : null);
+        picker.classList.toggle('open', isOpening);
+      }
+      return;
+    }
+    if (e.target.classList.contains('reaction-option') || e.target.classList.contains('reaction-chip')) {
+      e.stopPropagation();
+      const emoji = e.target.dataset.customReaction === 'true'
+        ? prompt('Choose a reaction emoji:', '👍')
+        : e.target.dataset.emoji;
+
+      if (emoji !== null) {
+        toggleReaction(messageId, emoji);
+      }
+
+      closeAllReactionPickers();
+      return;
+    }
     if (e.target.classList.contains('message-delete-btn')) {
       deleteMessage(messageId, msg);
       return;
@@ -603,6 +712,12 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
   chatBox.appendChild(msg);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.reaction-picker') && !e.target.closest('.message-react-btn')) {
+    closeAllReactionPickers();
+  }
+});
 
 sendBtn.onclick = async () => {
   const text = input.value.trim();
