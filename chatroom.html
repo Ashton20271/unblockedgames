@@ -440,6 +440,13 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+const messagesRef = db.ref('messages');
+const MESSAGES_PAGE_SIZE = 50;
+const recentMessagesRef = messagesRef.orderByChild('timestamp').limitToLast(MESSAGES_PAGE_SIZE);
+
+let oldestLoadedTimestamp = null;
+let isLoadingOlderMessages = false;
+let hasLoadedAllOlderMessages = false;
 
 const chatBox = document.getElementById('chat-box');
 const typingIndicator = document.getElementById('typing-indicator');
@@ -490,7 +497,6 @@ const EMOJI_AUTOCOMPLETE = [
   { shortcode: 'fire', emoji: '🔥', keywords: ['lit', 'hot'] },
   { shortcode: 'skull', emoji: '💀', keywords: ['dead', 'lol'] },
   { shortcode: 'joy', emoji: '😂', keywords: ['laugh', 'funny'] },
-  { shortcode: 'cry', emoji: '😭', keywords: ['sad', 'tears'] },
   { shortcode: 'smile', emoji: '😄', keywords: ['happy'] },
   { shortcode: 'pleading_face', emoji: '🥺', keywords: ['please', 'beg'] },
   { shortcode: 'broken_heart', emoji: '💔', keywords: ['sad', 'hurt'] },
@@ -498,7 +504,6 @@ const EMOJI_AUTOCOMPLETE = [
   { shortcode: 'thumbsup', emoji: '👍', keywords: ['ok', 'yes'] },
   { shortcode: 'thumbsdown', emoji: '👎', keywords: ['no', 'bad'] },
   { shortcode: 'eyes', emoji: '👀', keywords: ['look', 'watching'] },
-  { shortcode: 'sobbing', emoji: '😭', keywords: ['sob'] }
 ];
 
 let emojiSuggestionMatches = [];
@@ -587,6 +592,95 @@ function applyEmojiSuggestion(index) {
   setTypingState(Boolean(input.value.trim()));
   return true;
 }
+
+function getMessageTimestamp(message) {
+  const timestamp = Number(message?.timestamp || 0);
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function cacheMessage(messageId, msg) {
+  const previewText = msg?.q
+    ? '(poll)'
+    : (msg?.text ? replaceEmojiShortcodes(msg.text) : (msg?.fileDataURL ? '(file)' : ''));
+
+  messageMap[messageId] = {
+    name: msg?.name || 'Unknown',
+    text: previewText,
+    timestamp: getMessageTimestamp(msg)
+  };
+  messageIdMap[messageId] = messageId;
+
+  const timestamp = getMessageTimestamp(msg);
+  if (timestamp && (oldestLoadedTimestamp === null || timestamp < oldestLoadedTimestamp)) {
+    oldestLoadedTimestamp = timestamp;
+  }
+}
+
+function renderMessageSnapshot(snapshot, { prepend = false } = {}) {
+  const msg = snapshot.val() || {};
+  const messageId = snapshot.key;
+
+  cacheMessage(messageId, msg);
+
+  if (chatBox.querySelector(`[data-message-id="${messageId}"]`)) {
+    return false;
+  }
+
+  const pollData = msg.q ? { question: msg.q, options: msg.o ? msg.o.split('|') : [], votes: msg.v || {}, voted: msg.voted || {} } : null;
+  const reactions = msg.reactions || msg.r || null;
+  addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username, msg.fileDataURL, msg.fileName, msg.fileType, messageId, msg.replyingToId, pollData, reactions, prepend);
+  return true;
+}
+
+async function loadOlderMessages() {
+  if (isLoadingOlderMessages || hasLoadedAllOlderMessages || oldestLoadedTimestamp === null || oldestLoadedTimestamp <= 0) {
+    return;
+  }
+
+  isLoadingOlderMessages = true;
+  const previousScrollHeight = chatBox.scrollHeight;
+  const previousScrollTop = chatBox.scrollTop;
+
+  try {
+    const snapshot = await messagesRef
+      .orderByChild('timestamp')
+      .endAt(oldestLoadedTimestamp - 1)
+      .limitToLast(MESSAGES_PAGE_SIZE)
+      .once('value');
+
+    const olderSnapshots = [];
+    snapshot.forEach(child => {
+      olderSnapshots.push(child);
+      cacheMessage(child.key, child.val() || {});
+    });
+
+    if (!olderSnapshots.length) {
+      hasLoadedAllOlderMessages = true;
+      return;
+    }
+
+    for (let index = olderSnapshots.length - 1; index >= 0; index -= 1) {
+      renderMessageSnapshot(olderSnapshots[index], { prepend: true });
+    }
+
+    if (olderSnapshots.length < MESSAGES_PAGE_SIZE) {
+      hasLoadedAllOlderMessages = true;
+    }
+
+    chatBox.scrollTop = chatBox.scrollHeight - previousScrollHeight + previousScrollTop;
+  } catch (error) {
+    console.error('Failed to load older messages', error);
+  } finally {
+    isLoadingOlderMessages = false;
+  }
+}
+
+chatBox.addEventListener('scroll', () => {
+  if (chatBox.scrollTop <= 20) {
+    loadOlderMessages();
+  }
+});
+
 fileBtn.addEventListener('click', () => {
   plusModal.style.display = 'flex';
 });
@@ -632,7 +726,7 @@ submitPoll.addEventListener('click', async () => {
   if (replyingToMessage) {
     pollData.replyingToId = replyingToMessage.id;
   }
-  await db.ref('messages').push(pollData);
+  await messagesRef.push(pollData);
   pollQuestion.value = '';
   pollOptions.innerHTML = `
     <input type="text" class="poll-option-input" placeholder="Option 1" style="width:100%; padding:10px; margin:5px 0; border:1px solid #00ff00; background:#000; color:#00ff00; font-family:'Courier New', monospace; box-sizing:border-box;" />
@@ -780,7 +874,7 @@ function toggleReaction(messageId, emoji) {
   });
 }
 
-function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileType, messageId, replyingToId, pollData, reactions) {
+function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileType, messageId, replyingToId, pollData, reactions, prepend = false) {
   const msg = document.createElement('div');
   msg.classList.add('message', isMe ? 'me' : 'other', 'message-clickable');
   msg.dataset.messageId = messageId;
@@ -888,6 +982,11 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
     }
   });
 
+  if (prepend) {
+    chatBox.insertBefore(msg, chatBox.firstChild);
+    return;
+  }
+
   chatBox.appendChild(msg);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
@@ -927,7 +1026,7 @@ const text = autoReplaceWords(replaceEmojiShortcodes(input.value)).trim();
     messageData.replyingToId = replyingToMessage.id;
   }
 
-  await db.ref('messages').push(messageData);
+  await messagesRef.push(messageData);
 
   input.value = '';
   replyingToMessage = null;
@@ -951,7 +1050,7 @@ function clearReply() {
 }
 
 function votePoll(messageId, option) {
-  const messageRef = db.ref('messages').child(messageId);
+  const messageRef = messagesRef.child(messageId);
   messageRef.once('value', snapshot => {
     const msg = snapshot.val();
     if (msg && msg.q && !(msg.voted || {})[username]) {
@@ -964,7 +1063,7 @@ function votePoll(messageId, option) {
 }
 
 function deleteMessage(messageId, msgElement) {
-  db.ref('messages').child(messageId).remove().catch((error) => {
+  messagesRef.child(messageId).remove().catch((error) => {
     console.error('Delete failed', error);
     alert('Failed to delete message');
   });
@@ -1026,7 +1125,7 @@ fileInput.addEventListener('change', (event) => {
         fileData.replyingToId = replyingToMessage.id;
       }
 
-      await db.ref('messages').push(fileData);
+      await messagesRef.push(fileData);
       fileInput.value = '';
       replyingToMessage = null;
       updateReplyIndicator();
@@ -1115,22 +1214,11 @@ typingRef.on('value', snapshot => {
   }
 });
 
-db.ref('messages').on('child_added', snapshot => {
-  const msg = snapshot.val();
-  const messageId = snapshot.key;
-  
-  messageMap[messageId] = {
-    name: msg.name,
-    text: replaceEmojiShortcodes(msg.text),
-    timestamp: msg.timestamp
-  };
-  
-  const pollData = msg.q ? { question: msg.q, options: msg.o ? msg.o.split('|') : [], votes: msg.v || {}, voted: msg.voted || {} } : null;
-  const reactions = msg.reactions || msg.r || null;
-  addMessage(msg.text, msg.name, msg.timestamp || Date.now(), msg.name === username, msg.fileDataURL, msg.fileName, msg.fileType, messageId, msg.replyingToId, pollData, reactions);
+recentMessagesRef.on('child_added', snapshot => {
+  renderMessageSnapshot(snapshot);
 });
 
-db.ref('messages').on('child_changed', snapshot => {
+messagesRef.on('child_changed', snapshot => {
   const msg = snapshot.val();
   const messageId = snapshot.key;
   const messageElement = chatBox.querySelector(`[data-message-id="${messageId}"]`);
@@ -1170,6 +1258,17 @@ db.ref('messages').on('child_changed', snapshot => {
     if (reactionHtml) {
       messageElement.insertAdjacentHTML('beforeend', reactionHtml);
     }
+  }
+});
+
+messagesRef.on('child_removed', snapshot => {
+  const messageId = snapshot.key;
+  delete messageMap[messageId];
+  delete messageIdMap[messageId];
+
+  const messageElement = chatBox.querySelector(`[data-message-id="${messageId}"]`);
+  if (messageElement) {
+    messageElement.remove();
   }
 });
 </script>
