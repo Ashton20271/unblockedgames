@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | Compass</title>
+  <script src="https://cdn.jsdelivr.net/npm/emoji-js@3.6.0/lib/emoji.min.js"></script>
   <link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png">
   <style>
     body { font-family: 'Courier New', monospace; margin: 0; padding: 20px; background: #000; color: #00ff00; }
@@ -50,6 +51,7 @@
     #input-area {
       display: flex;
       border-top: 1px solid #00ff00;
+      position: relative;
     }
 
     #input {
@@ -69,6 +71,56 @@
       color: #00ff00;
       cursor: pointer;
       font-family: 'Courier New', monospace;
+    }
+
+    .emoji-suggestions {
+      display: none;
+      position: absolute;
+      left: 52px;
+      right: 72px;
+      bottom: calc(100% + 6px);
+      max-height: 190px;
+      overflow-y: auto;
+      border: 1px solid #00ff00;
+      background: #000;
+      z-index: 25;
+      box-shadow: 0 0 12px rgba(0, 255, 0, 0.15);
+    }
+
+    .emoji-suggestions.open {
+      display: block;
+    }
+
+    .emoji-suggestion {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 8px 10px;
+      border: none;
+      border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+      background: #000;
+      color: #00ff00;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      text-align: left;
+    }
+
+    .emoji-suggestion:last-child {
+      border-bottom: none;
+    }
+
+    .emoji-suggestion:hover,
+    .emoji-suggestion.active {
+      background: rgba(0, 255, 0, 0.12);
+    }
+
+    .emoji-suggestion-code {
+      opacity: 0.9;
+    }
+
+    .emoji-suggestion-icon {
+      font-size: 1.1em;
     }
 
     .modal {
@@ -298,6 +350,11 @@
         padding: 8px;
       }
 
+      .emoji-suggestions {
+        left: 8px;
+        right: 8px;
+      }
+
       #send {
         padding: 8px 12px;
         margin-top: 5px;
@@ -335,7 +392,8 @@
   <div id="input-area">
     <input id="file-input" type="file" style="display: none;" />
     <button id="file-btn" style="margin-right:8px; padding: 10px; border: 1px solid #00ff00; background: #000; color: #00ff00; cursor: pointer; font-family: 'Courier New', monospace;">+</button>
-    <input id="input" type="text" placeholder="Type a message..." />
+    <input id="input" type="text" placeholder="Type a message..." autocomplete="off" />
+    <div id="emoji-suggestions" class="emoji-suggestions" role="listbox" aria-label="Emoji suggestions"></div>
     <button id="send">Send</button>
   </div>
 </div>
@@ -386,6 +444,7 @@ const db = firebase.database();
 const chatBox = document.getElementById('chat-box');
 const typingIndicator = document.getElementById('typing-indicator');
 const input = document.getElementById('input');
+const emojiSuggestionsEl = document.getElementById('emoji-suggestions');
 const fileInput = document.getElementById('file-input');
 const sendBtn = document.getElementById('send');
 const fileBtn = document.getElementById('file-btn');
@@ -407,8 +466,127 @@ const TYPING_TIMEOUT = 2000;
 let replyingToMessage = null;
 let messageMap = {};
 let messageIdMap = {};
-const QUICK_REACTIONS = ['👍', '❤️', '😂', '😮', '😢', '👎'];
+const QUICK_REACTIONS = ['👍', '❤️', '😭', '💔', '🥀', '👎'];
+const emoji = new EmojiConvertor();
+emoji.replace_mode = 'unified';
+emoji.allow_native = true;
 
+function replaceEmojiShortcodes(text) {
+  if (!text) return '';
+  return emoji.replace_colons(text);
+}
+function autoReplaceWords(text) {
+  return text
+    .replace(/\bfire\b/gi, '🔥')
+    .replace(/\bheart\b/gi, '❤️')
+    .replace(/\bskull\b/gi, '💀')
+    .replace(/\bcry\b/gi, '😭');
+}
+
+const EMOJI_AUTOCOMPLETE = [
+  { shortcode: 'sob', emoji: '😭', keywords: ['cry', 'sad', 'tears'] },
+  { shortcode: 'pray', emoji: '🙏', keywords: ['please', 'thanks', 'hope'] },
+  { shortcode: 'heart', emoji: '❤️', keywords: ['love'] },
+  { shortcode: 'fire', emoji: '🔥', keywords: ['lit', 'hot'] },
+  { shortcode: 'skull', emoji: '💀', keywords: ['dead', 'lol'] },
+  { shortcode: 'joy', emoji: '😂', keywords: ['laugh', 'funny'] },
+  { shortcode: 'cry', emoji: '😭', keywords: ['sad', 'tears'] },
+  { shortcode: 'smile', emoji: '😄', keywords: ['happy'] },
+  { shortcode: 'pleading_face', emoji: '🥺', keywords: ['please', 'beg'] },
+  { shortcode: 'broken_heart', emoji: '💔', keywords: ['sad', 'hurt'] },
+  { shortcode: 'wilted_flower', emoji: '🥀', keywords: ['flower', 'sad'] },
+  { shortcode: 'thumbsup', emoji: '👍', keywords: ['ok', 'yes'] },
+  { shortcode: 'thumbsdown', emoji: '👎', keywords: ['no', 'bad'] },
+  { shortcode: 'eyes', emoji: '👀', keywords: ['look', 'watching'] },
+  { shortcode: 'sobbing', emoji: '😭', keywords: ['sob'] }
+];
+
+let emojiSuggestionMatches = [];
+let selectedEmojiSuggestionIndex = -1;
+
+function getEmojiAutocompleteMatch(value) {
+  const caretPosition = input.selectionStart ?? value.length;
+  const textBeforeCaret = value.slice(0, caretPosition);
+  const match = textBeforeCaret.match(/(^|\s):([a-z0-9_+-]*)$/i);
+
+  if (!match) {
+    return null;
+  }
+
+  return {
+    query: match[2].toLowerCase(),
+    start: textBeforeCaret.lastIndexOf(':'),
+    end: caretPosition
+  };
+}
+
+function hideEmojiSuggestions() {
+  emojiSuggestionsEl.classList.remove('open');
+  emojiSuggestionsEl.innerHTML = '';
+  emojiSuggestionMatches = [];
+  selectedEmojiSuggestionIndex = -1;
+}
+
+function renderEmojiSuggestions() {
+  if (!emojiSuggestionMatches.length) {
+    hideEmojiSuggestions();
+    return;
+  }
+
+  emojiSuggestionsEl.innerHTML = emojiSuggestionMatches.map((item, index) => `
+    <button class="emoji-suggestion${index === selectedEmojiSuggestionIndex ? ' active' : ''}" type="button" role="option" data-index="${index}" aria-selected="${index === selectedEmojiSuggestionIndex}">
+      <span class="emoji-suggestion-code">:${escapeHtml(item.shortcode)}:</span>
+      <span class="emoji-suggestion-icon">${escapeHtml(item.emoji)}</span>
+    </button>
+  `).join('');
+  emojiSuggestionsEl.classList.add('open');
+}
+
+function updateEmojiSuggestions() {
+  const match = getEmojiAutocompleteMatch(input.value);
+
+  if (!match) {
+    hideEmojiSuggestions();
+    return;
+  }
+
+  emojiSuggestionMatches = EMOJI_AUTOCOMPLETE
+    .filter(item => {
+      if (!match.query) return true;
+      return item.shortcode.includes(match.query) || item.keywords.some(keyword => keyword.includes(match.query));
+    })
+    .sort((a, b) => {
+      const aRank = a.shortcode.startsWith(match.query) ? 0 : 1;
+      const bRank = b.shortcode.startsWith(match.query) ? 0 : 1;
+      return aRank - bRank || a.shortcode.localeCompare(b.shortcode);
+    })
+    .slice(0, 6);
+
+  selectedEmojiSuggestionIndex = emojiSuggestionMatches.length ? 0 : -1;
+  renderEmojiSuggestions();
+}
+
+function applyEmojiSuggestion(index) {
+  const suggestion = emojiSuggestionMatches[index];
+  const match = getEmojiAutocompleteMatch(input.value);
+
+  if (!suggestion || !match) {
+    return false;
+  }
+
+  const before = input.value.slice(0, match.start);
+  const after = input.value.slice(match.end);
+  const spacer = after && !after.startsWith(' ') ? ' ' : '';
+
+  input.value = `${before}${suggestion.emoji}${spacer}${after}`;
+
+  const nextCursorPosition = before.length + suggestion.emoji.length + spacer.length;
+  input.focus();
+  input.setSelectionRange(nextCursorPosition, nextCursorPosition);
+  hideEmojiSuggestions();
+  setTypingState(Boolean(input.value.trim()));
+  return true;
+}
 fileBtn.addEventListener('click', () => {
   plusModal.style.display = 'flex';
 });
@@ -607,6 +785,7 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
   msg.classList.add('message', isMe ? 'me' : 'other', 'message-clickable');
   msg.dataset.messageId = messageId;
   const timeStr = new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+  const renderedText = replaceEmojiShortcodes(text ?? '');
 
   let html = '';
   
@@ -631,8 +810,8 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
     });
     html += `</div>`;
   } else {
-    if (text && text.trim()) {
-      const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    if (renderedText && renderedText.trim()) {
+      const safeText = renderedText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const urlRegex = /((https?:\/\/)[\w\-\._~:\/?#\[\]@!$&'()*+,;=%]+)/gi;
       const linkifiedText = safeText.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
       html += ` ${linkifiedText}`;
@@ -676,7 +855,7 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
       return;
     }
     if (e.target.classList.contains('message-reply-btn')) {
-      const replyText = pollData ? '(poll)' : (text || '(file)');
+      const replyText = pollData ? '(poll)' : (renderedText || '(file)');
       setReplyingTo(messageId, sender, replyText);
       return;
     }
@@ -697,7 +876,7 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
         : e.target.dataset.emoji;
 
       if (emoji !== null) {
-        toggleReaction(messageId, emoji);
+        toggleReaction(messageId, replaceEmojiShortcodes(emoji));
       }
 
       closeAllReactionPickers();
@@ -717,10 +896,22 @@ document.addEventListener('click', (e) => {
   if (!e.target.closest('.reaction-picker') && !e.target.closest('.message-react-btn')) {
     closeAllReactionPickers();
   }
+
+  if (!e.target.closest('#emoji-suggestions') && e.target !== input) {
+    hideEmojiSuggestions();
+  }
+});
+
+emojiSuggestionsEl.addEventListener('mousedown', (e) => {
+  const suggestionButton = e.target.closest('.emoji-suggestion');
+  if (!suggestionButton) return;
+
+  e.preventDefault();
+  applyEmojiSuggestion(Number(suggestionButton.dataset.index));
 });
 
 sendBtn.onclick = async () => {
-  const text = input.value.trim();
+const text = autoReplaceWords(replaceEmojiShortcodes(input.value)).trim();
   if (!text) {
     setTypingState(false);
     return;
@@ -869,11 +1060,44 @@ function setTypingState(active) {
 }
 
 input.addEventListener('input', () => {
-  setTypingState(true);
+  const originalValue = input.value;
+  const convertedValue = replaceEmojiShortcodes(originalValue);
+
+  if (convertedValue !== originalValue) {
+    const cursorPosition = input.selectionEnd ?? convertedValue.length;
+    const delta = convertedValue.length - originalValue.length;
+    input.value = convertedValue;
+    const nextCursorPosition = Math.max(0, cursorPosition + delta);
+    input.setSelectionRange(nextCursorPosition, nextCursorPosition);
+  }
+
+  setTypingState(Boolean(input.value.trim()));
+  updateEmojiSuggestions();
+});
+
+input.addEventListener('keydown', (e) => {
+  if (!emojiSuggestionsEl.classList.contains('open') || !emojiSuggestionMatches.length) {
+    return;
+  }
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    selectedEmojiSuggestionIndex = (selectedEmojiSuggestionIndex + 1) % emojiSuggestionMatches.length;
+    renderEmojiSuggestions();
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    selectedEmojiSuggestionIndex = (selectedEmojiSuggestionIndex - 1 + emojiSuggestionMatches.length) % emojiSuggestionMatches.length;
+    renderEmojiSuggestions();
+  } else if (e.key === 'Enter' || e.key === 'Tab') {
+    e.preventDefault();
+    applyEmojiSuggestion(selectedEmojiSuggestionIndex >= 0 ? selectedEmojiSuggestionIndex : 0);
+  } else if (e.key === 'Escape') {
+    hideEmojiSuggestions();
+  }
 });
 
 input.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') sendBtn.click();
+  if (e.key === 'Enter' && !emojiSuggestionsEl.classList.contains('open')) sendBtn.click();
 });
 
 typingRef.on('value', snapshot => {
@@ -897,7 +1121,7 @@ db.ref('messages').on('child_added', snapshot => {
   
   messageMap[messageId] = {
     name: msg.name,
-    text: msg.text,
+    text: replaceEmojiShortcodes(msg.text),
     timestamp: msg.timestamp
   };
   
