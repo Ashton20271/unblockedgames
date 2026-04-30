@@ -2790,7 +2790,7 @@ clzumashooter.html
 cl™oo.html
 cl?.html
 codeorg.html
-diddygame
+/diddygame/
 dta6.html
 Eaglercraft-Indev-Offline (1).html
 EB.Client.V1.0.0R2.WASM.html
