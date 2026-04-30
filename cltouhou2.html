@@ -1425,6 +1425,60 @@
 			e.preventDefault();
 		},{passive: false});
     </script>
+
+    <script>
+      (function () {
+        var createdContexts = [];
+        var NativeAudioContext = window.AudioContext || window.webkitAudioContext;
+
+        if (NativeAudioContext) {
+          function WrappedAudioContext() {
+            var args = [null].concat(Array.prototype.slice.call(arguments));
+            var Factory = Function.prototype.bind.apply(NativeAudioContext, args);
+            var ctx = new Factory();
+            createdContexts.push(ctx);
+            return ctx;
+          }
+          WrappedAudioContext.prototype = NativeAudioContext.prototype;
+          try { Object.setPrototypeOf(WrappedAudioContext, NativeAudioContext); } catch (e) {}
+          window.AudioContext = WrappedAudioContext;
+          window.webkitAudioContext = WrappedAudioContext;
+        }
+
+        function resumeKnownContexts() {
+          var candidates = createdContexts.slice();
+          try {
+            if (typeof SDL !== 'undefined' && SDL && SDL.audioContext) candidates.push(SDL.audioContext);
+          } catch (e) {}
+          try {
+            if (typeof Module !== 'undefined' && Module && Module.SDL && Module.SDL.audioContext) candidates.push(Module.SDL.audioContext);
+          } catch (e) {}
+
+          var seen = [];
+          for (var i = 0; i < candidates.length; i++) {
+            var ctx = candidates[i];
+            if (!ctx || seen.indexOf(ctx) !== -1) continue;
+            seen.push(ctx);
+            try {
+              if (ctx.state === 'suspended' && typeof ctx.resume === 'function') {
+                ctx.resume();
+              }
+            } catch (e) {
+              console.warn('Audio resume failed:', e);
+            }
+          }
+        }
+
+        ['pointerdown', 'touchstart', 'keydown', 'mousedown'].forEach(function (eventName) {
+          document.addEventListener(eventName, resumeKnownContexts, true);
+        });
+
+        window.addEventListener('load', function () {
+          setTimeout(resumeKnownContexts, 500);
+          setTimeout(resumeKnownContexts, 1500);
+        });
+      })();
+    </script>
     <script async type="text/javascript" src="th2e.js"></script>
   </body>
 </html>

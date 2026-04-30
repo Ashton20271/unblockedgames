@@ -1305,6 +1305,51 @@
           if (text) Module.printErr('[post-exception status] ' + text);
         };
       };
+
+      // Audio unlock / resume patch for old Emscripten SDL builds.
+      (function() {
+        var NativeAC = window.AudioContext || window.webkitAudioContext;
+        var audioContexts = [];
+        function trackContext(ctx) {
+          if (ctx && audioContexts.indexOf(ctx) === -1) audioContexts.push(ctx);
+          return ctx;
+        }
+        if (NativeAC) {
+          function WrappedAudioContext() {
+            return trackContext(new NativeAC());
+          }
+          WrappedAudioContext.prototype = NativeAC.prototype;
+          try { Object.setPrototypeOf(WrappedAudioContext, NativeAC); } catch (e) {}
+          window.AudioContext = WrappedAudioContext;
+          if (window.webkitAudioContext) window.webkitAudioContext = WrappedAudioContext;
+        }
+        function unlockAudio() {
+          try {
+            audioContexts.slice().forEach(function(ctx) {
+              try {
+                if (ctx && typeof ctx.resume === 'function' && ctx.state === 'suspended') {
+                  ctx.resume();
+                }
+              } catch (e) {}
+            });
+            var media = document.querySelectorAll('audio,video');
+            for (var i = 0; i < media.length; i++) {
+              var el = media[i];
+              try {
+                if (el.paused && typeof el.play === 'function') {
+                  var p = el.play();
+                  if (p && typeof p.catch === 'function') p.catch(function(){});
+                }
+              } catch (e) {}
+            }
+          } catch (e) {}
+        }
+        ['pointerdown','touchstart','mousedown','keydown'].forEach(function(type) {
+          window.addEventListener(type, unlockAudio, { passive: true });
+          document.addEventListener(type, unlockAudio, { passive: true });
+        });
+        Module.postRun.push(function() { setTimeout(unlockAudio, 0); });
+      })();
     </script>
     <script async type="text/javascript" src="th1e.js"></script>
   </body>

@@ -10,6 +10,7 @@
 <head>
 	<script src="//www.google.com/jsapi"></script>
 	<script>
+	alert("Known issue: this arcade game is intentionally rotated. To fix this, enter the graphics settings and change the video rotation to 270 deg. Make sure to set it back to 0 when playing a different game.");
 		window.parent.maeExportApis_();
 	</script>
 
@@ -85,7 +86,7 @@
                 EJS_color = "#000000";
                 EJS_startOnLoaded = true;
                 EJS_pathtodata = "https://cdn.jsdelivr.net/gh/a456pur/seraph@81f551ca0aa8e3d6018d32d8ac5904ac9bc78f76/storage/emulatorjs/data";
-                EJS_gameUrl = "https://cdn.jsdelivr.net/gh/schoolstuff1337/supplies@main/mame/mspacman.zip";
+                EJS_gameUrl = "https://cdn.jsdelivr.net/gh/ap-math-class/exams@main/mame/mspacman.zip";
                 loadGame(); 
             }
             document.getElementById("startButton").addEventListener("click", startGame);

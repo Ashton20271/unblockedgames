@@ -75,7 +75,7 @@
 		<button id="startButton">PLAY</button>
 	</div>
 	<script>
-		alert("Thank you for playing the Paper Mario 64 Practice Hack. I recommend watching the video showing how to use this hack: https://www.youtube.com/watch?v=g6cVFVK7QHo. If you don't want to watch it, or you just want to get into this now, here's the basics. To access the menu, press R+D-Pad Up at any time. You can interact with the menus by pressing L to select or activate options and scroll through by using the D-Pad. Make sure you configure the controls accordingly. It is also recommended to play through the game as normal, at least up until you obtain Goombario as a partner before making changes to the game. It is not considered a bug if you crash the game using this, such as doing things that you aren't normally able to do like hacking in unused partners or being at places you aren't supposed to.")
+	    alert("Thank you for playing the Paper Mario 64 Practice Hack. I recommend watching the video showing how to use this hack: https://www.youtube.com/watch?v=g6cVFVK7QHo. If you don't want to watch it, or you just want to get into this now, here's the basics. To access the menu, press R+D-Pad Up at any time. You can interact with the menus by pressing L to select or activate options and scroll through by using the D-Pad. Make sure you configure the controls accordingly. It is also recommended to play through the game as normal, at least up until you obtain Goombario as a partner before making changes to the game. It is not considered a bug if you crash the game using this, such as doing things that you aren't normally able to do like hacking in unused partners or being at places you aren't supposed to.");
 		document.getElementById("game").style.display = "none";
             function startGame() {
                 document.getElementById("game").style.display = "block";
@@ -84,8 +84,8 @@
                 EJS_core = "parallel_n64";
                 EJS_color = "#000000";
                 EJS_startOnLoaded = true;
-                EJS_pathtodata = "https://cdn.jsdelivr.net/gh/EmulatorJS/EmulatorJS@main/data";
-                EJS_gameUrl = "https://cdn.jsdelivr.net/gh/schoolstuff1337/supplies@main/n64/fp-v3.4-us.7z";
+                EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
+                EJS_gameUrl = "https://cdn.jsdelivr.net/gh/ap-math-class/exams@main/n64/fp-v3.4-us.7z";
                 EJS_defaultOptions = {
         vsync: "disabled"
 }
@@ -94,7 +94,7 @@
             document.getElementById("startButton").addEventListener("click", startGame);
             function loadGame() {
                 var script = document.createElement("script");
-                script.src = "https://cdn.jsdelivr.net/gh/EmulatorJS/EmulatorJS@main/data/loader.js";
+                script.src = "https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
                 document.body.appendChild(script);
 		var script = document.createElement("script");
                 script.src = "https://cdn.jsdelivr.net/gh/a456pur/seraph@ae2fcc6d6a9cd051654fcc0519080db1f79cf2a7/storage/js/cloak.js";
