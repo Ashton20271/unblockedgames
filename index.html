@@ -5,29 +5,29 @@
 <title>Home | Compass</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background:#111;
-  color:#eee;
+body{
+    font-family:Arial, sans-serif;
+    background:#111;
+    color:#eee;
 }
 
 a{
-  display:block;
-  color:#6cf;
-  padding:3px;
-  text-decoration:none;
+    display:block;
+    color:#6cf;
+    padding:3px;
+    text-decoration:none;
 }
 
 a:hover{
-  text-decoration:underline;
+    text-decoration:underline;
 }
 
 .chatroom-link{
-  color:#111 !important;
-  background:#ffdc00;
-  font-weight:bold;
-  padding:10px;
-  border-radius:8px;
+    color:#111 !important;
+    background:#ffdc00;
+    font-weight:bold;
+    padding:10px;
+    border-radius:8px;
 }
 </style>
 </head>
@@ -48,6 +48,7 @@ async function loadFiles() {
 
     lines.forEach(file => {
         file = file.trim();
+        if (!file) return;
 
         if (
             file.toLowerCase().endsWith(".html") ||
@@ -55,7 +56,14 @@ async function loadFiles() {
         ) {
             const a = document.createElement("a");
             a.href = file;
-            a.textContent = file.replace(/\.(html|htm)$/i, "");
+
+            // Remove extension
+            let display = file.replace(/\.(html|htm)$/i, "");
+
+            // Remove "cl" from front only
+            display = display.replace(/^cl/i, "");
+
+            a.textContent = display;
 
             if (file.toLowerCase() === "chatroom.html") {
                 a.className = "chatroom-link";
