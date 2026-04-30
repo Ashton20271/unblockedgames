@@ -10,6 +10,64 @@ body{
     font-family:Arial, sans-serif;
     background:#111;
     color:#eee;
+    margin:0;
+}
+
+.page {
+    display:flex;
+    gap:24px;
+    max-width:1200px;
+    margin:0 auto;
+    padding:24px;
+}
+
+.content {
+    flex:1;
+}
+
+.sidebar {
+    width:300px;
+    background:#1b1b1b;
+    border:1px solid #333;
+    border-radius:12px;
+    padding:20px;
+}
+
+.sidebar h2 {
+    margin-top:0;
+    margin-bottom:14px;
+    color:#ffd;
+    font-size:1.1rem;
+}
+
+.sidebar ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.sidebar li + li {
+    margin-top:10px;
+}
+
+.sidebar a {
+    color:#6cf;
+    text-decoration:none;
+    word-break:break-all;
+}
+
+.sidebar a:hover {
+    text-decoration:underline;
+}
+
+input {
+    width:100%;
+    padding:10px;
+    margin-bottom:18px;
+    border-radius:8px;
+    border:1px solid #444;
+    background:#111;
+    color:#eee;
 }
 
 a{
@@ -34,10 +92,22 @@ a:hover{
 </head>
 <body>
 
-<h1>Game Index</h1>
+<div class="page">
+    <main class="content">
+        <h1>Game Index</h1>
 
-<input type="text" id="searchInput" placeholder="Search games..." onkeyup="searchGames()">
-<div id="links"></div>
+        <input type="text" id="searchInput" placeholder="Search games..." onkeyup="searchGames()">
+        <div id="links"></div>
+    </main>
+
+    <aside class="sidebar">
+        <h2>Alternative Sites</h2>
+        <ul>
+            <li><a href="https://schoolworkfr.netlify.app" target="_blank" rel="noopener">schoolworkfr.netlify.app</a></li>
+            <li><a href="https://unblockedgames6767.vercel.app" target="_blank" rel="noopener">unblockedgames6767.vercel.app</a></li>
+        </ul>
+    </aside>
+</div>
 
 <script>
 async function loadFiles() {
