@@ -755,7 +755,7 @@ while (!isValidName) {
     const trimmedName = username.trim();
     const lowerName = trimmedName.toLowerCase();
     if (BLACKLISTED_NAMES.some(banned => banned.toLowerCase() === lowerName)) {
-      alert('Error: Get Lost');
+      alert('Error: Impersonation is a crime and you have been flagged');
     } else {
       username = trimmedName;
       isValidName = true;
