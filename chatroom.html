@@ -744,8 +744,9 @@ cancelPoll.addEventListener('click', () => {
   pollModal.style.display = 'none';
 });
 
-let username = null;
-let isValidName = false;
+let username = localStorage.getItem('chatUsername');
+let isValidName = !!username;
+
 while (!isValidName) {
   username = prompt('Enter your username for the chat:');
   if (!username || !username.trim()) {
