@@ -450,8 +450,9 @@ let oldestLoadedTimestamp = null;
 let isLoadingOlderMessages = false;
 let hasLoadedAllOlderMessages = false;
 
-const chatBox = document.getElementById('chat-box');
+const BLACKLISTED_NAMES = ['Millen', 'Asht0n', 'Millen Jones', 'Ashton Marshall', 'Millen_Jones', 'Ashton_Marshall', 'MillenJones', 'AshtonMarshall', 'Millen jones', 'millen jones', 'millen Jones', 'millen-jones', 'Millen-Jones', 'ashton marshall', 'ashton-marshall', 'm1ll#n', 'mill#n', 'millen.jones', 'm1llen', 'm1llen jones', 'm1llen_jones', 'm1llen-jones', 'm1llenJones', 'm1ll3n', 'm1ll3n jones', 'm1ll3n_jones', 'm1ll3n-jones', 'm1ll3nJones', '4sht0n', '4sht0n marshall', '4sht0n_marshall', '4sht0n-marshall', '4sht0nMarshall', '4sht0n mar5hall', '4sht0n_mar5hall', '4sht0n-mar5hall', '4sht0nMar5hall', ]; 
 const typingIndicator = document.getElementById('typing-indicator');
+const chatBox = document.getElementById('chat-box');
 const input = document.getElementById('input');
 const emojiSuggestionsEl = document.getElementById('emoji-suggestions');
 const fileInput = document.getElementById('file-input');
@@ -743,15 +744,25 @@ cancelPoll.addEventListener('click', () => {
   pollModal.style.display = 'none';
 });
 
-let username = localStorage.getItem('chatUsername');
-if (!username) {
+let username = null;
+let isValidName = false;
+while (!isValidName) {
   username = prompt('Enter your username for the chat:');
-  if (username && username.trim()) {
-    localStorage.setItem('chatUsername', username.trim());
-  } else {
+  if (!username || !username.trim()) {
     username = "User" + Math.floor(Math.random() * 1000);
+    isValidName = true;
+  } else {
+    const trimmedName = username.trim();
+    const lowerName = trimmedName.toLowerCase();
+    if (BLACKLISTED_NAMES.some(banned => banned.toLowerCase() === lowerName)) {
+      alert('Error: Fucktard');
+    } else {
+      username = trimmedName;
+      isValidName = true;
+    }
   }
 }
+localStorage.setItem('chatUsername', username);
 
 function formatFileMessage(fileDataURL, fileName, fileType) {
   if (!fileDataURL || !fileName) return '';
