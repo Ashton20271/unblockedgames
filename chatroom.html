@@ -1005,6 +1005,17 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+function jumpToMessage(messageId) {
+  const targetMsg = chatBox.querySelector(`[data-message-id="${messageId}"]`);
+  if (!targetMsg) {
+    return;
+  }
+
+  targetMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  targetMsg.classList.add('selected-reply');
+  window.setTimeout(() => targetMsg.classList.remove('selected-reply'), 2500);
+}
+
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.reaction-picker') && !e.target.closest('.message-react-btn')) {
     closeAllReactionPickers();
