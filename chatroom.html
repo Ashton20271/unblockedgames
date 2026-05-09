@@ -386,6 +386,10 @@
 </head>
 <body>
 
+<audio id="message-sound" preload="auto">
+  <source src="https://www.myinstants.com/media/sounds/y2mate_rQlfs1Y.mp3" type="audio/mpeg">
+</audio>
+
 <div id="chat-container">
   <div id="typing-indicator" style="min-height: 1.2em; padding: 6px; color: #00ff00; font-size: 0.9em; opacity: 0.85;"></div>
   <div id="chat-box"></div>
@@ -394,6 +398,7 @@
     <button id="file-btn" style="margin-right:8px; padding: 10px; border: 1px solid #00ff00; background: #000; color: #00ff00; cursor: pointer; font-family: 'Courier New', monospace;">+</button>
     <input id="input" type="text" placeholder="Type a message..." autocomplete="off" />
     <div id="emoji-suggestions" class="emoji-suggestions" role="listbox" aria-label="Emoji suggestions"></div>
+    <button id="sound-toggle" style="margin-left:8px; padding: 10px; border: 1px solid #00ff00; background: #000; color: #00ff00; cursor: pointer; font-family: 'Courier New', monospace;">🔇</button>
     <button id="send">Send</button>
   </div>
 </div>
@@ -468,6 +473,16 @@ const pollOptions = document.getElementById('poll-options');
 const addOptionBtn = document.getElementById('add-option-btn');
 const submitPoll = document.getElementById('submit-poll');
 const cancelPoll = document.getElementById('cancel-poll');
+const messageSound = document.getElementById('message-sound');
+const soundToggle = document.getElementById('sound-toggle');
+
+let soundEnabled = localStorage.getItem('chatSoundEnabled') === 'true';
+
+function updateSoundToggle() {
+  soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+}
+
+updateSoundToggle();
 
 const typingRef = db.ref('typing');
 let typingTimeout = null;
@@ -744,6 +759,12 @@ cancelPoll.addEventListener('click', () => {
   pollModal.style.display = 'none';
 });
 
+soundToggle.addEventListener('click', () => {
+  soundEnabled = !soundEnabled;
+  localStorage.setItem('chatSoundEnabled', soundEnabled);
+  updateSoundToggle();
+});
+
 let username = localStorage.getItem('chatUsername');
 let isValidName = !!username;
 
@@ -1003,6 +1024,12 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
 
   chatBox.appendChild(msg);
   chatBox.scrollTop = chatBox.scrollHeight;
+
+  // Play sound for new messages if enabled and not own message
+  if (!isMe && soundEnabled) {
+    messageSound.currentTime = 0;
+    messageSound.play().catch(e => console.log('Sound play failed:', e));
+  }
 }
 
 function jumpToMessage(messageId) {
