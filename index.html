@@ -46,8 +46,13 @@ body{
     padding:0;
 }
 
-.sidebar li + li {
-    margin-top:10px;
+    .sidebar li + li,
+    .sidebar li {
+        margin-top:10px;
+    }
+
+    .sidebar-section {
+        margin-top:20px;
 }
 
 .sidebar a {
@@ -101,12 +106,20 @@ a:hover{
     </main>
 
     <aside class="sidebar">
-        <h2>Alternative Sites</h2>
-        <ul>
-            <li><a href="https://schoolworkfr.netlify.app" target="_blank" rel="noopener">schoolworkfr.netlify.app</a></li>
-            <li><a href="https://unblockedgames6767.vercel.app" target="_blank" rel="noopener">unblockedgames6767.vercel.app</a></li>
-            Give me $5 and ill put anything here
-        </ul>
+        <section class="sidebar-section">
+            <h2>Alternative Sites</h2>
+            <ul>
+                <li><a href="https://schoolworkfr.netlify.app" target="_blank" rel="noopener">schoolworkfr.netlify.app</a></li>
+                <li><a href="https://unblockedgames6767.vercel.app" target="_blank" rel="noopener">unblockedgames6767.vercel.app</a></li>
+                Give me $5 and ill put anything here
+            </ul>
+        </section>
+        <section class="sidebar-section">
+            <h2>Updates</h2>
+            <ul id="github-updates">
+                <li>Loading latest commits...</li>
+            </ul>
+        </section>
         <div style="margin-top:20px; text-align:center;">
             <img src="https://raw.githubusercontent.com/eaDC22mn/Better-Compass-Superior/refs/heads/main/icon-128.png" alt="Better Compass Superior" style="max-width:100%; border-radius:12px;">
         </div>
@@ -167,7 +180,57 @@ function searchGames() {
     });
 }
 
+async function loadGitHubUpdates() {
+    const list = document.getElementById("github-updates");
+
+    try {
+        const res = await fetch("https://api.github.com/repos/ashton20271/unblockedgames/commits?per_page=5");
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+
+        const commits = await res.json();
+        list.innerHTML = "";
+
+        if (!Array.isArray(commits) || commits.length === 0) {
+            list.innerHTML = "<li>No recent updates found.</li>";
+            return;
+        }
+
+        commits.forEach(commit => {
+            const li = document.createElement("li");
+            const message = commit.commit && commit.commit.message
+                ? commit.commit.message.split("\n")[0]
+                : "No commit message";
+            const date = commit.commit && commit.commit.author && commit.commit.author.date
+                ? new Date(commit.commit.author.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })
+                : "Unknown date";
+            const author = commit.commit && commit.commit.author && commit.commit.author.name
+                ? commit.commit.author.name
+                : (commit.author && commit.author.login) || "Unknown author";
+
+            const a = document.createElement("a");
+            a.href = commit.html_url || "#";
+            a.textContent = message;
+            a.target = "_blank";
+            a.rel = "noopener";
+
+            const meta = document.createElement("div");
+            meta.textContent = `${author} · ${date}`;
+            meta.style.fontSize = "0.85rem";
+            meta.style.color = "#bbb";
+            meta.style.marginTop = "4px";
+
+            li.appendChild(a);
+            li.appendChild(meta);
+            list.appendChild(li);
+        });
+    } catch (err) {
+        list.innerHTML = "<li>Unable to load updates.</li>";
+        console.error("GitHub updates failed:", err);
+    }
+}
+
 loadFiles();
+loadGitHubUpdates();
 </script>
 <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 </body>
