@@ -151,10 +151,8 @@ async function loadFiles() {
             const a = document.createElement("a");
             a.href = file;
 
-            // Remove extension
             let display = file.replace(/\.(html|htm)$/i, "");
 
-            // Remove "cl" from front only
             display = display.replace(/^cl/i, "");
 
             a.textContent = display;
