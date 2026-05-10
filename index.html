@@ -117,7 +117,7 @@ a:hover{
         <section class="sidebar-section">
             <h2>Updates</h2>
             <ul id="github-updates">
-                <li>Loading latest commits...</li>
+                <li>Loading latest updates...</li>
             </ul>
         </section>
         <div style="margin-top:20px; text-align:center;">
@@ -207,25 +207,22 @@ async function loadGitHubUpdates() {
                 ? commit.commit.author.name
                 : (commit.author && commit.author.login) || "Unknown author";
 
-            const a = document.createElement("a");
-            a.href = commit.html_url || "#";
-            a.textContent = message;
-            a.target = "_blank";
-            a.rel = "noopener";
+            const span = document.createElement("span");
+            span.textContent = message;
 
             const meta = document.createElement("div");
-            meta.textContent = `${author} · ${date}`;
+            meta.textContent = `${date}`;
             meta.style.fontSize = "0.85rem";
             meta.style.color = "#bbb";
             meta.style.marginTop = "4px";
 
-            li.appendChild(a);
+            li.appendChild(span);
             li.appendChild(meta);
             list.appendChild(li);
         });
     } catch (err) {
         list.innerHTML = "<li>Unable to load updates.</li>";
-        console.error("GitHub updates failed:", err);
+        console.error("load updates failed:", err);
     }
 }
 
