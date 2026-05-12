@@ -1,5 +1,6 @@
 gn-math.html
 chatroom.html
+music.html
 altsingle.html
 Bank Robbery.html
 cheeserolling.html
