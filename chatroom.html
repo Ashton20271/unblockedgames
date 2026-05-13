@@ -9,6 +9,22 @@
   <style>
     body { font-family: 'Courier New', monospace; margin: 0; padding: 20px; background: #000; color: #00ff00; }
 
+    #header {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+    }
+
+    #header #search-btn {
+      padding: 10px;
+      border: 1px solid #00ff00;
+      background: #000;
+      color: #00ff00;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+    }
+
     #chat-container {
       width: 90vw;
       height: 80vh;
@@ -71,6 +87,16 @@
       color: #00ff00;
       cursor: pointer;
       font-family: 'Courier New', monospace;
+    }
+
+    #search-btn {
+      padding: 10px;
+      border: 1px solid #00ff00;
+      background: #000;
+      color: #00ff00;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      margin-left: 8px;
     }
 
     .emoji-suggestions {
@@ -360,6 +386,10 @@
         margin-top: 5px;
       }
 
+      #header #search-btn {
+        padding: 8px;
+      }
+
       #file-btn {
         padding: 8px;
         margin-right: 5px;
@@ -389,6 +419,10 @@
 <audio id="message-sound" preload="auto">
   <source src="https://www.myinstants.com/media/sounds/y2mate_rQlfs1Y.mp3" type="audio/mpeg">
 </audio>
+
+<div id="header">
+  <button id="search-btn">🔍</button>
+</div>
 
 <div id="chat-container">
   <div id="typing-indicator" style="min-height: 1.2em; padding: 6px; color: #00ff00; font-size: 0.9em; opacity: 0.85;"></div>
@@ -435,6 +469,15 @@
   </div>
 </div>
 
+<div id="search-modal" class="modal">
+  <div class="modal-content">
+    <h3>Search Messages</h3>
+    <input type="text" id="search-input" placeholder="Enter search query..." style="width:100%; padding:10px; margin:10px 0; border:1px solid #00ff00; background:#000; color:#00ff00; font-family:'Courier New', monospace; box-sizing:border-box;" />
+    <div id="search-results" style="max-height: 300px; overflow-y: auto; margin: 10px 0; color: #00ff00;"></div>
+    <button id="close-search" style="margin:10px 0; padding:10px; border:1px solid #00ff00; background:#000; color:#00ff00; cursor:pointer; font-family:'Courier New', monospace;">Close</button>
+  </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
@@ -455,7 +498,7 @@ let oldestLoadedTimestamp = null;
 let isLoadingOlderMessages = false;
 let hasLoadedAllOlderMessages = false;
 
-const BLACKLISTED_NAMES = ['Millen', 'Asht0n', 'Ashton', 'Millen Jones', 'Ashton Marshall', 'Millen_Jones', 'Ashton_Marshall', 'MillenJones', 'AshtonMarshall', 'Millen jones', 'millen jones', 'millen Jones', 'millen-jones', 'Millen-Jones', 'Asht0n marshall', 'asht0n-marshall', 'm1ll#n', 'mill#n', 'millen.jones', 'm1llen', 'm1llen jones', 'm1llen_jones', 'm1llen-j0nes', 'm1llenJones', 'm1ll3n', 'm1ll3n jones', 'm1ll#n_jones', 'm1ll#n-j0nes', 'm1ll3nJones', '4sht0n', '4sht0n marshall', '4sht0n_marshall', '4sht0n-marshall', '4sht0nMarshall', '4sht0n mar5hall', '4sht0n_mar5hall', '4sht0n-mar5hall', '4sht0nMar5hall', 'M!ll#n', 'M!llen', 'M!llen jones', 'M!llen_jones', 'M!llen-jones', 'M!llenJones', 'M1ll3n', 'M1ll3n jones', 'M1ll3n_jones', 'M1ll3n-jones', 'M1ll3nJones', '4sht0n', '4sht0n marshall', '4sht0n_marshall', '4sht0n-marshall', '4sht0nMarshall', '4sht0n mar5hall', '4sht0n_mar5hall', '4sht0n-mar5hall', '4sht0nMar5hall', 'M!ll#n', 'MIllen', 'M!llen jones', 'M!llen_jones', 'M!llen-jones', 'M!llenJones', 'm1ll3n', 'm1ll3n jones', 'm1ll3n_jones', 'm1ll3n-jones', 'm1ll3nJones', '4sht0n', '4sht0n marshall', '4sht0n_marshall', '4sht0n-marshall', '4sht0nMarshall', '4sht0n mar5hall', '4sht0n_mar5hall', '4sht0n-mar5hall', '4sht0nMar5hall', 'M!llEn J0n3s', 'M!ll3n J0n3s', 'M!ll#n J0n3s', 'M!llen J0n3s', 'M!llen_J0n3s', 'M!llen-J0n3s', 'M!llenJ0n3s', 'M1ll3n J0n3s', 'M1ll3n_J0n3s', 'M1ll3n-J0n3s', 'M1ll3nJ0n3s', '4sht0n M4r5hall', '4sht0n_M4r5hall', '4sht0n-M4r5hall', '4sht0nM4r5hall', 'M!ll3n J0n3s', 'M!ll#n J0n3s', 'M!llen J0n3s', 'M!llen_J0n3s', 'M!llen-J0n3s', 'M!llenJ0n3s', 'M1ll3n J0n3s', 'M1ll3n_J0n3s', 'M1ll3n-J0n3s', 'M1ll3nJ0n3s', '4sht0n M4r5hall', '4sht0n_M4r5hall', '4sht0n-M4r5hall', '4sht0nM4r5hall']; 
+const BLACKLISTED_NAMES = ['Millen', 'Asht0n', 'Ashton', 'Millen Jones', 'Ashton Marshall', 'Millen_Jones', 'Ashton_Marshall', 'MillenJones', 'AshtonMarshall', 'Millen jones', 'millen jones', 'millen Jones', 'millen-jones', 'Millen-Jones', 'Asht0n marshall', 'asht0n-marshall', 'm1ll#n', 'mill#n', 'millen.jones', 'm1llen', 'm1llen jones', 'm1llen_jones', 'm1llen-j0nes', 'm1llenJones', 'm1ll3n', 'm1ll3n jones', 'm1ll#n_jones', 'm1ll#n-j0nes', 'm1ll3nJones', '4sht0n', '4sht0n marshall', '4sht0n_marshall', '4sht0n-marshall', '4sht0nMarshall', '4sht0n mar5hall', '4sht0n_mar5hall', '4sht0n-mar5hall', '4sht0nMar5hall', 'M!ll#n', 'M!llen', 'M!llen jones', 'M!llen_jones', 'M!llen-jones', 'M!llenJones', 'M1ll3n', 'M1ll3n jones', 'M1ll3n_jones', 'M1ll3n-jones', 'M1ll3nJones', '4sht0n', '4sht0n marshall', '4sht0n_marshall', '4sht0n-marshall', '4sht0nMarshall', '4sht0n mar5hall', '4sht0n_mar5hall', '4sht0n-mar5hall', '4sht0nMar5hall', 'M!llEn J0n3s', 'M!ll3n J0n3s', 'M!ll#n J0n3s', 'M!llen J0n3s', 'M!llen_J0n3s', 'M!llen-J0n3s', 'M!llenJ0n3s', 'M1ll3n J0n3s', 'M1ll3n_J0n3s', 'M1ll3n-J0n3s', 'M1ll3nJ0n3s', '4sht0n M4r5hall', '4sht0n_M4r5hall', '4sht0n-M4r5hall', '4sht0nM4r5hall', 'M!ll3n J0n3s', 'M!ll#n J0n3s', 'M!llen J0n3s', 'M!llen_J0n3s', 'M!llen-J0n3s', 'M!llenJ0n3s', 'M1ll3n J0n3s', 'M1ll3n_J0n3s', 'M1ll3n-J0n3s', 'M1ll3nJ0n3s', '4sht0n M4r5hall', '4sht0n_M4r5hall', '4sht0n-M4r5hall', '4sht0nM4r5hall']; 
 const typingIndicator = document.getElementById('typing-indicator');
 const chatBox = document.getElementById('chat-box');
 const input = document.getElementById('input');
@@ -475,6 +518,11 @@ const submitPoll = document.getElementById('submit-poll');
 const cancelPoll = document.getElementById('cancel-poll');
 const messageSound = document.getElementById('message-sound');
 const soundToggle = document.getElementById('sound-toggle');
+const searchBtn = document.getElementById('search-btn');
+const searchModal = document.getElementById('search-modal');
+const searchInput = document.getElementById('search-input');
+const searchResults = document.getElementById('search-results');
+const closeSearch = document.getElementById('close-search');
 
 let soundEnabled = localStorage.getItem('chatSoundEnabled') === 'true';
 
@@ -765,6 +813,38 @@ soundToggle.addEventListener('click', () => {
   updateSoundToggle();
 });
 
+searchBtn.addEventListener('click', async () => {
+  if (!hasLoadedAllOlderMessages) {
+    try {
+      const snapshot = await messagesRef.once('value');
+      const allMessages = [];
+      snapshot.forEach(child => {
+        allMessages.push(child);
+        cacheMessage(child.key, child.val() || {});
+      });
+      allMessages.sort((a, b) => getMessageTimestamp(a.val()) - getMessageTimestamp(b.val()));
+      allMessages.forEach(child => {
+        renderMessageSnapshot(child, { prepend: false });
+      });
+      hasLoadedAllOlderMessages = true;
+    } catch (error) {
+      console.error('Failed to load all messages', error);
+    }
+  }
+  searchModal.style.display = 'flex';
+  searchInput.focus();
+});
+
+closeSearch.addEventListener('click', () => {
+  searchModal.style.display = 'none';
+  searchInput.value = '';
+  searchResults.innerHTML = '';
+});
+
+searchInput.addEventListener('input', () => {
+  performSearch(searchInput.value.trim());
+});
+
 let username = localStorage.getItem('chatUsername');
 let isValidName = !!username;
 
@@ -1025,7 +1105,6 @@ function addMessage(text, sender, timestamp, isMe, fileDataURL, fileName, fileTy
   chatBox.appendChild(msg);
   chatBox.scrollTop = chatBox.scrollHeight;
 
-  // Play sound for new messages if enabled and not own message
   if (!isMe && soundEnabled) {
     messageSound.currentTime = 0;
     messageSound.play().catch(e => console.log('Sound play failed:', e));
@@ -1149,6 +1228,44 @@ function updateReplyIndicator() {
       indicator.style.display = 'none';
     }
   }
+}
+
+function performSearch(query) {
+  searchResults.innerHTML = '';
+  if (!query) return;
+
+  const lowerQuery = query.toLowerCase();
+  const results = [];
+
+  for (const [messageId, msg] of Object.entries(messageMap)) {
+    const text = msg.text || '';
+    const name = msg.name || '';
+    if (text.toLowerCase().includes(lowerQuery) || name.toLowerCase().includes(lowerQuery)) {
+      results.push({ messageId, msg });
+    }
+  }
+
+  results.sort((a, b) => b.msg.timestamp - a.msg.timestamp);
+
+  if (results.length === 0) {
+    searchResults.innerHTML = '<div>No messages found.</div>';
+    return;
+  }
+
+  results.forEach(({ messageId, msg }) => {
+    const timeStr = new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+    const preview = msg.text.length > 100 ? msg.text.substring(0, 100) + '...' : msg.text;
+    const resultDiv = document.createElement('div');
+    resultDiv.style = 'margin: 5px 0; padding: 5px; border: 1px solid #00ff00; cursor: pointer;';
+    resultDiv.innerHTML = `<strong>${msg.name}</strong> [${timeStr}]: ${preview}`;
+    resultDiv.addEventListener('click', () => {
+      jumpToMessage(messageId);
+      searchModal.style.display = 'none';
+      searchInput.value = '';
+      searchResults.innerHTML = '';
+    });
+    searchResults.appendChild(resultDiv);
+  });
 }
 
 fileInput.addEventListener('change', (event) => {
