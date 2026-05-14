@@ -74,17 +74,18 @@
       <button id="startButton">PLAY</button>
     </div>
     <script>
+    alert("Thank you for playing Famidash E-Sides. These levels are not known whether they are humanly possible. Please play at least the regular Famidash (1.2.8) and B-Sides before attempting this. As it is not yet known if these can be beaten by a human, it is recommended to configure the slow option in the emulator. You may dismiss this message to continue.");
       document.getElementById("game").style.display = "none";
       function startGame() {
         document.getElementById("game").style.display = "block";
         document.getElementById("startButton").style.display = "none";
         EJS_player = "#game";
-        EJS_core = "gba";
+        EJS_core = "nes";
         EJS_color = "#000000";
         EJS_startOnLoaded = true;
         EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
         EJS_gameUrl =
-          "https://cdn.jsdelivr.net/gh/ap-math-class/exams@main/gb/Celia's%20Stupid%20Romhack%20(1.0.8).7z";
+          "https://cdn.jsdelivr.net/gh/ap-math-class/exams@main/nes/famidash.e-sides.nes.zip";
         loadGame();
       }
       document

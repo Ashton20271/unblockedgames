@@ -2837,3 +2837,8 @@ unownking.html
 unpkg.html
 winterolympics.html
 wolfchild.html
+clgettingoverit.html
+clscoobydoocreepyrun.html
+clsm64yscaled.html
+clscoobydoozombiehunter.html
+clfamidashEsides1.2.8.html
