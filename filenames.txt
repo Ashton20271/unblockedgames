@@ -1880,10 +1880,10 @@ clpokewhite.html
 clpokewhite2.html
 clpokewhite2alt.html
 clpokeyellow.html
-clPok‚mon Emerald Rush Edition (2.0).html
-clPok‚mon Trade&_Stache (V1.1).html
-clPok‚mon TWO (v1.1).html
-clPok‚monstunningsteel.html
+clPokï¿½mon Emerald Rush Edition (2.0).html
+clPokï¿½mon Trade&_Stache (V1.1).html
+clPokï¿½mon TWO (v1.1).html
+clPokï¿½monstunningsteel.html
 clpolicepursuit2.html
 clpolishedcrystal.html
 clpolytrackbutnotflagged(1).html
@@ -2802,7 +2802,7 @@ clzombotronreboot.html
 clzrist.html
 clzuma.html
 clzumashooter.html
-cl™oo.html
+clï¿½oo.html
 cl?.html
 codeorg.html
 diddygame.html
@@ -2841,5 +2841,5 @@ clgettingoverit.html
 clscoobydoocreepyrun.html
 clsm64yscaled.html
 clscoobydoozombiehunter.html
-clfamidashEsides1.2.8.html
+clfamidashESides1.2.8.html
 duck evolution.html
