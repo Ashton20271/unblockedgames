@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <base href="https://cdn.jsdelivr.net/gh/67-Factory/web-ports@main/notawebportbutwhatever/">
+    <base href="https://cdn.jsdelivr.net/gh/ashton20271/diddygame@main/">
     <title>Diddy Game</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <meta property="og:title" content="Diddy Game" />
@@ -48,21 +48,7 @@
             font-size: 32px;
             margin: 4px;
         }
-        canvas:fullscreen {
-            width: 100vw !important;
-            height: 100vh !important;
-            display: block;
-            margin: 0 !important;
-            padding: 0 !important;
-            object-fit: contain;
-            background: #464646 !important;
-        }
-        
-        body:has(canvas:fullscreen) {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
+
         
         button,
         a[role="button"],
@@ -71,7 +57,6 @@
         #volumeBtn,
         #modeBtn,
         #discordBtn,
-        #fullscreenBtn,
         #skinBtn,
         #pauseToggleBtn {
             transition: transform 0.15s, box-shadow 0.15s, background 0.15s, filter 0.15s;
@@ -83,7 +68,6 @@
         #downloadBtn:hover,
         #volumeBtn:hover,
         #modeBtn:hover,
-        #fullscreenBtn:hover,
         #discordBtn:hover
         #skinBtn:hover,
         #pauseToggleBtn:hover {
@@ -199,15 +183,15 @@
     </style>
 </head>
 <body>
-    <a href="github.html" target="_blank" id="githubBtn" class="top-button" style="left:20px;">
+    <a href="https://github.com/Ashton20271/diddygame" target="_blank" id="githubBtn" class="top-button" style="left:20px;">
         <img src="assets/GitHub.png" alt="GitHub" style="width:32px;height:32px;border-radius:50%;">
     </a>
 
-    <a href="discord/" target="_blank" id="discordBtn" class="top-button" style="left:64px;">
+    <a href="https://discord.gg/mSYC83mEgb" target="_blank" id="discordBtn" class="top-button" style="left:64px;">
         <img src="assets/discord.png" alt="Discord" style="width:32px;height:32px;">
     </a>
 
-    <a href="chrome.html" target="_blank" id="chromeWebStoreBtn" class="top-button" style="left:108px;">
+    <a href="https://chromewebstore.google.com/detail/bfjbmoglpfpbkaneffbihgnogdibgfpf" target="_blank" id="chromeWebStoreBtn" class="top-button" style="left:108px;">
         <img src="assets/cws.png" alt="Chrome Web Store" style="width:32px;height:32px;border-radius:8px;">
     </a>
     <h1 style="color:#fff;">Diddy Game</h1>
@@ -226,7 +210,7 @@
     </div>
     <button id="pauseToggleBtn" style="
         position: absolute;
-        top: 188px;
+        top: 104px;
         right: 30px;
         background: none;
         border: none;
@@ -278,23 +262,10 @@
     ">
         <span id="modeEmoji" style="font-size: 32px;">🌑</span>
     </button>
-    <button id="fullscreenBtn" style="
-        position: absolute;
-        top: 146px;
-        right: 30px;
-        background: none;
-        border: none;
-        font-size: 32px;
-        color: #fff;
-        cursor: pointer;
-        z-index: 20;
-        outline: none;
-    ">
-        🖥️
-    </button>
+
     <button id="musicNoteBtn" style="
         position: absolute;
-        top: 230px;
+        top: 188px;
         right: 30px;
         background: none;
         border: none;
@@ -309,7 +280,7 @@
     <div id="musicPopup" style="
         display: none;
         position: absolute;
-        top: 272px;
+        top: 230px;
         right: 30px;
         background: #222;
         color: #fff;
@@ -998,7 +969,7 @@
         const skinBtn = document.createElement('button');
         skinBtn.id = "skinBtn";
         skinBtn.style.position = "absolute";
-        skinBtn.style.top = "104px";
+        skinBtn.style.top = "146px";
         skinBtn.style.right = "30px";
         skinBtn.style.background = "none";
         skinBtn.style.border = "none";
@@ -1013,16 +984,7 @@
             childEmoji = childSkins[childSkinIndex];
             skinBtn.textContent = childEmoji;
         };
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        fullscreenBtn.onclick = function() {
-            if (!document.fullscreenElement) {
-                canvas.requestFullscreen().catch(err => {
-                    console.error(`Error requesting fullscreen: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        };
+
     let musicPlaying = false;
     soundSelect.onchange = function() {
         const wasPlaying = musicPlaying;
@@ -1075,6 +1037,5 @@
 </div>
 <link rel="stylesheet" href="style.css">
 <script src="main.js"></script>
-<script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 </body>
 </html>
