@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-
-
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
- 
-
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
+<!DOCTYPE html><!-- Ultimate Game Stash file--><!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --><html lang="en-us"><head><title>Home | Compass</title>
     <base href="https://cdn.jsdelivr.net/gh/genizy/web-port@latest/sonic.exe/">
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>GXC Game</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    
     <style>
       @-webkit-keyframes rotation {
         from {
@@ -342,29 +333,21 @@
         display: none;
       }
     </style>
-  </head>
+  <link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
 
   <body>
-        <div
-      id="loading-text"
-      style="
+        <div id="loading-text" style="
         color: white;
         font-size: 48px;
         font-family: cursive;
         text-align: center;
         margin-top: 20px;
-      "
-    >
+      ">
       LOADING...
     </div>
-    <canvas
-      class="emscripten"
-      id="canvas"
-      oncontextmenu="event.preventDefault()"
-      tabindex="-1"
-    >
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1">
     </canvas>
-    <div id="pauseMenuContainer" hidden>
+    <div id="pauseMenuContainer" hidden="">
       <div id="pauseMenuBorder">
         <div id="pauseMenu">
           <button id="resumeButton" onclick="resume()">
@@ -381,8 +364,8 @@
       <div class="emscripten" id="status">Downloading...</div>
 
       <progress value="0" max="100" id="progress" hidden="1"></progress>
-      <img id="QRCode" class="qrCode" src="runner.svg" alt="URL QR Code" hidden="1"></img>
-      <img id="QR2Code" class="qrCode" src="runnerLocal.svg" alt="URL QR2 Code" hidden="1"></img>
+      <img id="QRCode" class="qrCode" src="runner.svg" alt="URL QR Code" hidden="1">
+      <img id="QR2Code" class="qrCode" src="runnerLocal.svg" alt="URL QR2 Code" hidden="1">
     </div>
     <div class="multiplayer-stats" id="multiplayer-stats">
       [no stats available]
@@ -521,5 +504,6 @@
     document.body.appendChild(runnerscript);
       })();
   </script>
-  </body>
-</html>
+  
+
+</body></html>

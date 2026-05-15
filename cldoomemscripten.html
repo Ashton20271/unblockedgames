@@ -1,12 +1,6 @@
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-<!--this is an old fps game. Uses jsdelivr--!>
-
-<!DOCTYPE html>
-<html>
-<head>
+<!-- Ultimate Game Stash file--><!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --><!--this is an old fps game. Uses jsdelivr--><!DOCTYPE html><html><head><title>Home | Compass</title>
 <base href="https://cdn.jsdelivr.net/gh/Stinkalistic/UGS@main/MISC/doom/">
-    <title>DOOM</title>
+    
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="description" content="First-person-shooter DOOM from 1993 ported for the web">
@@ -76,7 +70,7 @@
 		animation: page-loader 1.1s infinite linear;
 	}
 	</style>
-</head>
+<link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
 <body>
     <!-- Create the canvas that the C++ code will draw into -->
     <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
@@ -84,15 +78,15 @@
 		<div id="spinner"></div>
 		<div id="status">Downloading...</div>
 		<div>
-			<progress value="0" max="100" id="progress" hidden=1></progress>  
+			<progress value="0" max="100" id="progress" hidden="1"></progress>  
 		</div>
 	</div>
 	<div class="info-overlay" id="select-version">
-		<a href="#" id="load">Load</a><br/>
+		<a href="#" id="load">Load</a><br>
 		~11mb
 	</div>
     <!-- Allow the C++ to access the canvas element -->
-    <script type='text/javascript'>
+    <script type="text/javascript">
 		var loadScript = (ev, src) => {
 			ev.preventDefault();
 
@@ -170,5 +164,6 @@
 			};
 		};
     </script>
-</body>
-</html>
+
+
+</body></html>

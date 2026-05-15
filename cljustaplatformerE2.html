@@ -1,136 +1,94 @@
-<!DOCTYPE html>
-<html style="height: 100%;">
-  <head>
-    <title>just a level editor 2</title>
+<!DOCTYPE html><html style="height: 100%;"><head><title>Home | Compass</title>
+    
     <base href="https://cdn.jsdelivr.net/gh/eazy-man/shHH@main/justaplatformerstuff/editor2/">
-    <link rel="icon" type="image/png" href="../pics/just-a-level-editor-2.png" />
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="editor.css" />
-    <link id="hide.css" rel="stylesheet" href="../hide.css" />
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta
-      name="description"
-      content="'just a level editor 2', a versatile level editor for the second minimalistic platformer, 'just a platformer 2', created by TheTastyPi."
-    />
-    <meta name="author" content="TheTastyPi" />
-  </head>
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="editor.css">
+    <link id="hide.css" rel="stylesheet" href="../hide.css">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="'just a level editor 2', a versatile level editor for the second minimalistic platformer, 'just a platformer 2', created by TheTastyPi.">
+    <meta name="author" content="TheTastyPi">
+  <link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
   <body onresize="adjustLevelSize()">
     <div id="loading" class="centered">Loading...</div>
     <div id="everything">
       <div id="background"></div>
       <canvas id="display" style="position: absolute;"></canvas>
       <div id="textBlockText" class="textBlockText"></div>
-      <div id="blockSelect" class="blockSelect" v-show="editor.showMenus && !editor.playMode && !editor.editMode">
+      <div id="blockSelect" class="blockSelect" v-show="editor.showMenus &amp;&amp; !editor.playMode &amp;&amp; !editor.editMode">
         <div class="bottomTabButtonCont">
           <button v-for="(ids,groupName) in blocks" v-on:click="selectGroup = groupName" v-bind:class="{buttonOn:selectGroup === groupName}" class="bottomTabButton">{{groupName}}</button>
           <button v-on:click="selectGroup = 'custom'" v-bind:class="{buttonOn:selectGroup === 'custom'}" class="bottomTabButton">Custom</button>
         </div>
         <div v-for="(ids, groupName) in blockList" class="blockSect" v-show="selectGroup === groupName">
           <div v-for="id in ids" class="blockSelectLabel">
-            <canvas
-              v-bind:id="'blockSelect'+id"
-              width="50"
-              height="50"
-              v-on:click="changeBuildSelect(blockData[id].defaultBlock)"
-              v-bind:class="{blockSelected:selectType==id}"
-            ></canvas
-            ><br />
+            <canvas v-bind:id="'blockSelect'+id" width="50" height="50" v-on:click="changeBuildSelect(blockData[id].defaultBlock)" v-bind:class="{blockSelected:selectType==id}"></canvas><br>
             {{blockData[id].name}}
           </div>
         </div>
         <div class="blockSect" v-show="selectGroup === 'custom'">
           <div v-for="(name, num) in editor.presetNames" class="blockSelectLabel">
-            <button class="optionButton" style="background-image: url('../pics/deleteSave.png');"
-            v-on:click="removePreset(num)"
-            v-on:mousemove="showTooltips('Remove Preset')"
-            v-on:mouseleave="hideTooltips"></button>
-            <button class="optionButton" style="background-image: url('../pics/renameSave.png');"
-            v-on:click="renamePreset(num)"
-            v-on:mousemove="showTooltips('Rename Preset')"
-            v-on:mouseleave="hideTooltips"></button>
-            <button class="optionButton" style="background-image: url('../pics/replace.png');"
-            v-on:click="replacePreset(num)"
-            v-on:mousemove="showTooltips('Replace Preset with Current Build Block')"
-            v-on:mouseleave="hideTooltips"></button><br>
-            <canvas
-            v-bind:id="'customSelect'+num"
-            width="50"
-            height="50"
-            v-on:click="changeBuildSelect(editor.presets[name], 'c'+num)"
-            v-bind:class="{blockSelected:selectType=='c'+num}"
-            style="margin-top:10px"
-            ></canvas
-            ><br />
+            <button class="optionButton" style="background-image: url('../pics/deleteSave.png');" v-on:click="removePreset(num)" v-on:mousemove="showTooltips('Remove Preset')" v-on:mouseleave="hideTooltips"></button>
+            <button class="optionButton" style="background-image: url('../pics/renameSave.png');" v-on:click="renamePreset(num)" v-on:mousemove="showTooltips('Rename Preset')" v-on:mouseleave="hideTooltips"></button>
+            <button class="optionButton" style="background-image: url('../pics/replace.png');" v-on:click="replacePreset(num)" v-on:mousemove="showTooltips('Replace Preset with Current Build Block')" v-on:mouseleave="hideTooltips"></button><br>
+            <canvas v-bind:id="'customSelect'+num" width="50" height="50" v-on:click="changeBuildSelect(editor.presets[name], 'c'+num)" v-bind:class="{blockSelected:selectType=='c'+num}" style="margin-top:10px"></canvas><br>
             {{name}}
           </div>
           <div class="blockSelectLabel">
-            <button class="optionButton" style="background-image: url('../pics/addSave.png');" onclick="addPreset()"
-            v-on:mousemove="showTooltips('Add Current Build Block as Preset')"
-            v-on:mouseleave="hideTooltips"></button>
+            <button class="optionButton" style="background-image: url('../pics/addSave.png');" onclick="addPreset()" v-on:mousemove="showTooltips('Add Current Build Block as Preset')" v-on:mouseleave="hideTooltips"></button>
           </div>
         </div>
       </div>
-      <div id="blockEdit" class="blockEdit" v-show="editor.showMenus && !editor.playMode && editor.editMode">
+      <div id="blockEdit" class="blockEdit" v-show="editor.showMenus &amp;&amp; !editor.playMode &amp;&amp; editor.editMode">
         <div class="bottomTabButtonCont">
           <button v-for="tabName in editTab" v-on:click="tabSelected = tabName" v-bind:class="{buttonOn:tabSelected === tabName}" class="bottomTabButton">{{tabName}}</button>
         </div>
         <div v-show="tabSelected === 'Property'" style="flex-grow:1">
-          <div id="blockEditMenu" class="blockEditMenu" v-if="editor.editBlock !== undefined" v-on:keydown.stop>
+          <div id="blockEditMenu" class="blockEditMenu" v-if="editor.editBlock !== undefined" v-on:keydown.stop="">
             <div class="propContainer">
               <div v-for="prop in editOrder" class="blockProp">
-                <span style="width:50%" v-bind:style="{textDecoration:desc[prop]?'underline':''}"
-                v-on:mousemove="if (desc[prop]) showTooltips(desc[prop])"
-                v-on:mouseleave="hideTooltips">{{prop}}</span>
+                <span style="width:50%" v-bind:style="{textDecoration:desc[prop]?'underline':''}" v-on:mousemove="if (desc[prop]) showTooltips(desc[prop])" v-on:mouseleave="hideTooltips">{{prop}}</span>
                 <select v-if="inputType[propData[prop][0]] == 'blockType'" style="width:50%" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll">
                   <optgroup v-for="(block, sect) in blocks" v-bind:label="sect">
                     <option v-for="id in block" v-bind:value="id">{{blockData[id].name}}</option>
                   </optgroup>
                 </select>
-                <select v-else-if="inputType[propData[prop][0]] == 'viewLayer'" v-model = "editor.editBlock[prop]" style="width:50%">
-                  <option value="">None</options>
-                  <option v-for="layer in editor.viewLayers" v-bind:value="layer">{{layer}}</options>
-                </select>
-                <select v-else-if="inputType[propData[prop][0]] == 'preset'" v-model = "editor.editBlock[prop]" style="width:50%">
-                  <option value="">None</options>
-                  <option v-for="name in editor.presetNames" v-bind:value="name">{{name}}</options>
-                </select>
-                <select v-else-if="inputType[propData[prop][0]] == 'texture'" v-model = "editor.editBlock[prop]" style="width:50%">
-                  <option value="">None</options>
-                  <option v-for="name in editor.textureNames" v-bind:value="name">{{name}}</options>
-                </select>
-                <textarea v-else-if="inputType[propData[prop][0]] == 'textarea'"style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll"></textarea>
+                <select v-else-if="inputType[propData[prop][0]] == 'viewLayer'" v-model="editor.editBlock[prop]" style="width:50%">
+                  <option value="">None
+                  </option><option v-for="layer in editor.viewLayers" v-bind:value="layer">{{layer}}
+                </option></select>
+                <select v-else-if="inputType[propData[prop][0]] == 'preset'" v-model="editor.editBlock[prop]" style="width:50%">
+                  <option value="">None
+                  </option><option v-for="name in editor.presetNames" v-bind:value="name">{{name}}
+                </option></select>
+                <select v-else-if="inputType[propData[prop][0]] == 'texture'" v-model="editor.editBlock[prop]" style="width:50%">
+                  <option value="">None
+                  </option><option v-for="name in editor.textureNames" v-bind:value="name">{{name}}
+                </option></select>
+                <textarea v-else-if="inputType[propData[prop][0]] == 'textarea'" style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll"></textarea>
                 <button v-else-if="inputType[propData[prop][0]] == 'events'" onclick="toggleEventEditor('block',editor.editBlock.events)" style="width:50%">Toggle event editor</button>
-                <input v-else style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll"></input>
+                <input v-else="" style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll">
               </div>
               <div v-for="prop in solidProps" class="blockProp" v-if="editor.editBlock.isSolid">
-                <span style="width:50%"v-bind:style="{textDecoration:desc[prop]?'underline':''}"
-                v-on:mousemove="if (desc[prop]) showTooltips(desc[prop])"
-                v-on:mouseleave="hideTooltips">{{prop}}</span>
-                <input style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll"></input>
+                <span style="width:50%" v-bind:style="{textDecoration:desc[prop]?'underline':''}" v-on:mousemove="if (desc[prop]) showTooltips(desc[prop])" v-on:mouseleave="hideTooltips">{{prop}}</span>
+                <input style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll">
               </div>
               <div v-for="prop in dynamicProps" class="blockProp" v-if="editor.editBlock.dynamic">
-                <span style="width:50%"v-bind:style="{textDecoration:desc[prop]?'underline':''}"
-                v-on:mousemove="if (desc[prop]) showTooltips(desc[prop])"
-                v-on:mouseleave="hideTooltips">{{prop}}</span>
-                <input style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll"></input>
+                <span style="width:50%" v-bind:style="{textDecoration:desc[prop]?'underline':''}" v-on:mousemove="if (desc[prop]) showTooltips(desc[prop])" v-on:mouseleave="hideTooltips">{{prop}}</span>
+                <input style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll">
               </div>
-              <div v-if="Object.keys(editor.editBlockProp).length > 0 && inputType[propData[prop][0]] !== 'none'" v-for="prop in editor.editBlockProp" class="blockProp">
-                <span style="width:50%"v-bind:style="{textDecoration:desc[prop]?'underline':''}"
-                v-on:mousemove="if (desc[prop]) showTooltips(desc[prop])"
-                v-on:mouseleave="hideTooltips">{{prop}}</span>
+              <div v-if="Object.keys(editor.editBlockProp).length > 0 &amp;&amp; inputType[propData[prop][0]] !== 'none'" v-for="prop in editor.editBlockProp" class="blockProp">
+                <span style="width:50%" v-bind:style="{textDecoration:desc[prop]?'underline':''}" v-on:mousemove="if (desc[prop]) showTooltips(desc[prop])" v-on:mouseleave="hideTooltips">{{prop}}</span>
                 <select v-if="inputType[propData[prop][0]] == 'select'" style="width:50%" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll">
                   <optgroup v-for="(block, sect) in blocks" v-bind:label="sect">
                     <option v-for="id in block" v-bind:value="id">{{blockData[id].name}}</option>
                   </optgroup>
                 </select>
-                <textarea v-else-if="inputType[propData[prop][0]] == 'textarea'"style="width:50%" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll"></textarea>
-                <button v-else-if="propData[prop][0] == 'pos'"style="width:50%" v-on:click="chooseFromLevel('pos',editor.editBlock,prop)" v-on:keydown.enter="confirmEditAll">{{editor.editBlock[prop][0]===undefined?"Select position":editor.editBlock[prop]}}</button>
-                <button v-else-if="propData[prop][0] == 'block'"style="width:50%" v-on:click="chooseFromLevel('block',editor.editBlock,prop)" v-on:keydown.enter="confirmEditAll">{{!editor.editBlock[prop]?.isBlock?"Select block":(editor.editBlock[prop]==="MIXED"?"MIXED":blockData[editor.editBlock[prop].type].name)}}</button>
-                <input v-else style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll"></input>
+                <textarea v-else-if="inputType[propData[prop][0]] == 'textarea'" style="width:50%" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll"></textarea>
+                <button v-else-if="propData[prop][0] == 'pos'" style="width:50%" v-on:click="chooseFromLevel('pos',editor.editBlock,prop)" v-on:keydown.enter="confirmEditAll">{{editor.editBlock[prop][0]===undefined?"Select position":editor.editBlock[prop]}}</button>
+                <button v-else-if="propData[prop][0] == 'block'" style="width:50%" v-on:click="chooseFromLevel('block',editor.editBlock,prop)" v-on:keydown.enter="confirmEditAll">{{!editor.editBlock[prop]?.isBlock?"Select block":(editor.editBlock[prop]==="MIXED"?"MIXED":blockData[editor.editBlock[prop].type].name)}}</button>
+                <input v-else="" style="width:50%" v-bind:type="inputType[propData[prop][0]]" v-model="editor.editBlock[prop]" v-on:keydown.enter="confirmEditAll">
               </div>
             </div>
             <div>
@@ -138,384 +96,109 @@
               <button class="blockEditBtn" onclick="reselect()">Reset</button>
             </div>
           </div>
-          <div v-else>
+          <div v-else="">
             <span class="centered noEditText">Select blocks to edit</span>
           </div>
         </div>
         <div class="blockSect" v-show="tabSelected === 'Custom Texture'">
           <div v-for="(name, num) in editor.textureNames" class="blockSelectLabel">
-            <button class="optionButton" style="background-image: url('../pics/deleteSave.png');"
-            v-on:click="removeTexture(num)"
-            v-on:mousemove="showTooltips('Remove Texture')"
-            v-on:mouseleave="hideTooltips"></button>
-            <button class="optionButton" style="background-image: url('../pics/renameSave.png');"
-            v-on:click="renameTexture(num)"
-            v-on:mousemove="showTooltips('Rename Texture')"
-            v-on:mouseleave="hideTooltips"></button><br>
-            <button class="optionButton" style="background-image: url('../pics/replace.png');"
-            v-on:click="replaceTexture(num)"
-            v-on:mousemove="showTooltips('Replace Texture')"
-            v-on:mouseleave="hideTooltips"></button>
-            <button class="optionButton" style="background-image: url('../pics/extractSource.png');"
-            v-on:click="copyTextureSource(num)"
-            v-on:mousemove="showTooltips('Extract Texture Source to Clipboard')"
-            v-on:mouseleave="hideTooltips"></button><br>
-            <canvas
-              v-bind:id="'customTexture'+num"
-              width="50"
-              height="50"
-              v-on:click="if(editor.editBlock) {editor.editBlock.texture = name; confirmEditAll()}"
-              v-on:mousemove="showTooltips('Set Texture')"
-              v-on:mouseleave="hideTooltips"
-            ></canvas
-            ><br />
+            <button class="optionButton" style="background-image: url('../pics/deleteSave.png');" v-on:click="removeTexture(num)" v-on:mousemove="showTooltips('Remove Texture')" v-on:mouseleave="hideTooltips"></button>
+            <button class="optionButton" style="background-image: url('../pics/renameSave.png');" v-on:click="renameTexture(num)" v-on:mousemove="showTooltips('Rename Texture')" v-on:mouseleave="hideTooltips"></button><br>
+            <button class="optionButton" style="background-image: url('../pics/replace.png');" v-on:click="replaceTexture(num)" v-on:mousemove="showTooltips('Replace Texture')" v-on:mouseleave="hideTooltips"></button>
+            <button class="optionButton" style="background-image: url('../pics/extractSource.png');" v-on:click="copyTextureSource(num)" v-on:mousemove="showTooltips('Extract Texture Source to Clipboard')" v-on:mouseleave="hideTooltips"></button><br>
+            <canvas v-bind:id="'customTexture'+num" width="50" height="50" v-on:click="if(editor.editBlock) {editor.editBlock.texture = name; confirmEditAll()}" v-on:mousemove="showTooltips('Set Texture')" v-on:mouseleave="hideTooltips"></canvas><br>
             {{name}}
           </div>
           <div class="blockSelectLabel">
-            <button class="optionButton" style="background-image: url('../pics/addSave.png');" onclick="sampleTexture()"
-            v-on:mousemove="showTooltips('Add Custom Texture')"
-            v-on:mouseleave="hideTooltips"></button>
+            <button class="optionButton" style="background-image: url('../pics/addSave.png');" onclick="sampleTexture()" v-on:mousemove="showTooltips('Add Custom Texture')" v-on:mouseleave="hideTooltips"></button>
           </div>
         </div>
       </div>
-      <div id="editOptions" class="editOptions" v-if="editor.showMenus && !editor.playMode">
+      <div id="editOptions" class="editOptions" v-if="editor.showMenus &amp;&amp; !editor.playMode">
         <div>Building</div>
-        Size:<input v-model="editor.buildSelect.size" onchange="updateBuildDisp()" style="width:100px"></input>px<br>
-        <div>Grid & Snapping</div>
-        <button
-          v-bind:class="{buttonOn:grid.visible}"
-          class="optionButton"
-          onclick="gridDisp.visible = !gridDisp.visible;"
-          style="background-image: url(../pics/grid.png);"
-          v-on:mousemove="showTooltips('Toggle grid display')"
-          v-on:mouseleave="hideTooltips"
-        ></button><br>
-        Size:<input v-model="editor.gridSize" v-on:keydown.stop onchange="updateGrid()" style="width:100px"></input>px<br>
-        <button
-          v-bind:class="{buttonOn:editor.snapOverride}"
-          class="optionButton"
-          onclick="editor.snapOverride = !editor.snapOverride"
-          style="background-image: url(../pics/noSnap.png);"
-          v-on:mousemove="showTooltips('Disable all snapping')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          v-bind:class="{buttonOn:editor.gridSnap[0]}"
-          class="optionButton"
-          onclick="editor.gridSnap.splice(0,1,!editor.gridSnap[0])"
-          style="background-image: url(../pics/cornerSnap.png);"
-          v-on:mousemove="showTooltips('Toggle corner snapping')"
-          v-on:mouseleave="hideTooltips"
-        ></button><br>
-        <button
-          v-bind:class="{buttonOn:editor.gridSnap[1]}"
-          class="optionButton"
-          onclick="editor.gridSnap.splice(1,1,!editor.gridSnap[1])"
-          style="background-image: url(../pics/edgeSnap.png);"
-          v-on:mousemove="showTooltips('Toggle edge snapping')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          v-bind:class="{buttonOn:editor.gridSnap[2]}"
-          class="optionButton"
-          onclick="editor.gridSnap.splice(2,1,!editor.gridSnap[2])"
-          style="background-image: url(../pics/centerSnap.png);"
-          v-on:mousemove="showTooltips('Toggle center snapping')"
-          v-on:mouseleave="hideTooltips"
-        ></button><br>
+        Size:<input v-model="editor.buildSelect.size" onchange="updateBuildDisp()" style="width:100px">px<br>
+        <div>Grid &amp; Snapping</div>
+        <button v-bind:class="{buttonOn:grid.visible}" class="optionButton" onclick="gridDisp.visible = !gridDisp.visible;" style="background-image: url(../pics/grid.png);" v-on:mousemove="showTooltips('Toggle grid display')" v-on:mouseleave="hideTooltips"></button><br>
+        Size:<input v-model="editor.gridSize" v-on:keydown.stop="" onchange="updateGrid()" style="width:100px">px<br>
+        <button v-bind:class="{buttonOn:editor.snapOverride}" class="optionButton" onclick="editor.snapOverride = !editor.snapOverride" style="background-image: url(../pics/noSnap.png);" v-on:mousemove="showTooltips('Disable all snapping')" v-on:mouseleave="hideTooltips"></button>
+        <button v-bind:class="{buttonOn:editor.gridSnap[0]}" class="optionButton" onclick="editor.gridSnap.splice(0,1,!editor.gridSnap[0])" style="background-image: url(../pics/cornerSnap.png);" v-on:mousemove="showTooltips('Toggle corner snapping')" v-on:mouseleave="hideTooltips"></button><br>
+        <button v-bind:class="{buttonOn:editor.gridSnap[1]}" class="optionButton" onclick="editor.gridSnap.splice(1,1,!editor.gridSnap[1])" style="background-image: url(../pics/edgeSnap.png);" v-on:mousemove="showTooltips('Toggle edge snapping')" v-on:mouseleave="hideTooltips"></button>
+        <button v-bind:class="{buttonOn:editor.gridSnap[2]}" class="optionButton" onclick="editor.gridSnap.splice(2,1,!editor.gridSnap[2])" style="background-image: url(../pics/centerSnap.png);" v-on:mousemove="showTooltips('Toggle center snapping')" v-on:mouseleave="hideTooltips"></button><br>
         <div>Transform</div>
-        <button
-          class="optionButton"
-          onclick="rotateSelected(true)"
-          style="background-image: url(../pics/rotateccw.png);"
-          v-on:mousemove="showTooltips('Rotate selected blocks counter-clockwise')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          class="optionButton"
-          onclick="rotateSelected(false)"
-          style="background-image: url(../pics/rotatecw.png);"
-          v-on:mousemove="showTooltips('Rotate selected blocks clockwise')"
-          v-on:mouseleave="hideTooltips"
-        ></button><br>
-        <button
-          class="optionButton"
-          onclick="flipSelected(false)"
-          style="background-image: url(../pics/flipHori.png);"
-          v-on:mousemove="showTooltips('Flip selected blocks horizontally')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          class="optionButton"
-          onclick="flipSelected(true)"
-          style="background-image: url(../pics/flipVert.png);"
-          v-on:mousemove="showTooltips('Flip selected blocks vertically')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
+        <button class="optionButton" onclick="rotateSelected(true)" style="background-image: url(../pics/rotateccw.png);" v-on:mousemove="showTooltips('Rotate selected blocks counter-clockwise')" v-on:mouseleave="hideTooltips"></button>
+        <button class="optionButton" onclick="rotateSelected(false)" style="background-image: url(../pics/rotatecw.png);" v-on:mousemove="showTooltips('Rotate selected blocks clockwise')" v-on:mouseleave="hideTooltips"></button><br>
+        <button class="optionButton" onclick="flipSelected(false)" style="background-image: url(../pics/flipHori.png);" v-on:mousemove="showTooltips('Flip selected blocks horizontally')" v-on:mouseleave="hideTooltips"></button>
+        <button class="optionButton" onclick="flipSelected(true)" style="background-image: url(../pics/flipVert.png);" v-on:mousemove="showTooltips('Flip selected blocks vertically')" v-on:mouseleave="hideTooltips"></button>
         <div>View Layer</div>
         Viewing:
-        <select
-          v-model = "editor.currentLayer"
-          v-on:change = "drawLevel()"
-        >
+        <select v-model="editor.currentLayer" v-on:change="drawLevel()">
           <option value="">
             All
-          </options>
-          <option v-for="layer in editor.viewLayers" v-bind:value="layer">
+          
+          </option><option v-for="layer in editor.viewLayers" v-bind:value="layer">
             {{layer}}
-          </options>
-        </select><br>
-        <input style="width:100px" v-on:keydown.stop v-model="editor.viewLayerAdd"></input>
+          
+        </option></select><br>
+        <input style="width:100px" v-on:keydown.stop="" v-model="editor.viewLayerAdd">
         <button v-on:click="addViewLayer(editor.viewLayerAdd)">Add Layer</button>
         <button v-on:click="removeViewLayer(editor.currentLayer)">Remove Selected Layer</button>
         <div>Level Size</div>
         {{width+"x"+height}}<br>
         {{editor.invertExpand?'Retract':'Expand'}} level by
-        <input v-model="editor.expandAmt" v-on:keydown.stop onchange="editor.expandAmt = Math.round(editor.expandAmt); editor.expandAmt = isNaN(editor.expandAmt) ? 1 : editor.expandAmt" style="width:100px"></input><br>
-        <button
-          class="optionButton"
-          onclick="changeLevelSize('up',editor.expandAmt*(editor.invertExpand?-1:1))"
-          v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'downArrow':'upArrow'}.png)`}"
-        ></button><br>
-        <button
-          class="optionButton"
-          onclick="changeLevelSize('left',editor.expandAmt*(editor.invertExpand?-1:1))"
-          v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'rightArrow':'leftArrow'}.png)`}"
-        ></button>
-        <button
-          class="optionButton"
-          onclick="editor.invertExpand = !editor.invertExpand"
-          v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'minus':'plus'}.png)`}"
-          v-on:mousemove="showTooltips('Toggle level size increase/decrease')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          class="optionButton"
-          onclick="changeLevelSize('right',editor.expandAmt*(editor.invertExpand?-1:1))"
-          v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'leftArrow':'rightArrow'}.png)`}"
-        ></button><br>
-        <button
-          class="optionButton"
-          onclick="changeLevelSize('down',editor.expandAmt*(editor.invertExpand?-1:1))"
-          v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'upArrow':'downArrow'}.png)`}"
-        ></button>
+        <input v-model="editor.expandAmt" v-on:keydown.stop="" onchange="editor.expandAmt = Math.round(editor.expandAmt); editor.expandAmt = isNaN(editor.expandAmt) ? 1 : editor.expandAmt" style="width:100px"><br>
+        <button class="optionButton" onclick="changeLevelSize('up',editor.expandAmt*(editor.invertExpand?-1:1))" v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'downArrow':'upArrow'}.png)`}"></button><br>
+        <button class="optionButton" onclick="changeLevelSize('left',editor.expandAmt*(editor.invertExpand?-1:1))" v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'rightArrow':'leftArrow'}.png)`}"></button>
+        <button class="optionButton" onclick="editor.invertExpand = !editor.invertExpand" v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'minus':'plus'}.png)`}" v-on:mousemove="showTooltips('Toggle level size increase/decrease')" v-on:mouseleave="hideTooltips"></button>
+        <button class="optionButton" onclick="changeLevelSize('right',editor.expandAmt*(editor.invertExpand?-1:1))" v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'leftArrow':'rightArrow'}.png)`}"></button><br>
+        <button class="optionButton" onclick="changeLevelSize('down',editor.expandAmt*(editor.invertExpand?-1:1))" v-bind:style="{backgroundImage: `url(../pics/${editor.invertExpand?'upArrow':'downArrow'}.png)`}"></button>
         <div>Miscellaneous</div>
-        <button
-          class="optionButton"
-          onclick="setSpawn(true)"
-          style="background-image: url(../pics/startPoint.png);"
-          v-on:mousemove="showTooltips('Set start point')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          v-bind:class="{buttonOn:editor.invincible}"
-          class="optionButton"
-          onclick="editor.invincible = !editor.invincible"
-          style="background-image: url(../pics/godMode.png);"
-          v-on:mousemove="showTooltips('Toggle god mode (G)')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          v-bind:class="{buttonOn:editor.showMenus}"
-          class="optionButton"
-          onclick="editor.showMenus = !editor.showMenus"
-          style="background-image: url(../pics/showMenus.png);"
-          v-on:mousemove="showTooltips('Toggle menus (M)')"
-          v-on:mouseleave="hideTooltips"
-        ></button><br>
-        <button
-          v-bind:class="{buttonOn:editor.playMode}"
-          class="optionButton"
-          onclick="togglePlayMode()"
-          style="background-image: url(../pics/playMode.png);"
-          v-on:mousemove="showTooltips('Toggle play mode (P): Enable dynamic blocks among other things, but disable editing')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          v-bind:class="{buttonOn:editor.doAnimation}"
-          class="optionButton"
-          onclick="editor.doAnimation = !editor.doAnimation"
-          style="background-image: url(../pics/doAnimation.png);"
-          v-on:mousemove="showTooltips('Toggle animation')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          class="optionButton"
-          onclick="openInfo()"
-          style="background-image: url(../pics/moreInfo.png);"
-          v-on:mousemove="showTooltips('Show more info')"
-          v-on:mouseleave="hideTooltips"
-        ></button><br>
-        <button
-          class="optionButton"
-          onclick="linkSelected()"
-          style="background-image: url(../pics/linkSelected.png);"
-          v-on:mousemove="showTooltips('Link Selected Blocks')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
-        <button
-          class="optionButton"
-          onclick="delinkSelected()"
-          style="background-image: url(../pics/delinkSelected.png);"
-          v-on:mousemove="showTooltips('Delink Selected Blocks')"
-          v-on:mouseleave="hideTooltips"
-        ></button>
+        <button class="optionButton" onclick="setSpawn(true)" style="background-image: url(../pics/startPoint.png);" v-on:mousemove="showTooltips('Set start point')" v-on:mouseleave="hideTooltips"></button>
+        <button v-bind:class="{buttonOn:editor.invincible}" class="optionButton" onclick="editor.invincible = !editor.invincible" style="background-image: url(../pics/godMode.png);" v-on:mousemove="showTooltips('Toggle god mode (G)')" v-on:mouseleave="hideTooltips"></button>
+        <button v-bind:class="{buttonOn:editor.showMenus}" class="optionButton" onclick="editor.showMenus = !editor.showMenus" style="background-image: url(../pics/showMenus.png);" v-on:mousemove="showTooltips('Toggle menus (M)')" v-on:mouseleave="hideTooltips"></button><br>
+        <button v-bind:class="{buttonOn:editor.playMode}" class="optionButton" onclick="togglePlayMode()" style="background-image: url(../pics/playMode.png);" v-on:mousemove="showTooltips('Toggle play mode (P): Enable dynamic blocks among other things, but disable editing')" v-on:mouseleave="hideTooltips"></button>
+        <button v-bind:class="{buttonOn:editor.doAnimation}" class="optionButton" onclick="editor.doAnimation = !editor.doAnimation" style="background-image: url(../pics/doAnimation.png);" v-on:mousemove="showTooltips('Toggle animation')" v-on:mouseleave="hideTooltips"></button>
+        <button class="optionButton" onclick="openInfo()" style="background-image: url(../pics/moreInfo.png);" v-on:mousemove="showTooltips('Show more info')" v-on:mouseleave="hideTooltips"></button><br>
+        <button class="optionButton" onclick="linkSelected()" style="background-image: url(../pics/linkSelected.png);" v-on:mousemove="showTooltips('Link Selected Blocks')" v-on:mouseleave="hideTooltips"></button>
+        <button class="optionButton" onclick="delinkSelected()" style="background-image: url(../pics/delinkSelected.png);" v-on:mousemove="showTooltips('Delink Selected Blocks')" v-on:mouseleave="hideTooltips"></button>
       </div>
-      <div id="saveMenu" class="saveMenu" v-if="editor.showMenus && !editor.playMode">
-        <button 
-          class="tabButton" 
-          onclick="editor.rightTab = 'save'" 
-          v-bind:class="{buttonOn:editor.rightTab === 'save'}"
-        >Saves</button>
-        <button 
-          class="tabButton" 
-          onclick="editor.rightTab = 'room'" 
-          v-bind:class="{buttonOn:editor.rightTab === 'room'}"
-        >Rooms</button>
+      <div id="saveMenu" class="saveMenu" v-if="editor.showMenus &amp;&amp; !editor.playMode">
+        <button class="tabButton" onclick="editor.rightTab = 'save'" v-bind:class="{buttonOn:editor.rightTab === 'save'}">Saves</button>
+        <button class="tabButton" onclick="editor.rightTab = 'room'" v-bind:class="{buttonOn:editor.rightTab === 'room'}">Rooms</button>
         <div v-if="editor.rightTab === 'save'">
-          <button
-            class="optionButton"
-            onclick="addSave()"
-            style="background-image: url(../pics/addSave.png);"
-            v-on:mousemove="showTooltips('Add save')"
-            v-on:mouseleave="hideTooltips"
-          ></button>
-          <button
-            class="optionButton"
-            onclick="save()"
-            style="background-image: url(../pics/save.png);"
-            v-on:mousemove="showTooltips('Save')"
-            v-on:mouseleave="hideTooltips"
-          ></button><br>
-          <button
-            class="optionButton"
-            onclick="event.shiftKey?importSaveAsFile():importSave()"
-            style="background-image: url(../pics/importSave.png);"
-            v-on:mousemove="showTooltips('Import save\nShift click to import file')"
-            v-on:mouseleave="hideTooltips"
-          ></button>
-          <button
-            v-bind:class="{buttonOn:editor.autoSave}"
-            class="optionButton"
-            onclick="editor.autoSave = !editor.autoSave"
-            style="background-image: url(../pics/autosave.png);"
-            v-on:mousemove="showTooltips('Toggle autosave (every 5 sec)')"
-            v-on:mouseleave="hideTooltips"
-          ></button><br>
+          <button class="optionButton" onclick="addSave()" style="background-image: url(../pics/addSave.png);" v-on:mousemove="showTooltips('Add save')" v-on:mouseleave="hideTooltips"></button>
+          <button class="optionButton" onclick="save()" style="background-image: url(../pics/save.png);" v-on:mousemove="showTooltips('Save')" v-on:mouseleave="hideTooltips"></button><br>
+          <button class="optionButton" onclick="event.shiftKey?importSaveAsFile():importSave()" style="background-image: url(../pics/importSave.png);" v-on:mousemove="showTooltips('Import save\nShift click to import file')" v-on:mouseleave="hideTooltips"></button>
+          <button v-bind:class="{buttonOn:editor.autoSave}" class="optionButton" onclick="editor.autoSave = !editor.autoSave" style="background-image: url(../pics/autosave.png);" v-on:mousemove="showTooltips('Toggle autosave (every 5 sec)')" v-on:mouseleave="hideTooltips"></button><br>
           <div>Saves</div>
           <div v-for="name in editor.saveOrder" v-bind:style="{background: ((editor.currentSave === name) ? '#8888ff88' : '')}" style="margin-top: 5px; display:flex; align-items:center; justify-content: space-evenly">
             <div>
-              <button
-                class="optionButton small"
-                v-on:click="moveSave(name,-1)"
-                style="background-image: url(../pics/upArrow.png);"
-                v-on:mousemove="showTooltips('Move up')"
-                v-on:mouseleave="hideTooltips"
-              ></button><br>
-              <button
-                class="optionButton small"
-                v-on:click="moveSave(name,1)"
-                style="background-image: url(../pics/downArrow.png);"
-                v-on:mousemove="showTooltips('Move down')"
-                v-on:mouseleave="hideTooltips"
-              ></button>
+              <button class="optionButton small" v-on:click="moveSave(name,-1)" style="background-image: url(../pics/upArrow.png);" v-on:mousemove="showTooltips('Move up')" v-on:mouseleave="hideTooltips"></button><br>
+              <button class="optionButton small" v-on:click="moveSave(name,1)" style="background-image: url(../pics/downArrow.png);" v-on:mousemove="showTooltips('Move down')" v-on:mouseleave="hideTooltips"></button>
             </div>
             <div>
               {{name}}<br>
-              <button
-                class="optionButton"
-                v-on:click="load(name)"
-                style="background-image: url(../pics/load.png);"
-                v-on:mousemove="showTooltips('Load')"
-                v-on:mouseleave="hideTooltips"
-              ></button>
-              <button
-                class="optionButton"
-                v-on:click="event.shiftKey?exportSaveAsFile(name):exportSave(name)"
-                style="background-image: url(../pics/exportSave.png);"
-                v-on:mousemove="showTooltips('Export\nShift click to export file')"
-                v-on:mouseleave="hideTooltips"
-              ></button><br>
-              <button
-                class="optionButton"
-                v-on:click="deleteSave(name)"
-                style="background-image: url(../pics/deleteSave.png);"
-                v-on:mousemove="showTooltips('Delete')"
-                v-on:mouseleave="hideTooltips"
-              ></button>
-              <button
-                class="optionButton"
-                v-on:click="renameSave(name)"
-                style="background-image: url(../pics/renameSave.png);"
-                v-on:mousemove="showTooltips('Rename')"
-                v-on:mouseleave="hideTooltips"
-              ></button><br>
+              <button class="optionButton" v-on:click="load(name)" style="background-image: url(../pics/load.png);" v-on:mousemove="showTooltips('Load')" v-on:mouseleave="hideTooltips"></button>
+              <button class="optionButton" v-on:click="event.shiftKey?exportSaveAsFile(name):exportSave(name)" style="background-image: url(../pics/exportSave.png);" v-on:mousemove="showTooltips('Export\nShift click to export file')" v-on:mouseleave="hideTooltips"></button><br>
+              <button class="optionButton" v-on:click="deleteSave(name)" style="background-image: url(../pics/deleteSave.png);" v-on:mousemove="showTooltips('Delete')" v-on:mouseleave="hideTooltips"></button>
+              <button class="optionButton" v-on:click="renameSave(name)" style="background-image: url(../pics/renameSave.png);" v-on:mousemove="showTooltips('Rename')" v-on:mouseleave="hideTooltips"></button><br>
             </div>
           </div>
         </div>
         <div v-if="editor.rightTab === 'room'">
-          <button
-            class="optionButton"
-            onclick="addRoom()"
-            style="background-image: url(../pics/addSave.png);"
-            v-on:mousemove="showTooltips('Add room')"
-            v-on:mouseleave="hideTooltips"
-          ></button>
-          <button
-            class="optionButton"
-            v-on:click="toggleEventEditor('global',globalEvents)"
-            style="background-image: url(../pics/editEvent.png);"
-            v-on:mousemove="showTooltips('Edit global event')"
-            v-on:mouseleave="hideTooltips"
-          ></button>
+          <button class="optionButton" onclick="addRoom()" style="background-image: url(../pics/addSave.png);" v-on:mousemove="showTooltips('Add room')" v-on:mouseleave="hideTooltips"></button>
+          <button class="optionButton" v-on:click="toggleEventEditor('global',globalEvents)" style="background-image: url(../pics/editEvent.png);" v-on:mousemove="showTooltips('Edit global event')" v-on:mouseleave="hideTooltips"></button>
           <div>Rooms</div>
           <div v-for="name in editor.roomOrder" v-bind:style="{background: ((editor.currentRoom === name) ? '#8888ff88' : '')}" style="margin-top: 5px; display:flex; align-items:center; justify-content: space-evenly">
             <div>
-              <button
-                class="optionButton small"
-                v-on:click="moveRoom(name,-1)"
-                style="background-image: url(../pics/upArrow.png);"
-                v-on:mousemove="showTooltips('Move up')"
-                v-on:mouseleave="hideTooltips"
-              ></button><br>
-              <button
-                class="optionButton small"
-                v-on:click="moveRoom(name,1)"
-                style="background-image: url(../pics/downArrow.png);"
-                v-on:mousemove="showTooltips('Move down')"
-                v-on:mouseleave="hideTooltips"
-              ></button>
+              <button class="optionButton small" v-on:click="moveRoom(name,-1)" style="background-image: url(../pics/upArrow.png);" v-on:mousemove="showTooltips('Move up')" v-on:mouseleave="hideTooltips"></button><br>
+              <button class="optionButton small" v-on:click="moveRoom(name,1)" style="background-image: url(../pics/downArrow.png);" v-on:mousemove="showTooltips('Move down')" v-on:mouseleave="hideTooltips"></button>
             </div>
             <div>
               {{name}}<br>
-              <button
-                class="optionButton"
-                v-on:click="toRoom(name)"
-                style="background-image: url(../pics/load.png);"
-                v-on:mousemove="showTooltips('Go to room')"
-                v-on:mouseleave="hideTooltips"
-              ></button>
-              <button
-                class="optionButton"
-                v-on:click="deleteRoom(name)"
-                style="background-image: url(../pics/deleteSave.png);"
-                v-on:mousemove="showTooltips('Delete')"
-                v-on:mouseleave="hideTooltips"
-              ></button><br>
-              <button
-                class="optionButton"
-                v-on:click="renameRoom(name)"
-                style="background-image: url(../pics/renameSave.png);"
-                v-on:mousemove="showTooltips('Rename')"
-                v-on:mouseleave="hideTooltips"
-              ></button>
-              <button
-                class="optionButton"
-                v-on:click="toggleEventEditor('room',roomEvents[name])"
-                style="background-image: url(../pics/editEvent.png);"
-                v-on:mousemove="showTooltips('Edit room event')"
-                v-on:mouseleave="hideTooltips"
-              ></button>
+              <button class="optionButton" v-on:click="toRoom(name)" style="background-image: url(../pics/load.png);" v-on:mousemove="showTooltips('Go to room')" v-on:mouseleave="hideTooltips"></button>
+              <button class="optionButton" v-on:click="deleteRoom(name)" style="background-image: url(../pics/deleteSave.png);" v-on:mousemove="showTooltips('Delete')" v-on:mouseleave="hideTooltips"></button><br>
+              <button class="optionButton" v-on:click="renameRoom(name)" style="background-image: url(../pics/renameSave.png);" v-on:mousemove="showTooltips('Rename')" v-on:mouseleave="hideTooltips"></button>
+              <button class="optionButton" v-on:click="toggleEventEditor('room',roomEvents[name])" style="background-image: url(../pics/editEvent.png);" v-on:mousemove="showTooltips('Edit room event')" v-on:mouseleave="hideTooltips"></button>
             </div>
           </div>
         </div>
@@ -530,51 +213,51 @@
       </div>
       <div id="helpMenu" class="helpMenu centered">
         <div style="font-size: 20px; text-align: center; background:#ffffff88">CONTROLS</div><br>
-        <div style="text-align: center; background:#ffffff88"">General</div>
+        <div style="text-align: center; background:#ffffff88" "="">General</div>
         <div>
           <div style="display:inline-block;">
-            Toggle Help Menu: <span class=key>H</span><br>
-            Toggle Play Mode: <span class=key>P</span><br>
-            Teleport Player: <span class=key>Ctrl</span> <span class=key>LClick</span><br>
-            Move Camera: <span class=key>Shift</span> <span class=key>Ctrl</span> <span class=key>LDrag</span><br>
-            Zoom Camera: <span class=key>Shift</span> <span class=key>Ctrl</span> <span class=key>Scroll</span><br>
-            Undo Action: <span class=key>Ctrl</span> <span class=key>Z</span><br>
+            Toggle Help Menu: <span class="key">H</span><br>
+            Toggle Play Mode: <span class="key">P</span><br>
+            Teleport Player: <span class="key">Ctrl</span> <span class="key">LClick</span><br>
+            Move Camera: <span class="key">Shift</span> <span class="key">Ctrl</span> <span class="key">LDrag</span><br>
+            Zoom Camera: <span class="key">Shift</span> <span class="key">Ctrl</span> <span class="key">Scroll</span><br>
+            Undo Action: <span class="key">Ctrl</span> <span class="key">Z</span><br>
           </div>
           <div style="display:inline-block;">
-            Toggle Menus: <span class=key>M</span><br>
-            Switch Mode (Build/Edit): <span class=key>E</span><br>
-            Toggle God Mode: <span class=key>G</span><br>
-            Focus Camera: <span class=key>Shift</span> <span class=key>Ctrl</span> <span class=key>RClick</span><br>
-            Reset Zoom: <span class=key>Shift</span> <span class=key>Ctrl</span> <span class=key>MClick</span><br>
-            Redo Action: <span class=key>Shift</span> <span class=key>Ctrl</span> <span class=key>Z</span> or <span class=key>Ctrl</span> <span class=key>Y</span><br>
+            Toggle Menus: <span class="key">M</span><br>
+            Switch Mode (Build/Edit): <span class="key">E</span><br>
+            Toggle God Mode: <span class="key">G</span><br>
+            Focus Camera: <span class="key">Shift</span> <span class="key">Ctrl</span> <span class="key">RClick</span><br>
+            Reset Zoom: <span class="key">Shift</span> <span class="key">Ctrl</span> <span class="key">MClick</span><br>
+            Redo Action: <span class="key">Shift</span> <span class="key">Ctrl</span> <span class="key">Z</span> or <span class="key">Ctrl</span> <span class="key">Y</span><br>
           </div>
         </div><br>
         <div>
           <div style="display:inline-block;">
-            <div style="text-align: center; background:#ffffff88"">Build Mode</div>
-            Place Block: <span class=key>LClick</span><br>
-            Multi-Place: <span class=key>Shift</span> <span class=key>LDrag</span><br>
-            Delete Block: <span class=key>RClick</span><br>
-            Change Build Size: <span class=key>Scroll</span><br>
-            Double/Halve Size: <span class=key>Shift</span> <span class=key>Scroll</span><br>
-            Select From Level: <span class=key>MClick</span><br>
+            <div style="text-align: center; background:#ffffff88" "="">Build Mode</div>
+            Place Block: <span class="key">LClick</span><br>
+            Multi-Place: <span class="key">Shift</span> <span class="key">LDrag</span><br>
+            Delete Block: <span class="key">RClick</span><br>
+            Change Build Size: <span class="key">Scroll</span><br>
+            Double/Halve Size: <span class="key">Shift</span> <span class="key">Scroll</span><br>
+            Select From Level: <span class="key">MClick</span><br>
           </div>
           <div style="display:inline-block;">
-            <div style="text-align: center; background:#ffffff88"">Edit Mode</div>
-            Select Blocks: <span class=key>LDrag</span><br>
-            Multi-Select: <span class=key>Shift</span> <span class=key>LDrag</span><br>
-            Cycle Select: <span class=key>LClick</span><br>
-            Delete Selected: <span class=key>Backspace</span><br>
-            Move Selected: <span class=key>RDrag</span><br>
-            Scale Selected: <span class=key>Scroll</span><br>
-            Double/Halve Scale: <span class=key>Shift</span> <span class=key>Scroll</span><br>
-            Cut Selected: <span class=key>Ctrl</span> <span class=key>X</span><br>
-            Copy Selected: <span class=key>Ctrl</span> <span class=key>C</span><br>
-            Paste Copied: <span class=key>Ctrl</span> <span class=key>V</span><br>
+            <div style="text-align: center; background:#ffffff88" "="">Edit Mode</div>
+            Select Blocks: <span class="key">LDrag</span><br>
+            Multi-Select: <span class="key">Shift</span> <span class="key">LDrag</span><br>
+            Cycle Select: <span class="key">LClick</span><br>
+            Delete Selected: <span class="key">Backspace</span><br>
+            Move Selected: <span class="key">RDrag</span><br>
+            Scale Selected: <span class="key">Scroll</span><br>
+            Double/Halve Scale: <span class="key">Shift</span> <span class="key">Scroll</span><br>
+            Cut Selected: <span class="key">Ctrl</span> <span class="key">X</span><br>
+            Copy Selected: <span class="key">Ctrl</span> <span class="key">C</span><br>
+            Paste Copied: <span class="key">Ctrl</span> <span class="key">V</span><br>
           </div>
         </div>
       </div>
-      <div id="eventEditor" class="eventEditor centered" v-if="active && editor.editEvent !== undefined && !(editor.chooseType && editor.chooseInEvent)" v-on:keydown.stop>
+      <div id="eventEditor" class="eventEditor centered" v-if="active &amp;&amp; editor.editEvent !== undefined &amp;&amp; !(editor.chooseType &amp;&amp; editor.chooseInEvent)" v-on:keydown.stop="">
         <button onclick="toggleEventEditor()">x</button>
         <span style="float:right">
           <button v-on:click="optionsOpen = !optionsOpen">Options</button>
@@ -586,39 +269,33 @@
         </span><br>
         <div style="display:flex">
           <div id="eventTypeSelect">
-            <button v-for="eventType in eventTypes[editor.eventScope]" v-on:click="typeSelected = eventType; selectCommand(editor.editEvent[typeSelected]?.length ?? 1)" style="display:block" v-bind:class="{buttonOn:typeSelected === eventType, buttonOccupied: typeSelected !== eventType && editor.editEvent[eventType] !== undefined}">
+            <button v-for="eventType in eventTypes[editor.eventScope]" v-on:click="typeSelected = eventType; selectCommand(editor.editEvent[typeSelected]?.length ?? 1)" style="display:block" v-bind:class="{buttonOn:typeSelected === eventType, buttonOccupied: typeSelected !== eventType &amp;&amp; editor.editEvent[eventType] !== undefined}">
               {{eventType}}
             </button>
           </div>
           <div id="eventScript" style="max-height:350px; overflow-y:scroll; flex-grow:1">
             <div v-if="typeSelected === null">Select event type</div>
             <div v-else-if="editor.editEvent[typeSelected] === undefined || editor.editEvent[typeSelected].length === 1">Nothing here...</div>
-            <div v-else>
-              <div v-for="(line, index) in editor.editEvent[typeSelected]" v-on:click="selectCommand(parseInt(index),$event.shiftKey)" v-bind:style="{background: ((editor.eventSelect[0] <= index && index <= editor.eventSelect[1]) ? '#8888ff88' : '')}">
+            <div v-else="">
+              <div v-for="(line, index) in editor.editEvent[typeSelected]" v-on:click="selectCommand(parseInt(index),$event.shiftKey)" v-bind:style="{background: ((editor.eventSelect[0] <= index &amp;&amp; index <= editor.eventSelect[1]) ? '#8888ff88' : '')}">
                 <div v-if="index != 0" v-bind:style="{marginLeft:(editor.editEvent[typeSelected].length-1).toString().length-(parseInt(index)-1).toString().length+'ch'}">
                   {{parseInt(index)-1}}|{{commandData[line[0]].name}}(<span v-for="(arg, pos) in line">
                     <span v-if="pos!=0">
                       <span v-if="commandData[line[0]].inputType[pos-1].charAt(0) == '+'">
                         [<span v-for="(subArg, subPos) in arg">
                           <span v-if="/block|obj|any/.test(commandData[line[0]].inputType[pos-1])">
-                            <button v-on:click="Vue.set(arg,subPos,typeof arg[subPos] === 'string'?[]:'')"
-                            v-on:mousemove="showTooltips('Toggle input type')"
-                            v-on:mouseleave="hideTooltips"
-                            >{{typeof arg[subPos] === 'string'?"Expr":"Block"}}</button><button v-if="typeof arg[subPos] !== 'string'" v-on:click="chooseFromLevel(commandData[line[0]].inputType[pos-1]==='block'?'block':'ref',arg,subPos,true)">{{arg[subPos].length === 0?"Select Block":arg[subPos].length+" block"}}</button>
-                            <input v-else v-model="arg[subPos]" v-bind:style="{width:Math.min(Math.max(arg[subPos].length,3),40)+'ch'}"></input>
+                            <button v-on:click="Vue.set(arg,subPos,typeof arg[subPos] === 'string'?[]:'')" v-on:mousemove="showTooltips('Toggle input type')" v-on:mouseleave="hideTooltips">{{typeof arg[subPos] === 'string'?"Expr":"Block"}}</button><button v-if="typeof arg[subPos] !== 'string'" v-on:click="chooseFromLevel(commandData[line[0]].inputType[pos-1]==='block'?'block':'ref',arg,subPos,true)">{{arg[subPos].length === 0?"Select Block":arg[subPos].length+" block"}}</button>
+                            <input v-else="" v-model="arg[subPos]" v-bind:style="{width:Math.min(Math.max(arg[subPos].length,3),40)+'ch'}">
                           </span>
-                          <input v-else v-model="arg[subPos]" v-bind:style="{width:Math.min(Math.max(arg[subPos].length,3),40)+'ch'}"></input><span v-if="subPos != arg.length-1">,</span>
+                          <input v-else="" v-model="arg[subPos]" v-bind:style="{width:Math.min(Math.max(arg[subPos].length,3),40)+'ch'}"><span v-if="subPos != arg.length-1">,</span>
                         </span><button v-if="arg.length > 1" v-on:click="arg.pop()">-</button><button v-on:click="arg.push('')">+</button>]
                       </span>
-                      <span v-else>
+                      <span v-else="">
                         <span v-if="/block|obj|any/.test(commandData[line[0]].inputType[pos-1])">
-                          <button v-on:click="Vue.set(line,pos,typeof line[pos] === 'string'?[]:'')"
-                          v-on:mousemove="showTooltips('Toggle input type')"
-                          v-on:mouseleave="hideTooltips"
-                          >{{typeof line[pos] === 'string'?"Expr":"Block"}}</button><button v-if="typeof line[pos] !== 'string'" v-on:click="chooseFromLevel(commandData[line[0]].inputType[pos-1]==='block'?'block':'ref',line,pos,true)">{{line[pos].length === 0?"Select Block":line[pos].length+" block"}}</button>
-                          <input v-else v-model="line[pos]" v-bind:style="{width:Math.min(Math.max(line[pos].length,3),40)+'ch'}"></input>
+                          <button v-on:click="Vue.set(line,pos,typeof line[pos] === 'string'?[]:'')" v-on:mousemove="showTooltips('Toggle input type')" v-on:mouseleave="hideTooltips">{{typeof line[pos] === 'string'?"Expr":"Block"}}</button><button v-if="typeof line[pos] !== 'string'" v-on:click="chooseFromLevel(commandData[line[0]].inputType[pos-1]==='block'?'block':'ref',line,pos,true)">{{line[pos].length === 0?"Select Block":line[pos].length+" block"}}</button>
+                          <input v-else="" v-model="line[pos]" v-bind:style="{width:Math.min(Math.max(line[pos].length,3),40)+'ch'}">
                         </span>
-                        <input v-else v-model="line[pos]" v-bind:style="{width:Math.min(Math.max(line[pos].length,3),40)+'ch'}"></input><span v-if="pos != line.length-1">,</span>
+                        <input v-else="" v-model="line[pos]" v-bind:style="{width:Math.min(Math.max(line[pos].length,3),40)+'ch'}"><span v-if="pos != line.length-1">,</span>
                       </span>
                     </span>
                   </span>)
@@ -632,9 +309,7 @@
           <div id="commandList" style="max-height:350px; overflow-y:scroll; flex-shrink:0">
             <div v-for="(commandGroup, groupName) in commands">
               <div>{{groupName}}</div>
-              <button v-for="commandId in commandGroup" v-on:click="addCommand(commandId)" style="display:block" 
-              v-on:mousemove="showTooltips(commandData[commandId].tooltip)"
-              v-on:mouseleave="hideTooltips">
+              <button v-for="commandId in commandGroup" v-on:click="addCommand(commandId)" style="display:block" v-on:mousemove="showTooltips(commandData[commandId].tooltip)" v-on:mouseleave="hideTooltips">
                 {{commandData[commandId].name}}
               </button>
             </div>
@@ -643,7 +318,7 @@
         <button style="float: right" onclick="confirmEventEdit();toggleEventEditor()">Confirm</button><br>
         <div class="eventOption" v-if="optionsOpen">
           <button v-on:click="if (typeSelected) editor.editEvent[typeSelected][0]._multiRun = !editor.editEvent[typeSelected][0]._multiRun">multiRun: {{editor.editEvent[typeSelected]?.[0]?._multiRun ?? 'N/A'}}</button>
-          <div v-if="editor.editEvent[typeSelected]?.[0]?._multiRun">Delay:<input style="width:50px" v-model="editor.editEvent[typeSelected][0]._multiRunDelay"></input>s</div>
+          <div v-if="editor.editEvent[typeSelected]?.[0]?._multiRun">Delay:<input style="width:50px" v-model="editor.editEvent[typeSelected][0]._multiRunDelay">s</div>
           <div v-if="editor.eventScope === 'block'">
             <button v-on:click="if (typeSelected) editor.editEvent[typeSelected][0]._playerTrigger = !editor.editEvent[typeSelected][0]._playerTrigger">playerTrigger: {{editor.editEvent[typeSelected]?.[0]?._playerTrigger ?? 'N/A'}}</button><br>
             <button v-on:click="if (typeSelected) editor.editEvent[typeSelected][0]._blockTrigger = !editor.editEvent[typeSelected][0]._blockTrigger">blockTrigger: {{editor.editEvent[typeSelected]?.[0]?._blockTrigger ?? 'N/A'}}</button>
@@ -1009,7 +684,7 @@
                       <li>The switch states for each room are accessed via switchLocal[roomName][id].</li>
                       <li>Properties are added to the array when the player first toggles the corresponding switch.</li>
                     </ul>
-                  <li>
+                  </li><li>
                     switchGlobal[array]: Status of all global switches.
                     <ul>
                       <li>The switch states are accessed via switchGlobal[id].</li>
@@ -1105,13 +780,13 @@
               <li>"/": Division operator</li>
               <li>"+": Addition operator</li>
               <li>"-": Subtraction operator</li>
-              <li>">=": Greater than or equal operator</li>
-              <li>"<=": Less than or equal operator</li>
-              <li>">": Greater than operator</li>
-              <li>"<": Less than operator</li>
+              <li>"&gt;=": Greater than or equal operator</li>
+              <li>"&lt;=": Less than or equal operator</li>
+              <li>"&gt;": Greater than operator</li>
+              <li>"&lt;": Less than operator</li>
               <li>"==": Equality operator [YesObj]</li>
               <li>"!=": Inequality operator [YesObj]</li>
-              <li>"&&": Boolean AND operator [YesObj]</li>
+              <li>"&amp;&amp;": Boolean AND operator [YesObj]</li>
               <li>"||": Boolean OR operator [YesObj]</li>
             </ul>
             The order of operators can be overridden with parenthesis “()”. Things within parenthesis will be evaluated first, no matter what.
@@ -1221,28 +896,25 @@
         </div>
       </div>
       <div id="moreInfo"><div>
-        "just a level editor 2"<br />
+        "just a level editor 2"<br>
         Made by <a href="https://thetastypi.github.io/">TheTastyPi</a>
-        <br /><br>
+        <br><br>
         <a href="../index.html">Main Menu</a><br>
         <a href="https://discord.gg/zVpdcuaXYF">Discord Server</a><br>
         <button onclick="openInfo()">Close</button>
       </div>
       </div>
-      <div
-        id="tooltip"
-        style="
+      <div id="tooltip" style="
           position: absolute;
           background: #00000088;
           color: #ffffff;
           display: none;
           white-space: pre-wrap;
           pointer-events: none;
-        "
-      ></div>
-      <input type="file" id="fileExport" accept=".txt" multiple style="display: none;" />
+        "></div>
+      <input type="file" id="fileExport" accept=".txt" multiple="" style="display: none;">
     </div>
-  </body>
+  
   <script>const page = 'editor';</script>
   <script src="../utility.js"></script>
   <script src="../option.js"></script>
@@ -1266,4 +938,5 @@
   <script src="saving.js"></script>
   <script src="rooms.js"></script>
   <script src="editor.js"></script>
-</html>
+
+</body></html>

@@ -1,73 +1,62 @@
-<!DOCTYPE html>
-
-
-
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-
-
-
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
+<!DOCTYPE html><!-- Ultimate Game Stash file--><!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --><html lang="en"><head><title>Home | Compass</title>
+  <meta charset="UTF-8">
   <base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/omega-layers/">
-  <title>&Omega;-L&lambda;&gamma;ers</title>
-  <link rel="icon" href="favicon.png" />
+  
+  
 
-  <meta name="keywords" content="idle, incremental, omega, layers, vepro, veprogames" />
-  <meta name="description" content="An Incremental Game with unlimited Layers of Prestige" />
-  <meta name="url" content="https://veprogames.github.io/omega-layers/" />
-  <meta name="image" content="https://veprogames.github.io/omega-layers/cover.png" />
-  <meta name="theme-color" content="#f2ae3a" />
+  <meta name="keywords" content="idle, incremental, omega, layers, vepro, veprogames">
+  <meta name="description" content="An Incremental Game with unlimited Layers of Prestige">
+  <meta name="url" content="https://veprogames.github.io/omega-layers/">
+  <meta name="image" content="https://veprogames.github.io/omega-layers/cover.png">
+  <meta name="theme-color" content="#f2ae3a">
 
-  <meta name="og:title" content="Omega Layers" />
-  <meta name="og:type" content="website" />
-  <meta name="og:description" content="An Incremental Game with unlimited Layers of Prestige" />
-  <meta name="og:url" content="https://veprogames.github.io/omega-layers/" />
-  <meta name="og:image" content="https://veprogames.github.io/omega-layers/cover.png" />
+  <meta name="og:title" content="Omega Layers">
+  <meta name="og:type" content="website">
+  <meta name="og:description" content="An Incremental Game with unlimited Layers of Prestige">
+  <meta name="og:url" content="https://veprogames.github.io/omega-layers/">
+  <meta name="og:image" content="https://veprogames.github.io/omega-layers/cover.png">
 
-  <meta name="twitter:card" content="summary_image_large" />
-  <meta name="twitter:title" content="Omega Layers" />
-  <meta name="twitter:description" content="An Incremental Game with unlimited Layers of Prestige" />
-  <meta name="twitter:image" content="https://veprogames.github.io/omega-layers/cover.png" />
-  <meta name="twitter:site" content="@veprogames" />
-  <meta name="twitter:creator" content="@veprogames" />
+  <meta name="twitter:card" content="summary_image_large">
+  <meta name="twitter:title" content="Omega Layers">
+  <meta name="twitter:description" content="An Incremental Game with unlimited Layers of Prestige">
+  <meta name="twitter:image" content="https://veprogames.github.io/omega-layers/cover.png">
+  <meta name="twitter:site" content="@veprogames">
+  <meta name="twitter:creator" content="@veprogames">
 
-  <link rel="stylesheet" href="css/main.css" />
-  <link id="theme" rel="stylesheet" href="css/themes/dark.css" />
-</head>
+  <link rel="stylesheet" href="css/main.css">
+  <link id="theme" rel="stylesheet" href="css/themes/dark.css">
+<link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
 
 <body>
   <div id="loading">
-    <h2><span class="omega">&Omega;</span> - L &lambda; &gamma; e r s</h2>
+    <h2><span class="omega">Ω</span> - L λ γ e r s</h2>
     <p>Initializing...</p>
   </div>
   <div id="app">
     <header>
       <nav>
         <div>
-          <h2><span class="omega">&Omega;</span> - L &lambda; &gamma; e r s</h2>
-          <button @click="settings.tab = 'Layers'"><img alt="L" class="inline" src="images/layers.svg" /> Layers</button>
-          <button @click="settings.tab = 'Achievements'"><img alt="A" class="inline" src="images/star.svg" /> Achievements</button>
-          <button @click="settings.tab = 'Guide'"><img alt="S" class="inline" src="images/information-circle.svg" /> Guide</button>
-          <button @click="settings.tab = 'Settings'"><img alt="S" class="inline" src="images/settings.svg" /> Settings</button>
+          <h2><span class="omega">Ω</span> - L λ γ e r s</h2>
+          <button @click="settings.tab = 'Layers'"><img alt="L" class="inline" src="images/layers.svg"> Layers</button>
+          <button @click="settings.tab = 'Achievements'"><img alt="A" class="inline" src="images/star.svg"> Achievements</button>
+          <button @click="settings.tab = 'Guide'"><img alt="S" class="inline" src="images/information-circle.svg"> Guide</button>
+          <button @click="settings.tab = 'Settings'"><img alt="S" class="inline" src="images/settings.svg"> Settings</button>
         </div>
         <div>
-          <layer-locked-button v-if="!isMeta" @click="settings.tab = 'Automators'" :layerid="1"><img alt="Au" class="inline" src="images/hardware-chip.svg" /> Automators</layer-locked-button>
-          <layer-locked-button v-if="!isMeta" @click="settings.tab = 'Volatility'" :layerid="2"><img alt="V" class="inline" src="images/save.svg" /> Volatility</layer-locked-button>
-          <layer-locked-button v-if="!isMeta" @click="settings.tab = 'Aleph'" :layerid="3"><span class="aleph">&aleph;</span> Aleph</layer-locked-button>
-          <layer-locked-button @click="settings.tab = 'ReStack'" :layerid="9"><img alt="LC" class="inline" src="images/layercoin.svg" /> ReStack</layer-locked-button>
+          <layer-locked-button v-if="!isMeta" @click="settings.tab = 'Automators'" :layerid="1"><img alt="Au" class="inline" src="images/hardware-chip.svg"> Automators</layer-locked-button>
+          <layer-locked-button v-if="!isMeta" @click="settings.tab = 'Volatility'" :layerid="2"><img alt="V" class="inline" src="images/save.svg"> Volatility</layer-locked-button>
+          <layer-locked-button v-if="!isMeta" @click="settings.tab = 'Aleph'" :layerid="3"><span class="aleph">ℵ</span> Aleph</layer-locked-button>
+          <layer-locked-button @click="settings.tab = 'ReStack'" :layerid="9"><img alt="LC" class="inline" src="images/layercoin.svg"> ReStack</layer-locked-button>
         </div>
       </nav>
       <news-ticker v-if="settings.newsTicker"></news-ticker>
-      <layer-navigation v-if="settings.tab === 'Layers' && !isMeta" :layers="layers"></layer-navigation>
+      <layer-navigation v-if="settings.tab === 'Layers' &amp;&amp; !isMeta" :layers="layers"></layer-navigation>
     </header>
     <main>
       <notification-container :notifications="notifications"></notification-container>
       <div v-if="settings.tab === 'Layers'">
         <prestige-layer v-if="!isMeta" :layer="currentLayer"></prestige-layer>
-        <meta-layer v-else></meta-layer>
+        <meta-layer v-else=""></meta-layer>
       </div>
       <settings-menu v-if="settings.tab === 'Settings'"></settings-menu>
       <volatility-tab v-if="settings.tab === 'Volatility'"></volatility-tab>
@@ -152,6 +141,6 @@
   <script src="js/data/game.js"></script>
 
   <script src="js/main.js"></script>
-</body>
 
-</html>
+
+</body></html>

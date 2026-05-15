@@ -1,39 +1,29 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!-- Ultimate Game Stash file--><!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --><html lang="en-us"><head><title>Home | Compass</title><base href="https://cdn.jsdelivr.net/gh/bubbls/ports@main/Pokemon-Academy-Life-Forever/">
 
-
-
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-
-
-
-<html lang="en-us">
-<base href="https://cdn.jsdelivr.net/gh/bubbls/ports@main/Pokemon-Academy-Life-Forever/">
-<head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Pokemon Academy Life Forever</title>
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
-  <link rel="icon" href="icons/icon-72x72.png" sizes="72x72" type="image/png" />
-  <link rel="icon" href="icons/icon-96x96.png" sizes="96x96" type="image/png" />
-  <link rel="icon" href="icons/icon-128x128.png" sizes="128x128" type="image/png" />
-  <link rel="icon" href="icons/icon-144x144.png" sizes="144x144" type="image/png" />
-  <link rel="icon" href="icons/icon-152x152.png" sizes="152x152" type="image/png" />
-  <link rel="icon" href="icons/icon-192x192.png" sizes="192x192" type="image/png" />
-  <link rel="icon" href="icons/icon-384x384.png" sizes="384x384" type="image/png" />
-  <link rel="icon" href="icons/icon-512x512.png" sizes="512x512" type="image/png" />
+  <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+  
+  
+  
+  
+  
+  
+  
+  
   <!-- ios support -->
-  <link rel="apple-touch-icon" href="icons/icon-72x72.png" sizes="72x72" type="image/png" />
-  <link rel="apple-touch-icon" href="icons/icon-96x96.png" sizes="96x96" type="image/png" />
-  <link rel="apple-touch-icon" href="icons/icon-128x128.png" sizes="128x128" type="image/png" />
-  <link rel="apple-touch-icon" href="icons/icon-144x144.png" sizes="144x144" type="image/png" />
-  <link rel="apple-touch-icon" href="icons/icon-152x152.png" sizes="152x152" type="image/png" />
-  <link rel="apple-touch-icon" href="icons/icon-192x192.png" sizes="192x192" type="image/png" />
-  <link rel="apple-touch-icon" href="icons/icon-384x384.png" sizes="384x384" type="image/png" />
-  <link rel="apple-touch-icon" href="icons/icon-512x512.png" sizes="512x512" type="image/png" />
+  
+  
+  
+  
+  
+  
+  
+  
 
-  <meta name="theme-color" content="#000" />
+  <meta name="theme-color" content="#000">
 
   <style>
     html {
@@ -188,26 +178,25 @@
 
   </style>
 
-</head>
+<link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
 
 <body>
-  <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+  <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
   <div id="overlayDiv"></div>
 
   <img id="presplash" src="web-presplash.jpg">
 
   <div id="ContextContainer">
-    <a id="ContextButton">&#8801;</a><br />
+    <a id="ContextButton">≡</a><br>
     <div id="ContextMenu" style="display: none;">
-      <input id="ID_SavegamesImport" type="file" onchange="onSavegamesImport(this)" accept="application/zip"
-        style=display:none></input>
+      <input id="ID_SavegamesImport" type="file" onchange="onSavegamesImport(this)" accept="application/zip" style="display:none">
       <a href="javascript:document.getElementById('ID_SavegamesImport').click();">Import Saves</a>
       <a href="javascript:onSavegamesExport();">Export Saves</a>
       <a href="javascript:FSDownload('/log.txt', 'text/plain');">Download Log</a>
       <a href="https://www.renpy.org/" target="_blank">
           Powered by Ren'Py
       </a>
-      </span>
+      
     </div>
   </div>
 
@@ -282,6 +271,6 @@
         console.error("Error loading game files:", error);
     });
 </script>
-</body>
 
-</html>
+
+</body></html>

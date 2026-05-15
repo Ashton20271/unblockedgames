@@ -1,26 +1,16 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!-- Ultimate Game Stash file--><!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --><html lang="en"><head><title>Home | Compass</title><base href="https://cdn.jsdelivr.net/gh/bubbls/WebMonkeyBall@main/">
 
-
-
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-
-
-
-<html lang="en">
-<base href="https://cdn.jsdelivr.net/gh/bubbls/WebMonkeyBall@main/">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>SMB1 Web Gameplay</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  
 
   <!-- iOS: run without Safari UI when launched from Home Screen -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: light)">
 
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css">
   <script type="importmap">
     {
       "imports": {
@@ -28,7 +18,7 @@
       }
     }
   </script>
-</head>
+<link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
 
 <body>
   <canvas id="game"></canvas>
@@ -77,7 +67,7 @@
         <button id="open-settings" class="ghost compact settings-button" type="button">Settings</button>
       </div>
       <a id="discord-server-link" class="menu-action-link" href="https://discord.gg/j9RRPBTGxt" target="_blank" rel="noopener noreferrer">
-        <img class="discord-server-icon" src="./discord-favicon.ico" alt="" aria-hidden="true" />
+        <img class="discord-server-icon" src="./discord-favicon.ico" alt="" aria-hidden="true">
         <span>Discord Server</span>
       </a>
     </div>
@@ -107,8 +97,8 @@
       </div>
 
       <div class="row hidden">
-        <button id="start" disabled>Start</button>
-        <button id="resume" class="ghost" disabled>Resume</button>
+        <button id="start" disabled="">Start</button>
+        <button id="resume" class="ghost" disabled="">Resume</button>
       </div>
       <div class="hint">
         <div>Controls: WASD / Arrow Keys = tilt, R = reset stage, N = skip stage</div>
@@ -203,8 +193,8 @@
           </div>
           <div id="pack-status" class="pack-status">No pack loaded</div>
         </div>
-        <input id="pack-file" class="hidden" type="file" accept=".zip" />
-        <input id="pack-folder" class="hidden" type="file" webkitdirectory />
+        <input id="pack-file" class="hidden" type="file" accept=".zip">
+        <input id="pack-folder" class="hidden" type="file" webkitdirectory="">
       </div>
       <div class="panel-section">
         <div class="panel-section-header">
@@ -293,7 +283,7 @@
           <button id="replay-library-refresh" class="ghost" type="button">Refresh</button>
           <div id="replay-library-status" class="pack-status">Replays: idle</div>
         </div>
-        <input id="replay-library-file" class="hidden" type="file" accept=".json" />
+        <input id="replay-library-file" class="hidden" type="file" accept=".json">
         <div id="replay-library-list" class="leaderboard-list"></div>
       </div>
     </div>
@@ -320,7 +310,7 @@
               <h2>Join Private Room</h2>
             </div>
             <div class="multiplayer-row">
-              <input id="lobby-code" class="text-input" type="password" placeholder="Room code" autocomplete="off" />
+              <input id="lobby-code" class="text-input" type="password" placeholder="Room code" autocomplete="off">
               <button id="lobby-join" class="ghost compact" type="button">Join</button>
             </div>
           </div>
@@ -331,12 +321,12 @@
             <div class="multiplayer-row">
               <button id="lobby-create" class="ghost compact" type="button">Create Room</button>
               <label class="checkbox-field">
-                <input id="lobby-public" type="checkbox" checked />
+                <input id="lobby-public" type="checkbox" checked="">
                 <span>Public</span>
               </label>
             </div>
             <div class="multiplayer-row">
-              <input id="lobby-name" class="text-input" type="text" placeholder="Lobby name (optional)" maxlength="64" />
+              <input id="lobby-name" class="text-input" type="text" placeholder="Lobby name (optional)" maxlength="64">
             </div>
           </div>
         </div>
@@ -350,7 +340,7 @@
             <div id="lobby-room-info" class="lobby-room-info"></div>
             <label class="field">
               <span>Lobby Name</span>
-              <input id="lobby-room-name" class="text-input" type="text" maxlength="64" />
+              <input id="lobby-room-name" class="text-input" type="text" maxlength="64">
             </label>
             <div id="lobby-room-status" class="lobby-room-status"></div>
           </div>
@@ -402,15 +392,15 @@
               Increased max players may negatively impact gameplay performance.
             </div>
             <label class="checkbox-field">
-              <input id="lobby-collision" type="checkbox" checked />
+              <input id="lobby-collision" type="checkbox" checked="">
               <span>Player Collision</span>
             </label>
             <label class="checkbox-field">
-              <input id="lobby-infinite-time" type="checkbox" />
+              <input id="lobby-infinite-time" type="checkbox">
               <span>Infinite Time</span>
             </label>
             <label class="checkbox-field">
-              <input id="lobby-locked" type="checkbox" />
+              <input id="lobby-locked" type="checkbox">
               <span>Lock Room</span>
             </label>
             <div class="control-hint">Only the host can change match settings.</div>
@@ -426,7 +416,7 @@
         </div>
         <div id="lobby-chat-list" class="chat-list"></div>
         <div class="chat-input-row">
-          <input id="lobby-chat-input" class="text-input" type="text" placeholder="Type a message..." maxlength="200" />
+          <input id="lobby-chat-input" class="text-input" type="text" placeholder="Type a message..." maxlength="200">
           <button id="lobby-chat-send" class="ghost compact" type="button">Send</button>
         </div>
       </div>
@@ -488,20 +478,20 @@
               <div id="gyro-settings" class="control-mode-block hidden">
                 <label class="field slider-field">
                   <span>Gyro Sensitivity <output id="gyro-sensitivity-value">25°</output></span>
-                  <input id="gyro-sensitivity" type="range" min="10" max="25" step="1" value="25" />
+                  <input id="gyro-sensitivity" type="range" min="10" max="25" step="1" value="25">
                 </label>
                 <div id="gyro-hint" class="control-hint">Tap the screen during gameplay to recalibrate gyro.</div>
               </div>
               <div id="touch-settings" class="control-mode-block hidden">
                 <label class="field slider-field">
                   <span>Virtual Joystick Size <output id="joystick-size-value">1.0x</output></span>
-                  <input id="joystick-size" type="range" min="0.5" max="2" step="0.1" value="1" />
+                  <input id="joystick-size" type="range" min="0.5" max="2" step="0.1" value="1">
                 </label>
               </div>
               <div id="input-falloff-block" class="control-mode-block">
                 <label class="field slider-field">
                   <span>Input Falloff <output id="input-falloff-value">1.5</output></span>
-                  <input id="input-falloff" type="range" min="1" max="2" step="0.05" value="1" />
+                  <input id="input-falloff" type="range" min="1" max="2" step="0.05" value="1">
                 </label>
                 <div class="input-falloff-visuals">
                   <div id="input-falloff-curve-wrap" class="response-curve">
@@ -533,15 +523,15 @@
             <div class="slider-group">
               <label class="field slider-field">
                 <span>Music Volume <output id="music-volume-value">50%</output></span>
-                <input id="music-volume" type="range" min="0" max="100" value="50" />
+                <input id="music-volume" type="range" min="0" max="100" value="50">
               </label>
               <label class="field slider-field">
                 <span>SFX Volume <output id="sfx-volume-value">30%</output></span>
-                <input id="sfx-volume" type="range" min="0" max="100" value="30" />
+                <input id="sfx-volume" type="range" min="0" max="100" value="30">
               </label>
               <label class="field slider-field">
                 <span>Announcer Volume <output id="announcer-volume-value">30%</output></span>
-                <input id="announcer-volume" type="range" min="0" max="100" value="30" />
+                <input id="announcer-volume" type="range" min="0" max="100" value="30">
               </label>
             </div>
           </div>
@@ -553,12 +543,12 @@
             </div>
             <label class="field">
               <span>Display Name</span>
-              <input id="profile-name" class="text-input" type="text" maxlength="64" />
+              <input id="profile-name" class="text-input" type="text" maxlength="64">
             </label>
             <div class="profile-avatar-row">
               <div id="profile-avatar-preview" class="profile-avatar-preview" aria-hidden="true"></div>
               <div class="profile-avatar-controls">
-                <input id="profile-avatar-input" class="text-input" type="file" accept="image/png,image/jpeg,image/webp" />
+                <input id="profile-avatar-input" class="text-input" type="file" accept="image/png,image/jpeg,image/webp">
                 <button id="profile-avatar-clear" class="ghost compact" type="button">Clear Avatar</button>
                 <div id="profile-avatar-error" class="control-hint hidden"></div>
               </div>
@@ -567,22 +557,22 @@
             <div class="profile-ball-row">
               <label class="field">
                 <span>Hemisphere 1 Color</span>
-                <input id="profile-ball-hemi1-color" class="color-input" type="color" value="#ff0000" />
+                <input id="profile-ball-hemi1-color" class="color-input" type="color" value="#ff0000">
               </label>
               <label class="field">
                 <span>Hemisphere 2 Color</span>
-                <input id="profile-ball-hemi2-color" class="color-input" type="color" value="#ffffff" />
+                <input id="profile-ball-hemi2-color" class="color-input" type="color" value="#ffffff">
               </label>
             </div>
             <div class="profile-ball-texture-row">
               <label class="field">
                 <span>Hemisphere 1 Texture</span>
-                <input id="profile-ball-hemi1-texture-input" class="text-input" type="file" accept="image/png,image/jpeg,image/webp" />
+                <input id="profile-ball-hemi1-texture-input" class="text-input" type="file" accept="image/png,image/jpeg,image/webp">
                 <button id="profile-ball-hemi1-texture-clear" class="ghost compact" type="button">Clear Hemisphere 1 Texture</button>
               </label>
               <label class="field">
                 <span>Hemisphere 2 Texture</span>
-                <input id="profile-ball-hemi2-texture-input" class="text-input" type="file" accept="image/png,image/jpeg,image/webp" />
+                <input id="profile-ball-hemi2-texture-input" class="text-input" type="file" accept="image/png,image/jpeg,image/webp">
                 <button id="profile-ball-hemi2-texture-clear" class="ghost compact" type="button">Clear Hemisphere 2 Texture</button>
               </label>
             </div>
@@ -600,15 +590,15 @@
               <h2>Privacy</h2>
             </div>
             <label class="checkbox-field">
-              <input id="hide-player-names" type="checkbox" />
+              <input id="hide-player-names" type="checkbox">
               <span>Hide Player Names</span>
             </label>
             <label class="checkbox-field">
-              <input id="hide-lobby-names" type="checkbox" />
+              <input id="hide-lobby-names" type="checkbox">
               <span>Hide Lobby Names</span>
             </label>
             <label class="checkbox-field">
-              <input id="hide-remote-ball-textures" type="checkbox" />
+              <input id="hide-remote-ball-textures" type="checkbox">
               <span>Hide Remote Ball Textures</span>
             </label>
             <div class="control-hint">Replaces names with deterministic aliases for safer sharing.</div>
@@ -621,7 +611,7 @@
   <div id="ingame-chat" class="ingame-chat hidden">
     <div id="ingame-chat-list" class="chat-list chat-list-ingame"></div>
     <div id="ingame-chat-input-row" class="chat-input-row collapsed">
-      <input id="ingame-chat-input" class="text-input" type="text" placeholder="ENTER to chat..." maxlength="200" />
+      <input id="ingame-chat-input" class="text-input" type="text" placeholder="ENTER to chat..." maxlength="200">
     </div>
   </div>
 
@@ -746,7 +736,8 @@
 
   <script type="module" src="./dist/rain.js"></script>
   <!-- Cloudflare Pages Analytics -->
-  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ba4e488caf8849e9af3e0cc5ff39ffaf"}'></script><!-- Cloudflare Pages Analytics -->
-</body>
+  <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;ba4e488caf8849e9af3e0cc5ff39ffaf&quot;}"></script><!-- Cloudflare Pages Analytics -->
 
-</html>
+
+
+</body></html>

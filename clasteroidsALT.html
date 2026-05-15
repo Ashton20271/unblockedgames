@@ -1,16 +1,11 @@
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-<!--This is a arcade game. Uses jsdelivr--!>
+<!-- Ultimate Game Stash file--><!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --><!--This is a arcade game. Uses jsdelivr--><!DOCTYPE html><html lang="en"><head><title>Home | Compass</title><base href="https://cdn.jsdelivr.net/gh/Stinkalistic/SWAGgames@main/asteroids/">
 
-<!doctype html>
-<base href="https://cdn.jsdelivr.net/gh/Stinkalistic/SWAGgames@main/asteroids/">
-<html lang="en">
-    <head>
+    
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Asteroids game ported from C to WebAssembly">
         <meta name="author" content="Robert Aboukhalil">
-        <title>Asteroids Game in WebAssembly</title>
+        
 
         <!-- Bootstrap core CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -20,7 +15,7 @@
             .starter-template { text-align: center; }
             canvas { display: block; margin: 0 auto; }
         </style>
-    </head>
+    <link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
     <body>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
             <a class="navbar-brand" href="#">Asteroids in WebAssembly</a>
@@ -38,7 +33,7 @@
 
         <div class="starter-template">
             <p class="lead">
-                An <a href="https://github.com/flightcrank/asteroids">Asteroids game</a> ported from C to WebAssembly.<br />
+                An <a href="https://github.com/flightcrank/asteroids">Asteroids game</a> ported from C to WebAssembly.<br>
                 <small>(Arrows to move; Spacebar to shoot)</small>
             </p>
             <p id="loading" class="lead">
@@ -48,19 +43,19 @@
 
         <main role="main" class="container">
             <div class="row" style="text-align:center">
-              <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+              <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
             </div>
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <hr />
+                    <hr>
                     <p>Want to learn how to port games like this one to the web? Check out my book <a href="http://levelupwasm.com" target="_blank">Level Up with WebAssembly</a>.</p>
                 </div>
             </div>
         </main>
 
         <!-- Main logic -->
-        <script type='text/javascript'>
+        <script type="text/javascript">
           var spinnerElement = document.getElementById('loading');
           var Module = {
             preRun: [],
@@ -102,6 +97,7 @@
             };
           };
         </script>
-        <script async type="text/javascript" src="asteroids.js"></script>
-    </body>
-</html>
+        <script async="" type="text/javascript" src="asteroids.js"></script>
+    
+
+</body></html>

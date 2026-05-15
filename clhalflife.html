@@ -1,20 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!-- Ultimate Game Stash file--><!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --><html lang="en-us"><head><title>Home | Compass</title><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@354e3c6939a08e472482653567d566ba3a2aa527/half%20life/">
 
-
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --> 
-
-
-<html lang="en-us">
-<base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@354e3c6939a08e472482653567d566ba3a2aa527/half%20life/">
-<head>
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<meta name="MobileOptimized" content="640" />
-	<meta name="HandheldFriendly" content="true" />
-	<title>Xash</title>
+	<meta name="MobileOptimized" content="640">
+	<meta name="HandheldFriendly" content="true">
+	
 	<script>
 		document.addEventListener('contextmenu', event => event.preventDefault());
 		window.onbeforeunload = function(e) {
@@ -226,66 +218,66 @@
 			document.getElementsByTagName("html")[0].className+=" textshadow";
 		}
 	</style>
-</head>
+<link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
 
-<body onerror=alert(event); bgcolor=#555555 text=#F0B418 link=#ffa600 vlink=#ffa600>
+<body onerror="alert(event);" bgcolor="#555555" text="#F0B418" link="#ffa600" vlink="#ffa600">
 	<div class="emscripten_border">
 		<canvas style="display:none" class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
 	</div>
 
 	<p>
-	<div style=width:100%;height:0px>
+	</p><div style="width:100%;height:0px">
 		<div style="float:left;" id="status">Downloading...</div>
 		<div id="progress1" style="position:relative;z-index:10;display:none;float:right;width:70%;border-color:#F0B418;border-style:solid;border-width:2px;height:20px; visibility: hidden;">
-			<div id=progress style="text-align:center;background-color:#F0B418;border-color:#555555;border-style:solid:border-width:3px;width:50%;height:20px; visibility: hidden;"></div>
+			<div id="progress" style="text-align:center;background-color:#F0B418;border-color:#555555;border-style:solid:border-width:3px;width:50%;height:20px; visibility: hidden;"></div>
 		</div><br>
-	</div><br></p>
+	</div><br><p></p>
 
-	<textarea style='visibility: hidden;' id="output" rows="8" style="display: none;"></textarea>
-	<div style='visibility: hidden;' id="asyncDialog" style="float:left"></div>
+	<textarea style="visibility: hidden;" id="output" rows="8"></textarea>
+	<div style="visibility: hidden;" id="asyncDialog"></div>
 
 	<center> <a class="glow">
-		<div id=optionsTitle>
+		<div id="optionsTitle">
 			<h1>Xash</h1>
 		</div>
 	</a></center>
-	<center> <form style=display:none id=fSettings>
-		<a class='glow'>Select filesystem for save and restore:</a>
-		<div id=idbHider style=display:none><label><input name=a type=radio id=rIndexedDB checked=true />IndexedDB</label><br></div>
-		<label><input name=a type=radio id=rLocalStorage />in Local storage</label><br>
-		<label><input name=a type=radio id=rNone />in RAM</label><br><br>
+	<center> <form style="display:none" id="fSettings">
+		<a class="glow">Select filesystem for save and restore:</a>
+		<div id="idbHider" style="display:none"><label><input name="a" type="radio" id="rIndexedDB" checked="true">IndexedDB</label><br></div>
+		<label><input name="a" type="radio" id="rLocalStorage">in Local storage</label><br>
+		<label><input name="a" type="radio" id="rNone">in RAM</label><br><br>
 		<hr>
-			<div id=zipHider style=display:none><input name=b type=radio id=rZip checked=true />ZIP archive from server
-		</label><select id=selectZip style=display:none></select><br></div>
+			<div id="zipHider" style="display:none"><input name="b" type="radio" id="rZip" checked="true">ZIP archive from server
+		<select id="selectZip" style="display:none"></select><br></div>
 
-		<label><input name=b type=radio id=rLocalZip />Local ZIP file:</label><label id="label_file_select"><input type=file name=c id=iZipFile /><a class='glow'> Select ZIP file </a></label><br><br><hr>
-		Command-line arguments: <input name=d type=text id=iArgs value="-dev 1 -game valve" /><br><br>
-		<a class='glow' onclick="startXash();return false;">Launch Xash!</a>
+		<label><input name="b" type="radio" id="rLocalZip">Local ZIP file:</label><label id="label_file_select"><input type="file" name="c" id="iZipFile"><a class="glow"> Select ZIP file </a></label><br><br><hr>
+		Command-line arguments: <input name="d" type="text" id="iArgs" value="-dev 1 -game valve"><br><br>
+		<a class="glow" onclick="startXash();return false;">Launch Xash!</a>
 		<br><hr>
-		<div id='linksPlaceholder' style=display:none>Download archives to load locally next time:</div><br>
+		<div id="linksPlaceholder" style="display:none">Download archives to load locally next time:</div><br>
 		<label>
-			<div id=pkgHider style=display:none><input name=b type=radio id=rPackage />
-		</label><select id=selectPkg style=display:none></select><br></div>
+			<div id="pkgHider" style="display:none"><input name="b" type="radio" id="rPackage">
+		<select id="selectPkg" style="display:none"></select><br></div>
 		<label>
-		<div style='visibility: hidden;' class="loader" id=loader1></div>
-	</form> </label>
+		<div style="visibility: hidden;" class="loader" id="loader1"></div>
+	 </label>
 
-	<div style=width:100%><span id='controls'>
-			<a style='visibility: hidden;' class="glow"><span><label id="label_show_console_log" style="display: none;"><input type="checkbox" id="show_console_log">Show Console Log</label></span></a>
-			<a style='visibility: hidden;' class="glow"><span><label><input type="checkbox" id="resize">Resize canvas</label></span></a>
-			<a style='visibility: hidden;' class="glow"><span><label><input type="checkbox" id="pointerLock" checked>Lock/hide mouse pointer &nbsp;&nbsp;&nbsp;</label></span></a>
-			<span style='visibility: hidden;'><input type="button" value="Fullscreen" onclick="Module.requestFullscreen(document.getElementById('pointerLock').checked, document.getElementById('resize').checked)"></span>
+	<div style="width:100%"><span id="controls">
+			<a style="visibility: hidden;" class="glow"><span><label id="label_show_console_log" style="display: none;"><input type="checkbox" id="show_console_log">Show Console Log</label></span></a>
+			<a style="visibility: hidden;" class="glow"><span><label><input type="checkbox" id="resize">Resize canvas</label></span></a>
+			<a style="visibility: hidden;" class="glow"><span><label><input type="checkbox" id="pointerLock" checked="">Lock/hide mouse pointer &nbsp;&nbsp;&nbsp;</label></span></a>
+			<span style="visibility: hidden;"><input type="button" value="Fullscreen" onclick="Module.requestFullscreen(document.getElementById('pointerLock').checked, document.getElementById('resize').checked)"></span>
 	</span></div>
 
-	<script type='text/javascript' src='browserfs.min.js'></script>
-	<script type='text/javascript'>
+	<script type="text/javascript" src="browserfs.min.js"></script>
+	<script type="text/javascript">
 		var zipMods = [];
 		var pkgMods = [];
 	</script>
 
-	<script type='text/javascript' src='mods.js'></script>
+	<script type="text/javascript" src="mods.js"></script>
 
-	<script type='text/javascript'>
+	<script type="text/javascript">
 		var show_again = true;
 		var statusElement = document.getElementById('status');
 		var progressElement = document.getElementById('progress');
@@ -700,6 +692,6 @@
 		ga('create', 'UA-68666752-4', 'auto');
 		ga('send', 'pageview');*/
 	</script>
-</body>
 
-</html>
+
+</label></form></center></body></html>

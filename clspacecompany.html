@@ -1,22 +1,14 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!-- Ultimate Game Stash file--><!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --><html style="height:100%"><head><title>Home | Compass</title><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@686a21cfe19170a5ca9c3eee59d1cd886d702bed/space%20company/">
 
-
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-
-
-<html style="height:100%">
-<base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@686a21cfe19170a5ca9c3eee59d1cd886d702bed/space%20company/">
-<head>
-  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Space Company</title>
-  <link href="SpaceCompanyFavicon.png" rel="shortcut icon" type="image/x-icon" />
-  <link href="lib/bootstrap.min.css" rel="stylesheet" type="text/css" id="theme_css" />
+  
+  
+  <link href="lib/bootstrap.min.css" rel="stylesheet" type="text/css" id="theme_css">
   <link href="lib/pnotify.custom.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
-  <script src='kongregate_api.js'></script>
+  <script src="kongregate_api.js"></script>
   <!-- <script>
 		kongregateAPI.loadAPI(function(){
 			window.kongregate = kongregateAPI.getAPI();
@@ -47,7 +39,7 @@
   <!-- Meta tags -->
 
   <!-- Use this for more embed options. go here https://oembed.com/ to see those options. -->
-  <link type="application/json+oembed" href="https://sparticle999.github.io/SpaceCompany/oembed.json" />
+  <link type="application/json+oembed" href="https://sparticle999.github.io/SpaceCompany/oembed.json">
 
   <meta name="author" content="Sparticle999">
   <meta name="title" content="Space Company">
@@ -57,7 +49,7 @@
 
   <!-- When you put the link in discord, it uses this tag to color the stripe on the embed -->
   <meta name="theme-color" content="#ffffff">
-</head>
+<link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
 
 <body style="height:100%">
   <div id="loadScreen" style="width:100%; height:100%; background-color: black">
@@ -151,7 +143,7 @@
       <div role="tabpanel" class="tab-pane fade in active" id="resources">
         <div class="container col-xs-1" style="width:380px; padding:0; float:left;">
           <table class="table table-hover text-primary no-select pointer" id="resourceNavParent">
-            <tr id="plasmaNav" onclick="activeResourceTab('plasmaNav')" class="sideTab hidden" href="#plasmaTab" aria-controls="plasmaTab" role="tab" data-toggle="tab" style="height:60px;">
+            <tbody><tr id="plasmaNav" onclick="activeResourceTab('plasmaNav')" class="sideTab hidden" href="#plasmaTab" aria-controls="plasmaTab" role="tab" data-toggle="tab" style="height:60px;">
               <td style="border:none; vertical-align:middle;">
                 <img src="Icons/plasmaIcon.png" style="width:30px; height:auto">
               </td>
@@ -588,13 +580,13 @@
                 <span id="meteoriteStorage">50</span>
               </td>
             </tr>
-          </table>
+          </tbody></table>
         </div>
         <div class="tab-content" id="resourceTabParent" style="width:100%">
           <div id="plasmaTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Plasma
@@ -708,13 +700,13 @@
                     <button onclick="destroyMachine('bath')" class="btn btn-default destroy hidden">Destroy Electron Bath</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="energyTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Energy
@@ -912,13 +904,13 @@
                     <button onclick="destroyMachine('fusionReactor')" class="btn btn-default destroy hidden">Destroy Fusion Reactor</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="uraniumTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Uranium
@@ -1042,7 +1034,7 @@
                       <br>
                       Uses 2719 Energy per second.
                       <br>
-                      Costs <span id='planetNukeTitaniumCost'>486000</span> Titanium, <span id='planetNukeSiliconCost'>266000</span> Silicon, <span id='planetNukeIceCost'>364000</span> Ice
+                      Costs <span id="planetNukeTitaniumCost">486000</span> Titanium, <span id="planetNukeSiliconCost">266000</span> Silicon, <span id="planetNukeIceCost">364000</span> Ice
                     </span>
                     <br>
                     <br>
@@ -1050,13 +1042,13 @@
                     <button onclick="destroyMachine('planetNuke')" class="btn btn-default destroy hidden">Destroy Planetary Nuclear Plant</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="oilTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Oil
@@ -1176,7 +1168,7 @@
                       <br>
                       Uses 258 Energy per second.
                       <br>
-                      Costs <span id='fossilatorUraniumCost'>110000</span> Uranium, <span id='fossilatorCharcoalCost'>96000</span> Charcoal, <span id='fossilatorLavaCost'>167000</span> Lava.
+                      Costs <span id="fossilatorUraniumCost">110000</span> Uranium, <span id="fossilatorCharcoalCost">96000</span> Charcoal, <span id="fossilatorLavaCost">167000</span> Lava.
                     </span>
                     <br>
                     <br>
@@ -1184,13 +1176,13 @@
                     <button onclick="destroyMachine('fossilator')" class="btn btn-default destroy hidden">Destroy Fossilator 9000</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="metalTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Metal
@@ -1314,7 +1306,7 @@
                       <br>
                       They use 131 Energy per second.
                       <br>
-                      Costs <span id='multiDrillTitaniumCost'>184000</span> Titanium, <span id='multiDrillGoldCost'>133000</span> Gold, <span id='multiDrillOilCost'>170000</span> Oil.
+                      Costs <span id="multiDrillTitaniumCost">184000</span> Titanium, <span id="multiDrillGoldCost">133000</span> Gold, <span id="multiDrillOilCost">170000</span> Oil.
                     </span>
                     <br>
                     <br>
@@ -1322,13 +1314,13 @@
                     <button onclick="destroyMachine('multiDrill')" class="btn btn-default destroy hidden">Destroy Multiverse Drill</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="gemTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Gems
@@ -1452,7 +1444,7 @@
                       <br>
                       Uses 260 Energy per second.
                       <br>
-                      Costs <span id='diamondChamberUraniumCost'>181,000</span> Uranium, <span id='diamondChamberCharcoalCost'>185,000</span> Charcoal, <span id='diamondChamberMeteoriteCost'>12,500</span> Meteorite.
+                      Costs <span id="diamondChamberUraniumCost">181,000</span> Uranium, <span id="diamondChamberCharcoalCost">185,000</span> Charcoal, <span id="diamondChamberMeteoriteCost">12,500</span> Meteorite.
                     </span>
                     <br>
                     <br>
@@ -1460,13 +1452,13 @@
                     <button onclick="destroyMachine('diamondChamber')" class="btn btn-default destroy hidden">Destroy Diamond Accretion Chamber</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="charcoalTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Charcoal
@@ -1601,7 +1593,7 @@
                       <br>
                       Uses 187 Energy per second.
                       <br>
-                      Costs <span id='microPollutorMetalCost'>133000</span> Metal, <span id='microPollutorWoodCost'>189000</span> Wood, <span id='microPollutorLavaCost'>160000</span> Lava.
+                      Costs <span id="microPollutorMetalCost">133000</span> Metal, <span id="microPollutorWoodCost">189000</span> Wood, <span id="microPollutorLavaCost">160000</span> Lava.
                     </span>
                     <br>
                     <br>
@@ -1609,13 +1601,13 @@
                     <button onclick="destroyMachine('microPollutor')" class="btn btn-default destroy hidden">Destroy Microverse Pollutor</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="woodTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Wood
@@ -1739,7 +1731,7 @@
                       <br>
                       Uses 244 Energy per second.
                       <br>
-                      Costs <span id='forestMetalCost'>122000</span> Metal, <span id='forestGemCost'>151000</span> Gems, <span id='forestHydrogenCost'>183000</span> Hydrogen.
+                      Costs <span id="forestMetalCost">122000</span> Metal, <span id="forestGemCost">151000</span> Gems, <span id="forestHydrogenCost">183000</span> Hydrogen.
                     </span>
                     <br>
                     <br>
@@ -1747,13 +1739,13 @@
                     <button onclick="destroyMachine('forest')" class="btn btn-default destroy hidden">Destroy Russian Forest</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="siliconTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Silicon
@@ -1877,7 +1869,7 @@
                       <br>
                       Uses 746 Energy per second.
                       <br>
-                      Costs <span id='tardisTitaniumCost'>204000</span> Titanium, <span id='tardisSiliconCost'>205000</span> Silicon, <span id='tardisMeteoriteCost'>17800</span> Meterorite.
+                      Costs <span id="tardisTitaniumCost">204000</span> Titanium, <span id="tardisSiliconCost">205000</span> Silicon, <span id="tardisMeteoriteCost">17800</span> Meterorite.
                     </span>
                     <br>
                     <br>
@@ -1885,13 +1877,13 @@
                     <button onclick="destroyMachine('tardis')" class="btn btn-default destroy hidden">Destroy T.A.R.D.I.S.</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="lunariteTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Lunarite
@@ -2015,7 +2007,7 @@
                       <br>
                       Uses 1216 Energy per second.
                       <br>
-                      Costs <span id='clonerTitaniumCost'>204000</span> Titanium, <span id='clonerGoldCost'>150000</span> Gold, <span id='clonerMethaneCost'>195000</span> Methane.
+                      Costs <span id="clonerTitaniumCost">204000</span> Titanium, <span id="clonerGoldCost">150000</span> Gold, <span id="clonerMethaneCost">195000</span> Methane.
                     </span>
                     <br>
                     <br>
@@ -2023,13 +2015,13 @@
                     <button onclick="destroyMachine('cloner')" class="btn btn-default destroy hidden">Destroy Moon Cloner</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="methaneTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Methane
@@ -2153,7 +2145,7 @@
                       <br>
                       Uses 899 Energy per second.
                       <br>
-                      Costs <span id='interCowLunariteCost'>140000</span> Lunarite, <span id='interCowGoldCost'>202000</span> Gold, <span id='interCowHydrogenCost'>158000</span> Hydrogen.
+                      Costs <span id="interCowLunariteCost">140000</span> Lunarite, <span id="interCowGoldCost">202000</span> Gold, <span id="interCowHydrogenCost">158000</span> Hydrogen.
                     </span>
                     <br>
                     <br>
@@ -2161,13 +2153,13 @@
                     <button onclick="destroyMachine('interCow')" class="btn btn-default destroy hidden">Destroy Interstellar Cow</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="titaniumTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Titanium
@@ -2291,7 +2283,7 @@
                       <br>
                       Uses 690 Energy per second.
                       <br>
-                      Costs <span id='clubUraniumCost'>175000</span> Uranium, <span id='clubWoodCost'>164000</span> Wood, <span id='clubHeliumCost'>156000</span> Helium.
+                      Costs <span id="clubUraniumCost">175000</span> Uranium, <span id="clubWoodCost">164000</span> Wood, <span id="clubHeliumCost">156000</span> Helium.
                     </span>
                     <br>
                     <br>
@@ -2299,13 +2291,13 @@
                     <button onclick="destroyMachine('club')" class="btn btn-default destroy hidden">Destroy Club</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="goldTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Gold
@@ -2429,7 +2421,7 @@
                       <br>
                       Uses 1324 Energy per second.
                       <br>
-                      Costs <span id='philosopherMetalCost'>208000</span> Metal, <span id='philosopherSilverCost'>167000</span> Silver, <span id='philosopherMeteoriteCost'>18000</span> Meterorite.
+                      Costs <span id="philosopherMetalCost">208000</span> Metal, <span id="philosopherSilverCost">167000</span> Silver, <span id="philosopherMeteoriteCost">18000</span> Meterorite.
                     </span>
                     <br>
                     <br>
@@ -2437,13 +2429,13 @@
                     <button onclick="destroyMachine('philosopher')" class="btn btn-default destroy hidden">Destroy Philosopher's Stone</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="silverTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Silver
@@ -2567,20 +2559,20 @@
                       <br>
                       Uses 1008 Energy per second.
                       <br>
-                      Costs <span id='werewolfUraniumCost'>165000</span> Uranium, <span id='werewolfGemCost'>209000</span> Gems, <span id='werewolfMethaneCost'>170000</span> Methane.
+                      Costs <span id="werewolfUraniumCost">165000</span> Uranium, <span id="werewolfGemCost">209000</span> Gems, <span id="werewolfMethaneCost">170000</span> Methane.
                       <br>
                       <br>
                       <button onclick="getWerewolf()" class="btn btn-default">Get Dead Werewolf Finder</button>
                       <button onclick="destroyMachine('werewolf')" class="btn btn-default destroy hidden">Destroy Dead Werewolf Finder</button>
-                  </td>
+                  </span></td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="lavaTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Lava
@@ -2704,7 +2696,7 @@
                       <br>
                       Uses 4142 Energy per second.
                       <br>
-                      Costs <span id='condensatorLunariteCost'>288000</span> Lunarite, <span id='condensatorGemCost'>210000</span> Gems, <span id='condensatorIceCost'>238000</span> Ice.
+                      Costs <span id="condensatorLunariteCost">288000</span> Lunarite, <span id="condensatorGemCost">210000</span> Gems, <span id="condensatorIceCost">238000</span> Ice.
                     </span>
                     <br>
                     <br>
@@ -2712,13 +2704,13 @@
                     <button onclick="destroyMachine('condensator')" class="btn btn-default destroy hidden">Destroy Jupitonian Condensator</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="hydrogenTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Hydrogen
@@ -2842,7 +2834,7 @@
                       <br>
                       Uses 3562 Energy per second.
                       <br>
-                      Costs <span id='harvesterLunariteCost'>250000</span> Lunarite, <span id='harvesterWoodCost'>184000</span> Wood, <span id='harvesterOilCost'>146000</span> Oil.
+                      Costs <span id="harvesterLunariteCost">250000</span> Lunarite, <span id="harvesterWoodCost">184000</span> Wood, <span id="harvesterOilCost">146000</span> Oil.
                     </span>
                     <br>
                     <br>
@@ -2850,13 +2842,13 @@
                     <button onclick="destroyMachine('harvester')" class="btn btn-default destroy hidden">Destroy Star Harvester</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="heliumTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Helium
@@ -2980,7 +2972,7 @@
                       <br>
                       Uses 4075 Energy per second.
                       <br>
-                      Costs <span id='cageLunariteCost'>171000</span> Lunarite, <span id='cageSiliconCost'>165000</span> Silicon, <span id='cageMeteoriteCost'>18600</span> Meterorite.
+                      Costs <span id="cageLunariteCost">171000</span> Lunarite, <span id="cageSiliconCost">165000</span> Silicon, <span id="cageMeteoriteCost">18600</span> Meterorite.
                     </span>
                     <br>
                     <br>
@@ -2988,13 +2980,13 @@
                     <button onclick="destroyMachine('cage')" class="btn btn-default destroy hidden">Destroy Caged Star</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="iceTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Ice
@@ -3118,7 +3110,7 @@
                       <br>
                       Uses 7397 Energy per second.
                       <br>
-                      Costs <span id='overexchangeMetalCost'>210,000</span> Metal, <span id='overexchangeSilverCost'>188,000</span> Silver, <span id='overexchangeHeliumCost'>205,000</span> Helium.
+                      Costs <span id="overexchangeMetalCost">210,000</span> Metal, <span id="overexchangeSilverCost">188,000</span> Silver, <span id="overexchangeHeliumCost">205,000</span> Helium.
                     </span>
                     <br>
                     <br>
@@ -3126,13 +3118,13 @@
                     <button onclick="destroyMachine('overexchange')" class="btn btn-default destroy hidden">Destroy Overexchange Condenser</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="meteoriteTab" class="tab-pane fade in" style="margin-left:10px; width:100px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Meteorite
@@ -3241,7 +3233,7 @@
                     <button onclick="destroyMachine('nebulous')" class="btn btn-default destroy hidden">Destroy Nebulous Synthesizer</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -3251,7 +3243,7 @@
       <div role="tabpanel" class="tab-pane fade" id="research">
         <div class="container" style="width:300px; float:left;">
           <table class="table table-hover text-primary no-select pointer">
-            <tr id="scienceNav" onclick="activeResearchTab('scienceNav')" href="#scienceTab" aria-controls="scienceTab" role="tab" data-toggle="tab" style="height:60px;">
+            <tbody><tr id="scienceNav" onclick="activeResearchTab('scienceNav')" href="#scienceTab" aria-controls="scienceTab" role="tab" data-toggle="tab" style="height:60px;">
               <td style="border:none; vertical-align:middle;">
                 <img src="Icons/scienceIcon.png" style="width:30px; height:auto">
               </td>
@@ -3281,13 +3273,13 @@
                 </span>
               </td>
             </tr>
-          </table>
+          </tbody></table>
         </div>
         <div class="tab-content">
           <div id="scienceTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Science Production
@@ -3388,13 +3380,13 @@
                     <button onclick="getLabT5()" class="btn btn-default">Build Laboratory T5</button>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="technologiesTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table id="techTable" class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border: none;">
                     <h2 class="default btn-link">
                       Technologies
@@ -3405,7 +3397,7 @@
                   </td>
                 </tr>
                 <!-- HTML is dynamically generated to fill this table -->
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -3415,7 +3407,7 @@
       <div role="tabpanel" class="tab-pane fade" id="solarSystem">
         <div class="container" style="width:250px; float:left;">
           <table class="table table-hover text-primary no-select pointer">
-            <tr id="rocketFuelNav" onclick="activeSolarTab('rocketFuelNav')" href="#rocketFuelTab" aria-controls="rocketFuelTab" role="tab" data-toggle="tab" style="height:60px;">
+            <tbody><tr id="rocketFuelNav" onclick="activeSolarTab('rocketFuelNav')" href="#rocketFuelTab" aria-controls="rocketFuelTab" role="tab" data-toggle="tab" style="height:60px;">
               <td style="border:none; vertical-align:middle;">
                 <img src="Icons/rocketFuelIcon.png" style="width:30px; height:auto">
               </td>
@@ -3585,13 +3577,13 @@
                 </span>
               </td>
             </tr>
-          </table>
+          </tbody></table>
         </div>
         <div class="tab-content">
           <div id="rocketFuelTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Rocket Fuel
@@ -3672,13 +3664,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="rocketTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Rocket
@@ -3726,13 +3718,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="moonTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Moon
@@ -3761,13 +3753,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="mercuryTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Mercury
@@ -3779,13 +3771,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="venusTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Venus
@@ -3814,13 +3806,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="marsTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Mars
@@ -3849,13 +3841,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="asteroidBeltTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Asteroid Belt
@@ -3884,13 +3876,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="wonderStationTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Wonder Station
@@ -3919,13 +3911,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="jupiterTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Jupiter
@@ -3954,13 +3946,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="saturnTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Saturn
@@ -3989,13 +3981,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="uranusTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Uranus
@@ -4007,13 +3999,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="neptuneTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Neptune
@@ -4025,13 +4017,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="plutoTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Pluto
@@ -4060,13 +4052,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="kuiperBeltTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Kuiper Belt
@@ -4095,13 +4087,13 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="solCenterTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Sol Scientific Center
@@ -4130,7 +4122,7 @@
                     <br>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -4140,7 +4132,7 @@
       <div role="tabpanel" class="tab-pane fade" id="wonder">
         <div class="container" style="width:250px; float:left;">
           <table class="table table-hover text-primary no-select pointer">
-            <tr id="theWonderStation" onclick="activeWonderTab('theWonderStation')" href="#theWonderStationTab" aria-controls="theWonderStationTab" role="tab" data-toggle="tab" style="height:60px; border:none;">
+            <tbody><tr id="theWonderStation" onclick="activeWonderTab('theWonderStation')" href="#theWonderStationTab" aria-controls="theWonderStationTab" role="tab" data-toggle="tab" style="height:60px; border:none;">
               <td style="border:none; vertical-align:middle;">
                 <span>
                   Wonder Station
@@ -4231,13 +4223,13 @@
                 </span>
               </td>
             </tr>
-          </table>
+          </tbody></table>
         </div>
         <div class="tab-content">
           <div id="theWonderStationTab" class="tab-pane fade in active" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Inside The Wonder Station
@@ -4359,13 +4351,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="preciousWonderTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Precious Wonder
@@ -4399,13 +4391,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="energeticWonderTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Energetic Wonder
@@ -4439,13 +4431,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="techWonderTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Technological Wonder
@@ -4479,13 +4471,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="meteoriteWonderTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Meteorite Wonder
@@ -4519,13 +4511,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="communicationWonderTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Communication Wonder
@@ -4559,13 +4551,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="rocketWonderTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Rocket Wonder
@@ -4599,13 +4591,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="antimatterWonderTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Antimatter Wonder
@@ -4639,13 +4631,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="portalRoomTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Portal Room
@@ -4679,13 +4671,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="stargateTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       The Stargate Room
@@ -4720,7 +4712,7 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -4730,7 +4722,7 @@
       <div role="tabpanel" class="tab-pane fade" id="solCenterPage">
         <div class="container" style="width:250px; float:left">
           <table class="table table-hover text-primary no-select pointer">
-            <tr id="unlockPlasmaNav" onclick="activeSolCenterTab('unlockPlasmaNav')" href="#unlockPlasmaResearch" aria-controls="unlockPlasmaResearch" role="tab" data-toggle="tab" style="height:60px;" class="sideTab">
+            <tbody><tr id="unlockPlasmaNav" onclick="activeSolCenterTab('unlockPlasmaNav')" href="#unlockPlasmaResearch" aria-controls="unlockPlasmaResearch" role="tab" data-toggle="tab" style="height:60px;" class="sideTab">
               <td style="border:none; vertical-align:middle;" colspan="2">
                 <span>
                   Plasma
@@ -4754,13 +4746,13 @@
                 <span id="dyson">0</span>
               </td>
             </tr>
-          </table>
+          </tbody></table>
         </div>
         <div class="tab-content">
           <div id="unlockPlasmaResearch" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Plasma
@@ -4785,13 +4777,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="unlockEmcResearch" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Energy-Mass Conversion
@@ -4838,132 +4830,132 @@
                         <div class="table-responsive">
                           <table class="table table-striped">
                             <thead>
-                              <th>Cost (Energy)</th>
+                              <tr><th>Cost (Energy)</th>
                               <th>Material</th>
                               <th>Current amount / Storage</th>
                               <th></th>
                               <th class="autoEmcHide hidden">Auto Emc</th>
-                            </thead>
+                            </tr></thead>
                             <tbody>
                               <tr>
                                 <td><span id="uraniumEmcVal">37</span> Energy</td>
                                 <td><span id="uraniumEmcAmount">1</span> Uranium</td>
                                 <td><span id="uraniumConv"><span data-bind="uranium">N/A</span> / <span data-bind="uraniumStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('uranium')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="uraniumAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="uraniumAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="lavaEmcVal">42</span> Energy</td>
                                 <td><span id="lavaEmcAmount">1</span> Lava</td>
                                 <td><span id="lavaConv"><span data-bind="lava">N/A</span> / <span data-bind="lavaStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('lava')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="lavaAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="lavaAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="oilEmcVal">3</span> Energy</td>
                                 <td><span id="oilEmcAmount">1</span> Oil</td>
                                 <td><span id="oilConv"><span data-bind="oil">N/A</span> / <span data-bind="oilStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('oil')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="oilAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="oilAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="metalEmcVal">1</span> Energy</td>
                                 <td><span id="metalEmcAmount">1</span> Metal</td>
                                 <td><span id="metalConv"><span data-bind="metal">N/A</span> / <span data-bind="metalStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('metal')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="metalAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="metalAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="gemEmcVal">3</span> Energy</td>
                                 <td><span id="gemEmcAmount">1</span> Gems</td>
                                 <td><span id="gemConv"><span data-bind="gem">N/A</span> / <span data-bind="gemStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('gem')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="gemAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="gemAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="charcoalEmcVal">2</span> Energy</td>
                                 <td><span id="charcoalEmcAmount">1</span> Charcoal</td>
                                 <td><span id="charcoalConv"><span data-bind="charcoal">N/A</span> / <span data-bind="charcoalStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('charcoal')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="charcoalAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="charcoalAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="woodEmcVal">1</span> Energy</td>
                                 <td><span id="woodEmcAmount">1</span> Wood</td>
                                 <td><span id="woodConv"><span data-bind="wood">N/A</span> / <span data-bind="woodStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('wood')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="woodAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="woodAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="siliconEmcVal">23</span> Energy</td>
                                 <td><span id="siliconEmcAmount">1</span> Silicon</td>
                                 <td><span id="siliconConv"><span data-bind="silicon">N/A</span> / <span data-bind="siliconStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('silicon')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="siliconAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="siliconAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="lunariteEmcVal">15</span> Energy</td>
                                 <td><span id="lunariteEmcAmount">1</span> Lunarite</td>
                                 <td><span id="lunariteConv"><span data-bind="lunarite">N/A</span> / <span data-bind="lunariteStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('lunarite')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="lunariteAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="lunariteAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="methaneEmcVal">12</span> Energy</td>
                                 <td><span id="methaneEmcAmount">1</span> Methane</td>
                                 <td><span id="methaneConv"><span data-bind="methane">N/A</span> / <span data-bind="methaneStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('methane')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="methaneAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="methaneAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="titaniumEmcVal">17</span> Energy</td>
                                 <td><span id="titaniumEmcAmount">1</span> Titanium</td>
                                 <td><span id="titaniumConv"><span data-bind="titanium">N/A</span> / <span data-bind="titaniumStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('titanium')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="titaniumAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="titaniumAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="goldEmcVal">42</span> Energy</td>
                                 <td><span id="goldEmcAmount">1</span> Gold</td>
                                 <td><span id="goldConv"><span data-bind="gold">N/A</span> / <span data-bind="goldStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('gold')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="goldAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="goldAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="silverEmcVal">42</span> Energy</td>
                                 <td><span id="silverEmcAmount">1</span> Silver</td>
                                 <td><span id="silverConv"><span data-bind="silver">N/A</span> / <span data-bind="silverStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('silver')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="silverAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="silverAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="hydrogenEmcVal">42</span> Energy</td>
                                 <td><span id="hydrogenEmcAmount">1</span> Hydrogen</td>
                                 <td><span id="hydrogenConv"><span data-bind="hydrogen">N/A</span> / <span data-bind="hydrogenStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('hydrogen')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="hydrogenAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="hydrogenAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="heliumEmcVal">42</span> Energy</td>
                                 <td><span id="heliumEmcAmount">1</span> Helium</td>
                                 <td><span id="heliumConv"><span data-bind="helium">N/A</span> / <span data-bind="heliumStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('helium')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="heliumAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="heliumAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr>
                                 <td><span id="iceEmcVal">42</span> Energy</td>
                                 <td><span id="iceEmcAmount">1</span> Ice</td>
                                 <td><span id="iceConv"><span data-bind="ice">N/A</span> / <span data-bind="iceStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertEnergy('ice')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="iceAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="iceAutoEmc" class="autoEmc">
+                              </td></tr>
                               <tr id="meteoriteEMC" class="hidden">
                                 <td><span id="meteoriteEmcVal">42</span> Plasma</td>
                                 <td><span id="meteoriteEmcAmount">1</span> Meteorite</td>
                                 <td><span id="meteoriteConv"><span data-bind="meteorite">N/A</span> / <span data-bind="meteoriteStorage">N/A</span></span></td>
                                 <td><button class="btn btn-default pull-right" onclick="convertPlasma('meteorite')" role="button">Convert</button></td>
-                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="meteoriteAutoEmc" class="autoEmc" />
-                              </tr>
+                                <td class="autoEmcHide hidden" style="text-align:center;"><input type="checkbox" id="meteoriteAutoEmc" class="autoEmc">
+                              </td></tr>
                             </tbody>
                           </table>
                         </div>
@@ -4971,13 +4963,13 @@
                     </div>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="unlockDysonResearch" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Dyson Swarms and Sphere
@@ -5074,7 +5066,7 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -5084,7 +5076,7 @@
       <div role="tabpanel" class="tab-pane fade in" id="machineTab">
         <div class="container" style="width:250px; float:left;">
           <table class="table table-hover text-primary no-select pointer">
-            <tr href="#machineEnergyTab" aria-controls="machineEnergyTab" role="tab" data-toggle="tab" style="height:60px;" class="sideTab">
+            <tbody><tr href="#machineEnergyTab" aria-controls="machineEnergyTab" role="tab" data-toggle="tab" style="height:60px;" class="sideTab">
               <td style="border:none; vertical-align:middle;">
                 <span>
                   Energy
@@ -5112,13 +5104,13 @@
                 </span>
               </td>
             </tr>
-          </table>
+          </tbody></table>
         </div>
         <div class="tab-content">
           <div id="machineEnergyTab" class="tab-pane fade in active" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table" style="text-align:center;">
-                <tr>
+                <tbody><tr>
                   <td colspan="2"></td>
                   <td colspan="3">
                     <h2 class="default btn-link">
@@ -5814,13 +5806,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="machineEarthTab" class="tab-pane fade in active" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table" style="text-align:center;">
-                <tr>
+                <tbody><tr>
                   <td colspan="7">
                     <h2 class="default btn-link">
                       Earth Machines
@@ -6049,13 +6041,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="machineInnerTab" class="tab-pane fade in active" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table" style="text-align:center;">
-                <tr>
+                <tbody><tr>
                   <td colspan="7">
                     <h2 class="default btn-link">
                       Inner Planet Machines
@@ -6284,13 +6276,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="machineOuterTab" class="tab-pane fade in active" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table" style="text-align:center;">
-                <tr>
+                <tbody><tr>
                   <td colspan="7">
                     <h2 class="default btn-link">
                       Outer Planet Machines
@@ -6519,7 +6511,7 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -6527,9 +6519,9 @@
           <div id="machineTier2Tab" class="tab-pane fade in active" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -6537,9 +6529,9 @@
           <div id="machineTier3Tab" class="tab-pane fade in active" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -6547,9 +6539,9 @@
           <div id="machineTier4Tab" class="tab-pane fade in active" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -6559,7 +6551,7 @@
       <div role="tabpanel" class="tab-pane fade" id="more">
         <div class="container" style="width:250px; float:left">
           <table class="table table-hover text-primary no-select pointer">
-            <tr href="#savingTab" aria-controls="savingTab" role="tab" data-toggle="tab" style="height:60px;" class="sideTab">
+            <tbody><tr href="#savingTab" aria-controls="savingTab" role="tab" data-toggle="tab" style="height:60px;" class="sideTab">
               <td style="border:none; vertical-align:middle;">
                 <span>
                   Saving
@@ -6602,13 +6594,13 @@
                 </span>
               </td>
             </tr>
-          </table>
+          </tbody></table>
         </div>
         <div class="tab-content">
           <div id="savingTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Saving
@@ -6629,7 +6621,7 @@
                     <br>
                     <div class="btn-group" data-toggle="buttons">
                       <label class="btn btn-default active">
-                        <input type="radio" name="autosaves" id="30secs" autocomplete="off" checked> 30 Seconds
+                        <input type="radio" name="autosaves" id="30secs" autocomplete="off" checked=""> 30 Seconds
                       </label>
                       <label class="btn btn-default">
                         <input type="radio" name="autosaves" id="2mins" autocomplete="off"> 2 Minutes
@@ -6689,13 +6681,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="uiTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Graphics Options
@@ -6735,7 +6727,7 @@
                       <option value="raw">Raw</option>
                       <option value="rounded">Rounded</option>
                       <option value="name">Name</option>
-                      <option value="shortName" selected>Short Name</option>
+                      <option value="shortName" selected="">Short Name</option>
                       <option value="shortName2">Short Name (2)</option>
                       <option value="scientific">Scientific (*10^n)</option>
                       <option value="scientific2">Scientific (E+n)</option>
@@ -6822,13 +6814,13 @@
                     </div>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="statsTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Stats
@@ -6845,13 +6837,13 @@
                 <tr>
                   <td id="statisticContent"></td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="achievementsTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Achievements
@@ -6864,13 +6856,13 @@
                 </tr>
                 <tr colspan="2" id="rankBarContent"></tr>
                 <tr id="achievementContent"></tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="donatingTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Donating
@@ -6886,13 +6878,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="linksTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Links
@@ -6917,7 +6909,7 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -6927,7 +6919,7 @@
       <div role="tabpanel" class="tab-pane fade in" id="help">
         <div class="container" style="width:250px; float:left;">
           <table class="table table-hover text-primary no-select pointer">
-            <tr href="#startingTab" aria-controls="startingTab" role="tab" data-toggle="tab" style="height:60px;" class="sideTab">
+            <tbody><tr href="#startingTab" aria-controls="startingTab" role="tab" data-toggle="tab" style="height:60px;" class="sideTab">
               <td style="border:none; vertical-align:middle;">
                 <span>
                   Getting Started
@@ -6948,13 +6940,13 @@
                 </span>
               </td>
             </tr>
-          </table>
+          </tbody></table>
         </div>
         <div class="tab-content">
           <div id="startingTab" class="tab-pane fade in active" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Beginner's Guide
@@ -7021,13 +7013,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="faqTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       Frequently Asked Questions
@@ -7135,13 +7127,13 @@
                     </span>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
           <div id="creditsTab" class="tab-pane fade in" style="margin-left:10px; float:left;">
             <div class="container" style="max-width:800px;">
               <table class="table">
-                <tr>
+                <tbody><tr>
                   <td style="border:none;">
                     <h2 class="default btn-link">
                       About
@@ -7186,7 +7178,7 @@
                     </ul>
                   </td>
                 </tr>
-              </table>
+              </tbody></table>
             </div>
           </div>
         </div>
@@ -7194,7 +7186,7 @@
     </div>
   </div>
 
-</body>
+
 <script type="text/javascript" src="lib/jquery.min.js"></script>
 <script type="text/javascript" src="lib/bootstrap.min.js"></script>
 <script type="text/javascript" src="lib/lz-string.min.js"></script>
@@ -7252,4 +7244,4 @@
 <!-- RELEASE -->
 <!--<script type="text/javascript" src="SpaceCompany.min.js"></script>-->
 
-</html>
+</body></html>

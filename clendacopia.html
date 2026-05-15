@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-
-
-
-<!-- Ultimate Game Stash file--> 
-<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
-	
-
-  <html lang=en-us><!-- ######################### HEAD ############################# -->
-  <base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/Endacopia/">
-  <head>
-    <title>Adventure Game Studio</title>
-    <meta charset=utf-8>
-    <meta content="text/html; charset=utf-8" http-equiv=Content-Type>
-    <meta content=#000000 name=theme-color>
-    <meta content=yes name=apple-mobile-web-app-capable> 
-    <meta content=black name=apple-mobile-web-app-status-bar-style>
+<!DOCTYPE html><!-- Ultimate Game Stash file--><!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ --><html lang="en-us"><!-- ######################### HEAD ############################# --><head><title>Home | Compass</title><base href="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/Endacopia/">
+  
+    
+    <meta charset="utf-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta content="#000000" name="theme-color">
+    <meta content="yes" name="apple-mobile-web-app-capable"> 
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <style>
       body {
         font-family: arial;
@@ -233,14 +224,14 @@
         z-index: 100
       }
     </style>
-  </head><!-- ######################### BODY ############################# -->
+  <link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head><!-- ######################### BODY ############################# -->
 
   <body>
-    <div class="bluecup rotate" id=bcup></div>
-    <div class=emscripten id=status>Downloading...</div><span hidden id=controls><span><input id=agsgamepkgid type=file accept=*/* multiple name=agsgamepkg onchange=agsAttachFileInput(this)><label for=agsgamepkgid>Select the .ags game and files.</label></span><span hidden><input id=resize type=checkbox checked>Resize canvas</span><span hidden><input id=pointerLock type=checkbox checked>Lock/hide mouse pointer</span></span>
-    <div class=emscripten></div>
-    <div class=emscripten_border><canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas></div>
-    <div id=textmsgs></div>
+    <div class="bluecup rotate" id="bcup"></div>
+    <div class="emscripten" id="status">Downloading...</div><span hidden="" id="controls"><span><input id="agsgamepkgid" type="file" accept="*/*" multiple="" name="agsgamepkg" onchange="agsAttachFileInput(this)"><label for="agsgamepkgid">Select the .ags game and files.</label></span><span hidden=""><input id="resize" type="checkbox" checked="">Resize canvas</span><span hidden=""><input id="pointerLock" type="checkbox" checked="">Lock/hide mouse pointer</span></span>
+    <div class="emscripten"></div>
+    <div class="emscripten_border"><canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas></div>
+    <div id="textmsgs"></div>
     <script>
       window.fileMergerConfig = {
         files: [
@@ -251,7 +242,7 @@
       };  
       </script>
     <script src="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/merge.js"></script>
-    <script src=my_game_files.js></script>
+    <script src="my_game_files.js"></script>
     <script>
       window.onload = function() {
         window.focus()
@@ -366,7 +357,7 @@
         }
       }
     </script>
-    <script src=ags.js async></script>
-  </body>
+    <script src="ags.js" async=""></script>
+  
 
-  </html>
+  </body></html>

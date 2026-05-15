@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head>
+<!DOCTYPE html><html lang="en-us"><head><title>Home | Compass</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>RocketGoal | Ripped</title>
+
 <base href="https://cdn.jsdelivr.net/gh/Slammpreal/slammpgames@main/rocketgoal.io/">
 <style>
 body,html{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#000;font-family:'Comic Sans MS',cursive,sans-serif}
@@ -29,7 +27,7 @@ window.PlaygamaAds = window.PlaygamaAds || {
 <script src="https://www.gstatic.com/firebasejs/10.2.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.2.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.2.0/firebase-remote-config-compat.js"></script>
-</head>
+<link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
 <body onclick="res()">
 <div id="loader-ui">
 <div class="rb-txt" id="ld-t">Click to Play</div>
@@ -51,5 +49,5 @@ const s=document.createElement("script");s.src=b+"/b23dd96997961653e2825455633aa
 s.onload=()=>{createUnityInstance(cvs,cfg,(p)=>{txt.innerText="Loading "+Math.round(p*100)+"%";}).then((i)=>{ldr.style.display="none";window.uI=i;window.unityInstance=i;try{if(typeof firebase!=='undefined'&&firebase.apps.length>0){const a=firebase.app();if(typeof firebase.remoteConfig==='function'){const r=firebase.remoteConfig(a);r.settings.minimumFetchIntervalMillis=3600000;}}if(typeof initializeFirebase==='function')initializeFirebase(i);}catch(e){}try{if(typeof initializeUtils==='function')initializeUtils(i);}catch(e){}}).catch((e)=>{});};
 document.body.appendChild(s);
 </script>
-</body>
-</html>
+
+</body></html>
