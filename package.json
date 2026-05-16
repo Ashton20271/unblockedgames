@@ -1,0 +1,19 @@
+{
+  "name": "unblockedgames",
+  "version": "1.0.0",
+  "description": "Unblocked games website",
+  "scripts": {
+    "dev": "echo 'Static HTML site - open index.html in browser'",
+    "build": "echo 'No build step required for static site'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "games",
+    "unblocked"
+  ],
+  "author": "",
+  "license": "ISC"
+}
