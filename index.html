@@ -252,7 +252,7 @@ async function loadSimpleAnalyticsStats() {
         visitors.textContent = `Visitors: ${data.visitors.toLocaleString()}`;
         list.appendChild(visitors);
     } catch (err) {
-        list.innerHTML = "<li>Unable to load stats.</li>";
+        list.innerHTML = "<li>Unable to load stats. This is likely caused by using an adblocker.</li>";
         console.error("load stats failed:", err);
     }
 }
