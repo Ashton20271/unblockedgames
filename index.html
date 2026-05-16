@@ -113,6 +113,12 @@ a:hover{
             </ul>
         </section>
         <section class="sidebar-section">
+            <h2>Site stats</h2>
+            <ul id="sa-stats">
+                <li>Loading stats...</li>
+            </ul>
+        </section>
+        <section class="sidebar-section">
             <h2>Updates</h2>
             <ul id="github-updates">
                 <li>Loading latest updates...</li>
@@ -222,8 +228,38 @@ async function loadGitHubUpdates() {
     }
 }
 
+async function loadSimpleAnalyticsStats() {
+    const list = document.getElementById("sa-stats");
+    const url = "https://simpleanalytics.com/unblockedgames6767.vercel.app.json?version=6&fields=pageviews,visitors&start=today&end=today&info=false";
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+
+        const data = await res.json();
+        if (!data.ok) throw new Error("Analytics response returned ok=false");
+
+        list.innerHTML = "";
+        const period = document.createElement("li");
+        period.textContent = `Period: ${new Date(data.start).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}`;
+        list.appendChild(period);
+
+        const pageviews = document.createElement("li");
+        pageviews.textContent = `Page views: ${data.pageviews.toLocaleString()}`;
+        list.appendChild(pageviews);
+
+        const visitors = document.createElement("li");
+        visitors.textContent = `Visitors: ${data.visitors.toLocaleString()}`;
+        list.appendChild(visitors);
+    } catch (err) {
+        list.innerHTML = "<li>Unable to load stats.</li>";
+        console.error("load stats failed:", err);
+    }
+}
+
 loadFiles();
 loadGitHubUpdates();
+loadSimpleAnalyticsStats();
 </script>
 <script data-collect-dnt="true" async="" src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 
