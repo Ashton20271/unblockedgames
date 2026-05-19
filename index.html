@@ -73,6 +73,33 @@ input {
     color:#eee;
 }
 
+select {
+    width:100%;
+    padding:10px;
+    margin-bottom:18px;
+    border-radius:8px;
+    border:1px solid #444;
+    background:#111;
+    color:#eee;
+}
+
+.header-with-sort {
+    display:flex;
+    gap:20px;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.header-with-sort h1 {
+    margin:0;
+    flex:1;
+}
+
+.header-with-sort select {
+    width:150px;
+    margin:0;
+}
+
 a{
     display:block;
     color:#6cf;
@@ -97,7 +124,13 @@ a:hover{
 
 <div class="page">
     <main class="content">
-        <h1>Game Index</h1>
+        <div class="header-with-sort">
+            <h1>Game Index</h1>
+            <select id="sortMethod" onchange="changeSortMethod()">
+                <option value="plays">Plays</option>
+                <option value="alphabetical">Alphabetical</option>
+            </select>
+        </div>
 
         <input type="text" id="searchInput" placeholder="Search games..." onkeyup="searchGames()">
         <div id="links"></div>
@@ -137,12 +170,22 @@ a:hover{
 </div>
 
 <script>
-async function loadFiles() {
-    const res = await fetch("filenames.txt");
-    const text = await res.text();
+let allGames = [];
 
-    const lines = text.split(/\r?\n/);
+async function loadFiles() {
     const container = document.getElementById("links");
+    container.textContent = "Loading games...";
+
+    const [filenames, analytics] = await Promise.all([
+        fetch("filenames.txt").then(res => res.text()),
+        fetchGameAnalytics().catch(err => {
+            console.warn("Unable to load game analytics", err);
+            return null;
+        }),
+    ]);
+
+    const lines = filenames.split(/\r?\n/);
+    const games = [];
 
     lines.forEach(file => {
         file = file.trim();
@@ -152,22 +195,102 @@ async function loadFiles() {
             file.toLowerCase().endsWith(".html") ||
             file.toLowerCase().endsWith(".htm")
         ) {
-            const a = document.createElement("a");
-            a.href = file;
+            const display = file.replace(/\.(html|htm)$/i, "").replace(/^cl/i, "");
+            const pageKey = `/${file}`;
+            const stats = analytics && analytics[pageKey] ? analytics[pageKey] : { pageviews: 0, visitors: 0 };
 
-            let display = file.replace(/\.(html|htm)$/i, "");
-
-            display = display.replace(/^cl/i, "");
-
-            a.textContent = display;
-
-            if (file.toLowerCase() === "chatroom.html") {
-                a.className = "chatroom-link";
-            }
-
-            container.appendChild(a);
+            games.push({ file, display, stats });
         }
     });
+
+    allGames = games;
+    
+    const savedSortMethod = localStorage.getItem('gameSortMethod') || 'plays';
+    let sortedGames = [...games];
+    
+    if (savedSortMethod === "plays") {
+        sortedGames.sort((a, b) => {
+            const totalA = a.stats.visitors + a.stats.pageviews;
+            const totalB = b.stats.visitors + b.stats.pageviews;
+            const totalDiff = totalB - totalA;
+            if (totalDiff !== 0) return totalDiff;
+            return a.display.localeCompare(b.display, undefined, { numeric: true, sensitivity: 'base' });
+        });
+    } else if (savedSortMethod === "alphabetical") {
+        sortedGames.sort((a, b) => {
+            return a.display.localeCompare(b.display, undefined, { numeric: true, sensitivity: 'base' });
+        });
+    }
+    
+    displayGames(sortedGames);
+}
+
+function displayGames(games) {
+    const container = document.getElementById("links");
+    container.innerHTML = "";
+
+    games.forEach(game => {
+        const a = document.createElement("a");
+        a.href = game.file;
+        const total = game.stats.visitors + game.stats.pageviews;
+        a.textContent = `${game.display} ${total.toLocaleString()} plays`;
+
+        if (game.file.toLowerCase() === "chatroom.html") {
+            a.className = "chatroom-link";
+        }
+
+        container.appendChild(a);
+    });
+}
+
+function initializeSortMethod() {
+    const savedSortMethod = localStorage.getItem('gameSortMethod') || 'plays';
+    document.getElementById("sortMethod").value = savedSortMethod;
+}
+
+function changeSortMethod() {
+    const sortMethod = document.getElementById("sortMethod").value;
+    localStorage.setItem('gameSortMethod', sortMethod);
+    
+    let sortedGames = [...allGames];
+
+    if (sortMethod === "plays") {
+        sortedGames.sort((a, b) => {
+            const totalA = a.stats.visitors + a.stats.pageviews;
+            const totalB = b.stats.visitors + b.stats.pageviews;
+            const totalDiff = totalB - totalA;
+            if (totalDiff !== 0) return totalDiff;
+            return a.display.localeCompare(b.display, undefined, { numeric: true, sensitivity: 'base' });
+        });
+    } else if (sortMethod === "alphabetical") {
+        sortedGames.sort((a, b) => {
+            return a.display.localeCompare(b.display, undefined, { numeric: true, sensitivity: 'base' });
+        });
+    }
+
+    displayGames(sortedGames);
+}
+
+async function fetchGameAnalytics() {
+    const endDate = new Date().toISOString().split('T')[0];
+    const startDate = "2000-01-01";
+    const url = `https://simpleanalytics.com/unblockedgames6767.vercel.app.json?version=6&start=${startDate}&end=${endDate}&fields=pages&info=false`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+
+    const data = await res.json();
+    if (!data.ok) throw new Error("Analytics response returned ok=false");
+    if (!Array.isArray(data.pages)) throw new Error("Analytics response missing pages data");
+
+    return data.pages.reduce((map, page) => {
+        if (typeof page.value === 'string') {
+            map[page.value] = {
+                pageviews: Number(page.pageviews) || 0,
+                visitors: Number(page.visitors) || 0,
+            };
+        }
+        return map;
+    }, {});
 }
 
 function searchGames() {
@@ -230,7 +353,9 @@ async function loadGitHubUpdates() {
 
 async function loadSimpleAnalyticsStats() {
     const list = document.getElementById("sa-stats");
-    const url = "https://simpleanalytics.com/unblockedgames6767.vercel.app.json?version=6&fields=pageviews,visitors&start=today&end=today&info=false";
+    
+    const today = new Date().toISOString().split('T')[0];
+    const url = `https://simpleanalytics.com/unblockedgames6767.vercel.app.json?version=6&start=${today}&end=${today}&fields=pageviews,visitors&info=false`;
 
     try {
         const res = await fetch(url);
@@ -241,15 +366,15 @@ async function loadSimpleAnalyticsStats() {
 
         list.innerHTML = "";
         const period = document.createElement("li");
-        period.textContent = `Period: ${new Date(data.start).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}`;
+        period.textContent = `Today`;
         list.appendChild(period);
 
         const pageviews = document.createElement("li");
-        pageviews.textContent = `Page views: ${data.pageviews.toLocaleString()}`;
+        pageviews.textContent = `${data.pageviews.toLocaleString()} pageviews`;
         list.appendChild(pageviews);
 
         const visitors = document.createElement("li");
-        visitors.textContent = `Visitors: ${data.visitors.toLocaleString()}`;
+        visitors.textContent = `${data.visitors.toLocaleString()} visitors`;
         list.appendChild(visitors);
     } catch (err) {
         list.innerHTML = "<li>Unable to load stats. This is likely caused by using an adblocker.</li>";
@@ -258,6 +383,7 @@ async function loadSimpleAnalyticsStats() {
 }
 
 loadFiles();
+initializeSortMethod();
 loadGitHubUpdates();
 loadSimpleAnalyticsStats();
 </script>
