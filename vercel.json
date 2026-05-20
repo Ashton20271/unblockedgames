@@ -11,6 +11,10 @@
     {
       "source": "/simple/:match*",
       "destination": "https://queue.simpleanalyticscdn.com/:match*"
+    },
+    {
+      "source": "/sa/:match*",
+      "destination": "https://simpleanalytics.com/:match*"
     }
   ]
 }

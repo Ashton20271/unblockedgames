@@ -171,6 +171,8 @@ a:hover{
 
 <script>
 let allGames = [];
+const analyticsProxyHost = "https://unblockedgames6767.vercel.app";
+const analyticsProxyRoot = location.hostname === "unblockedgames6767.vercel.app" ? "" : analyticsProxyHost;
 
 async function loadFiles() {
     const container = document.getElementById("links");
@@ -274,7 +276,7 @@ function changeSortMethod() {
 async function fetchGameAnalytics() {
     const endDate = new Date().toISOString().split('T')[0];
     const startDate = "2000-01-01";
-    const url = `https://simpleanalytics.com/unblockedgames6767.vercel.app.json?version=6&start=${startDate}&end=${endDate}&fields=pages&info=false`;
+    const url = `${analyticsProxyRoot}/sa/unblockedgames6767.vercel.app.json?version=6&start=${startDate}&end=${endDate}&fields=pages&info=false`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
 
@@ -355,7 +357,7 @@ async function loadSimpleAnalyticsStats() {
     const list = document.getElementById("sa-stats");
     
     const today = new Date().toISOString().split('T')[0];
-    const url = `https://simpleanalytics.com/unblockedgames6767.vercel.app.json?version=6&start=${today}&end=${today}&fields=pageviews,visitors&info=false`;
+    const url = `${analyticsProxyRoot}/sa/unblockedgames6767.vercel.app.json?version=6&start=${today}&end=${today}&fields=pageviews,visitors&info=false`;
 
     try {
         const res = await fetch(url);
