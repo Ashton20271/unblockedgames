@@ -7,3 +7,4 @@ diag.txt
 console.log(e.isDirectory()
 *.bak
 add-analytics.js
+main.py
