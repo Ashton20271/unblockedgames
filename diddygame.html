@@ -1,12 +1,14 @@
-<!DOCTYPE html><html lang="en"><head><title>Home | Compass</title>
-    <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <base href="https://cdn.jsdelivr.net/gh/ashton20271/diddygame@main/">
-    
-    
-    <meta property="og:title" content="Diddy Game">
-    <meta property="og:description" content="Play Diddy Game, become diddy do everything he does (touch kids) and compete on the global leaderboard!">
-    <meta property="og:image" content="https://diddygame.vercel.app/embed.png">
-    <meta property="og:url" content="https://diddygame.vercel.app">
+    <meta charset="UTF-8">
+    <title>Diddy Game</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta property="og:title" content="Diddy Game" />
+    <meta property="og:description" content="Play Diddy Game, become diddy do everything he does (touch kids) and compete on the global leaderboard!" />
+    <meta property="og:image" content="https://diddygame.vercel.app/embed.png" />
+    <meta property="og:url" content="https://diddygame.vercel.app" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { background: #222; display: flex; flex-direction: column; align-items: center; }
@@ -179,17 +181,17 @@
     }
 
     </style>
-<link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
+</head>
 <body>
-    <a href="https://github.com/Ashton20271/diddygame" target="_blank" id="githubBtn" class="top-button" style="left:20px;">
+    <a href="github.html" target="_blank" id="githubBtn" class="top-button" style="left:20px;">
         <img src="assets/GitHub.png" alt="GitHub" style="width:32px;height:32px;border-radius:50%;">
     </a>
 
-    <a href="https://discord.gg/mSYC83mEgb" target="_blank" id="discordBtn" class="top-button" style="left:64px;">
+    <a href="discord/" target="_blank" id="discordBtn" class="top-button" style="left:64px;">
         <img src="assets/discord.png" alt="Discord" style="width:32px;height:32px;">
     </a>
 
-    <a href="https://chromewebstore.google.com/detail/bfjbmoglpfpbkaneffbihgnogdibgfpf" target="_blank" id="chromeWebStoreBtn" class="top-button" style="left:108px;">
+    <a href="chrome.html" target="_blank" id="chromeWebStoreBtn" class="top-button" style="left:108px;">
         <img src="assets/cws.png" alt="Chrome Web Store" style="width:32px;height:32px;border-radius:8px;">
     </a>
     <h1 style="color:#fff;">Diddy Game</h1>
@@ -307,7 +309,7 @@
             <option value="music6.mp3">caseoh</option>
         </select>
     </div>
-    <audio id="bgMusic" src="music.mp3" loop=""></audio>
+    <audio id="bgMusic" src="music.mp3" loop></audio>
     
     <div id="modalOverlay" class="custom-modal-overlay"></div>
     <div id="customModal" class="custom-modal">
@@ -429,7 +431,14 @@
         let speedPowerup = null;
         let speedBoostActive = false;
         let speedBoostTimer = 0;
-        let gameSpeed = 100;
+        let turtlePowerup = null;
+        let turtleSlowActive = false;
+        let turtleSlowExpiresAt = 0;
+        const turtleSlowDurationMs = 30000;
+        const normalSpeed = 100;
+        const speedBoostSpeed = 50;
+        const turtleSlowSpeed = 200;
+        let gameSpeed = normalSpeed;
         let gameInterval;
         let highscore = localStorage.getItem('diddyHighScore') ? parseInt(localStorage.getItem('diddyHighScore')) : 0;
         document.getElementById('highscore').textContent = "High Score: " + highscore;
@@ -584,6 +593,7 @@
                         !(powerup && powerup.x === x && powerup.y === y) &&
                         !(invincibilityPowerup && invincibilityPowerup.x === x && invincibilityPowerup.y === y) &&
                         !(speedPowerup && speedPowerup.x === x && speedPowerup.y === y) &&
+                        !(turtlePowerup && turtlePowerup.x === x && turtlePowerup.y === y) &&
                         !police.some(p => p.x === x && p.y === y);
             }
             police.push({x, y});
@@ -595,7 +605,8 @@
                 const x = Math.floor(Math.random() * tileCount);
                 const y = Math.floor(Math.random() * tileCount);
                 valid = !snake.some(segment => segment.x === x && segment.y === y) &&
-                        !(child.x === x && child.y === y);
+                        !(child.x === x && child.y === y) &&
+                        !(turtlePowerup && turtlePowerup.x === x && turtlePowerup.y === y);
                 if (valid) powerup = {x, y};
             }
         }
@@ -606,7 +617,8 @@
                 const y = Math.floor(Math.random() * tileCount);
                 valid = !snake.some(segment => segment.x === x && segment.y === y) &&
                         !(child.x === x && child.y === y) &&
-                        !(powerup && powerup.x === x && powerup.y === y);
+                        !(powerup && powerup.x === x && powerup.y === y) &&
+                        !(turtlePowerup && turtlePowerup.x === x && turtlePowerup.y === y);
                 if (valid) invincibilityPowerup = {x, y};
             }
         }
@@ -623,6 +635,23 @@
             }
         }
 
+        function placeTurtlePowerup() {
+            let valid = false;
+            while (!valid) {
+                const x = Math.floor(Math.random() * tileCount);
+                const y = Math.floor(Math.random() * tileCount);
+                valid = !snake.some(segment => segment.x === x && segment.y === y) &&
+                        !(child.x === x && child.y === y) &&
+                        !(powerup && powerup.x === x && powerup.y === y) &&
+                        !(invincibilityPowerup && invincibilityPowerup.x === x && invincibilityPowerup.y === y) &&
+                        !(speedPowerup && speedPowerup.x === x && speedPowerup.y === y) &&
+                        !(lawyerPowerup && lawyerPowerup.x === x && lawyerPowerup.y === y) &&
+                        !(heartPowerup && heartPowerup.x === x && heartPowerup.y === y) &&
+                        !police.some(p => p.x === x && p.y === y);
+                if (valid) turtlePowerup = {x, y};
+            }
+        }
+
         let lawyerPowerup = null;
         let lawyerActive = false;
         function placeLawyerPowerup() {
@@ -636,6 +665,7 @@
                         !(invincibilityPowerup && invincibilityPowerup.x === x && invincibilityPowerup.y === y) &&
                         !(speedPowerup && speedPowerup.x === x && speedPowerup.y === y) &&
                         !(lawyerPowerup && lawyerPowerup.x === x && lawyerPowerup.y === y) &&
+                        !(turtlePowerup && turtlePowerup.x === x && turtlePowerup.y === y) &&
                         !police.some(p => p.x === x && p.y === y);
                 if (valid) lawyerPowerup = {x, y};
             }
@@ -655,6 +685,7 @@
                         !(speedPowerup && speedPowerup.x === x && speedPowerup.y === y) &&
                         !(lawyerPowerup && lawyerPowerup.x === x && lawyerPowerup.y === y) &&
                         !(heartPowerup && heartPowerup.x === x && heartPowerup.y === y) &&
+                        !(turtlePowerup && turtlePowerup.x === x && turtlePowerup.y === y) &&
                         !police.some(p => p.x === x && p.y === y);
                 if (valid) heartPowerup = {x, y};
             }
@@ -704,6 +735,12 @@
                     if (score === 25 && !speedPowerup) {
                         placeSpeedPowerup();
                     }
+                    if (score === 20 && !turtlePowerup) {
+                        placeTurtlePowerup();
+                    }
+                    if (score !== 20 && !turtlePowerup && Math.random() < 0.0075) {
+                        placeTurtlePowerup();
+                    }
                     if (score === 50 && !invincibilityPowerup) {
                         placeInvincibilityPowerup();
                     }
@@ -725,8 +762,15 @@
                 } else if (speedPowerup && head.x === speedPowerup.x && head.y === speedPowerup.y) {
                     speedBoostActive = true;
                     speedBoostTimer = 100;
+                    turtleSlowActive = false;
                     speedPowerup = null;
-                    setGameSpeed(gameSpeed / 2);
+                    updateGameSpeed();
+                } else if (turtlePowerup && head.x === turtlePowerup.x && head.y === turtlePowerup.y) {
+                    turtleSlowActive = true;
+                    turtleSlowExpiresAt = Date.now() + turtleSlowDurationMs;
+                    speedBoostActive = false;
+                    turtlePowerup = null;
+                    updateGameSpeed();
                 } else if (invincibilityPowerup && head.x === invincibilityPowerup.x && head.y === invincibilityPowerup.y) {
                     invincible = true;
                     invincibilityTimer = 100;
@@ -788,12 +832,15 @@
                     speedPowerup = null;
                     speedBoostActive = false;
                     speedBoostTimer = 0;
+                    turtlePowerup = null;
+                    turtleSlowActive = false;
+                    turtleSlowExpiresAt = 0;
                     police = [];
                     lawyerPowerup = null;
                     lawyerActive = false;
                     heartPowerup = null;
                     extraLives = 0;
-                    setGameSpeed(100);
+                    updateGameSpeed();
                     return;
                 }
             }
@@ -812,13 +859,18 @@
                 speedBoostTimer--;
                 if (speedBoostTimer <= 0) {
                     speedBoostActive = false;
-                    setGameSpeed(100);
+                    updateGameSpeed();
                 }
+            }
+            if (turtleSlowActive && Date.now() >= turtleSlowExpiresAt) {
+                turtleSlowActive = false;
+                updateGameSpeed();
             }
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawTile(child.x, child.y, childEmoji);
             if (powerup) drawTile(powerup.x, powerup.y, "🧴");
             if (speedPowerup) drawTile(speedPowerup.x, speedPowerup.y, "⚡");
+            if (turtlePowerup) drawTile(turtlePowerup.x, turtlePowerup.y, "🐢");
             if (invincibilityPowerup) drawTile(invincibilityPowerup.x, invincibilityPowerup.y, "🛡️");
             if (lawyerPowerup) drawTile(lawyerPowerup.x, lawyerPowerup.y, "🧑🏻‍⚖️");
             if (heartPowerup) drawTile(heartPowerup.x, heartPowerup.y, "❤️");
@@ -836,6 +888,13 @@
                 ctx.save();
                 ctx.globalAlpha = 0.2;
                 ctx.fillStyle = "#ffff00";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.restore();
+            }
+            if (turtleSlowActive) {
+                ctx.save();
+                ctx.globalAlpha = 0.2;
+                ctx.fillStyle = "#00bfff";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.restore();
             }
@@ -878,6 +937,12 @@
             gameSpeed = ms;
             clearInterval(gameInterval);
             gameInterval = setInterval(gameLoop, gameSpeed);
+        }
+        function updateGameSpeed() {
+            let targetSpeed = normalSpeed;
+            if (turtleSlowActive) targetSpeed = turtleSlowSpeed;
+            else if (speedBoostActive) targetSpeed = speedBoostSpeed;
+            if (targetSpeed !== gameSpeed) setGameSpeed(targetSpeed);
         }
         let lastInputTime = 0;
         const inputDelay = 60;
@@ -1035,7 +1100,5 @@
 </div>
 <link rel="stylesheet" href="style.css">
 <script src="main.js"></script>
-
-
-<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-</body></html>
+</body>
+</html>
