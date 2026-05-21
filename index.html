@@ -276,7 +276,7 @@ function changeSortMethod() {
 async function fetchGameAnalytics() {
     const endDate = new Date().toISOString().split('T')[0];
     const startDate = "2000-01-01";
-    const url = `${analyticsProxyRoot}/sa/unblockedgames6767.vercel.app.json?version=6&start=${startDate}&end=${endDate}&fields=pages&info=false`;
+    const url = `${analyticsProxyRoot}/sa/unblockedgames6767.vercel.app.json?version=6&start=${startDate}&end=${endDate}&fields=pages&limit=3000&info=false`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
 
