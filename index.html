@@ -122,14 +122,6 @@ a{
 a:hover{
     text-decoration:underline;
 }
-
-.chatroom-link{
-    color:#111 !important;
-    background:#ffdc00;
-    font-weight:bold;
-    padding:10px;
-    border-radius:8px;
-}
 </style>
 <link rel="icon" href="https://greekschoolmentone-vic.compass.education/Assets/Pix/favicon_v11855.png"></head>
 <body>
@@ -248,10 +240,6 @@ function displayGames(games) {
         a.href = game.file;
         const total = game.stats.visitors + game.stats.pageviews;
         a.textContent = `${game.display} ${total.toLocaleString()} plays`;
-
-        if (game.file.toLowerCase() === "chatroom.html") {
-            a.className = "chatroom-link";
-        }
 
         container.appendChild(a);
     });
