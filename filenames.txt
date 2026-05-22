@@ -2844,3 +2844,11 @@ clscoobydoozombiehunter.html
 clfamidashESides1.2.8.html
 duck evolution.html
 PixelBound V0.6.html
+clangrybirds2.html
+cldungeonsanddegenerategambler.html
+cldungeonsanddegenerategamblerdebug.html
+clFleurdeLis.html
+clknuckleschaotix.html
+clleafblower.html
+clpokelowbudgetcrystal.html
+clprankcalltungtungtungsahurclicker.html
