@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/sa/*"
-  to = "https://queue.simpleanalyticscdn.com/:splat"
+  to = "https://simpleanalytics.com/:splat"
   status = 200
   force = true
 
