@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/sa/*"
+  to = "https://queue.simpleanalyticscdn.com/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "https://scripts.simpleanalyticscdn.com/:splat"
+  status = 200
+  force = true

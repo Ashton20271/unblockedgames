@@ -1,5 +1,0 @@
-
-/proxy.js https://simpleanalyticsexternal.com/proxy.js?hostname=example.com&path=/simple 200
-/auto-events.js https://scripts.simpleanalyticscdn.com/auto-events.js 200
-/simple/* https://queue.simpleanalyticscdn.com/:splat 200
-/sa/* https://dashboard.simpleanalytics.com/ 200
