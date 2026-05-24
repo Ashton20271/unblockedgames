@@ -1,5 +1,4 @@
 gn-math.html
-chatroom.html
 games.html
 altsingle.html
 Bank Robbery.html
