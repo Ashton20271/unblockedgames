@@ -142,13 +142,6 @@ a:hover{
 
     <aside class="sidebar">
         <section class="sidebar-section">
-            <h2>Alternative Sites</h2>
-            <ul>
-                <li><a href="https://schoolworkfr.netlify.app" target="_blank" rel="noopener">schoolworkfr.netlify.app</a></li>
-                <li><a href="https://unblockedgames6767.vercel.app" target="_blank" rel="noopener">unblockedgames6767
-                    october 2025 - may 2026</a></li>
-                Give me $5 and ill put anything here
-            </ul>
         </section>
         <section class="sidebar-section">
             <h2>Site stats</h2>
@@ -311,7 +304,7 @@ async function loadGitHubUpdates() {
     const list = document.getElementById("github-updates");
 
     try {
-        const res = await fetch("https://api.github.com/repos/ashton20271/unblockedgames/commits?per_page=5");
+        const res = await fetch("https://api.github.com/repos/freediddy69420/unblockedgames/commits?per_page=5");
         if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
 
         const commits = await res.json();
