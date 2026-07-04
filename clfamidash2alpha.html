@@ -77,17 +77,18 @@
       <button id="startButton">PLAY</button>
     </div>
     <script>
+    alert("Please note: this is a test version made by the people behind Famidash. Expect things to break or freeze. Do not ask for help regarding any crashes or technical issues, this is meant to be for testing. This only was added for those who want to try it out. You may dismiss this message to continue.");
       document.getElementById("game").style.display = "none";
       function startGame() {
         document.getElementById("game").style.display = "block";
         document.getElementById("startButton").style.display = "none";
         EJS_player = "#game";
-        EJS_core = "gba";
+        EJS_core = "nes";
         EJS_color = "#000000";
         EJS_startOnLoaded = true;
         EJS_pathtodata = "https://cdn.jsdelivr.net/gh/genizy/emu@master/";
         EJS_gameUrl =
-          "https://cdn.jsdelivr.net/gh/ap-math-class/exams@main/gb/Pokémon%20Emerald%20Extended%20Cut%20(Classic%2B%20Hotfix%201.4).7z";
+          "https://cdn.jsdelivr.net/gh/ap-math-class/exams@main/nes/famidash.main-llvm.nes.zip";
         loadGame();
       }
       document
@@ -101,5 +102,4 @@
     </script>
   </body>
 </html>
-
 <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
