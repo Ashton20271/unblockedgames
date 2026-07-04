@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta property="og:title" content="Games">
 <meta property="og:description" content="Play thousands of games instantly. Fast, clean, and updated regularly.">
-<meta property="og:url" content="https://schoolworkfr.netlify.app">
+<meta property="og:url" content="INSERT_WEBSITE_HERE">
 <meta property="og:type" content="website">
 
 <meta name="theme-color" content="#ffdc00">
@@ -149,12 +149,6 @@ a:hover{
                 <li>Loading stats...</li>
             </ul>
         </section>
-        <section class="sidebar-section">
-            <h2>Updates</h2>
-            <ul id="github-updates">
-                <li>Loading latest updates...</li>
-            </ul>
-        </section>
 <script>
 let allGames = [];
 const analyticsProxyRoot = "";
@@ -257,7 +251,7 @@ function changeSortMethod() {
 async function fetchGameAnalytics() {
     const endDate = new Date().toISOString().split('T')[0];
     const startDate = "2000-01-01";
-    const url = `${analyticsProxyRoot}/sa/schoolworkfr.netlify.app.json?version=6&start=${startDate}&end=${endDate}&fields=pages&limit=3000&info=false`;
+    const url = `https://dashboard.simpleanalytics.com/INSERT_WEBSITE_HERE.json?version=6&start=${startDate}&end=${endDate}&fields=pages&limit=3000&info=false`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
 
@@ -288,57 +282,11 @@ function searchGames() {
     });
 }
 
-async function loadGitHubUpdates() {
-    const list = document.getElementById("github-updates");
-
-    try {
-        const res = await fetch("https://api.github.com/repos/freediddy69420/unblockedgames/commits?per_page=5");
-        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-
-        const commits = await res.json();
-        list.innerHTML = "";
-
-        if (!Array.isArray(commits) || commits.length === 0) {
-            list.innerHTML = "<li>No recent updates found.</li>";
-            return;
-        }
-
-        commits.forEach(commit => {
-            const li = document.createElement("li");
-            const message = commit.commit && commit.commit.message
-                ? commit.commit.message.split("\n")[0]
-                : "No commit message";
-            const date = commit.commit && commit.commit.author && commit.commit.author.date
-                ? new Date(commit.commit.author.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })
-                : "Unknown date";
-            const author = commit.commit && commit.commit.author && commit.commit.author.name
-                ? commit.commit.author.name
-                : (commit.author && commit.author.login) || "Unknown author";
-
-            const span = document.createElement("span");
-            span.textContent = message;
-
-            const meta = document.createElement("div");
-            meta.textContent = `${date}`;
-            meta.style.fontSize = "0.85rem";
-            meta.style.color = "#bbb";
-            meta.style.marginTop = "4px";
-
-            li.appendChild(span);
-            li.appendChild(meta);
-            list.appendChild(li);
-        });
-    } catch (err) {
-        list.innerHTML = "<li>Unable to load updates.</li>";
-        console.error("load updates failed:", err);
-    }
-}
-
 async function loadSimpleAnalyticsStats() {
     const list = document.getElementById("sa-stats");
     
     const today = new Date().toISOString().split('T')[0];
-    const url = `${analyticsProxyRoot}/sa/schoolworkfr.netlify.app.json?version=6&start=${today}&end=${today}&fields=pageviews,visitors&info=false`;
+    const url = `https://dashboard.simpleanalytics.com/INSERT_WEBSITE_HERE.json?version=6&start=${today}&end=${today}&fields=pageviews,visitors&info=false`;
 
     try {
         const res = await fetch(url);
@@ -367,7 +315,6 @@ async function loadSimpleAnalyticsStats() {
 
 loadFiles();
 initializeSortMethod();
-loadGitHubUpdates();
 loadSimpleAnalyticsStats();
 </script>
 <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
